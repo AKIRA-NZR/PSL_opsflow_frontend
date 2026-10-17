@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Plus, Search } from 'lucide-react';
+import { List, MagnifyingGlass, PlusCircle } from '@phosphor-icons/react';
 import { Button } from '../ui/Button';
 
 interface TopHeaderProps {
@@ -26,7 +26,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           className="lg:hidden p-2 rounded-lg text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1B202B] transition-colors cursor-pointer"
           title="Abrir menu de navegação"
         >
-          <Menu className="w-5 h-5" />
+          <List className="w-5 h-5" weight="bold" />
         </button>
 
         <div className="min-w-0">
@@ -47,7 +47,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           onClick={onOpenCommandModal}
           className="inline-flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#1B202B] hover:bg-[#232936] border border-[#2A3140] text-xs text-[#94A3B8] transition-colors cursor-pointer"
         >
-          <Search className="w-4 h-4 text-[#64748B]" />
+          <MagnifyingGlass className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
           <span className="hidden md:inline">Buscar chamado...</span>
           <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[11px] font-mono bg-[#13161C] border border-[#2A3140] rounded text-[#64748B]">
             Ctrl+K
@@ -57,7 +57,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         <Button
           variant="primary"
           size="md"
-          icon={<Plus className="w-4 h-4" />}
+          icon={<PlusCircle className="w-4 h-4" weight="fill" />}
           onClick={onOpenNewTicket}
         >
           <span className="hidden sm:inline">Novo Chamado</span>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, MessageSquare, Send } from 'lucide-react';
+import { ChatText, LockKey, PaperPlaneRight } from '@phosphor-icons/react';
 import { RolePill } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import type {
@@ -51,7 +51,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="text-sm font-medium text-[#F1F5F9] flex items-center gap-2">
-            <MessageSquare className="w-4 h-4 text-[#93C5FD]" />
+            <ChatText className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
             Adicionar resposta
           </span>
 
@@ -64,7 +64,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                 className="rounded border-[#2A3140] bg-[#13161C]"
               />
               <span className="inline-flex items-center gap-1.5 text-amber-300 font-medium">
-                <Lock className="w-3.5 h-3.5" />
+                <LockKey className="w-3.5 h-3.5" weight="duotone" />
                 Nota interna da equipe (visível apenas para técnicos)
               </span>
             </label>
@@ -88,7 +88,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
             type="submit"
             variant="primary"
             disabled={!content.trim()}
-            icon={<Send className="w-4 h-4" />}
+            icon={<PaperPlaneRight className="w-4 h-4" weight="fill" />}
           >
             {isInternal ? 'Salvar Nota Interna' : 'Enviar Mensagem'}
           </Button>
@@ -159,7 +159,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                             <RolePill role={primaryRole} />
                             {c.internal && (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                                <Lock className="w-3 h-3" />
+                                <LockKey className="w-3 h-3" weight="fill" />
                                 Nota Interna
                               </span>
                             )}

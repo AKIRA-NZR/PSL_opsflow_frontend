@@ -144,3 +144,4 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({ collapsed }) =
     </div>
   );
 };
+

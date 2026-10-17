@@ -44,3 +44,4 @@ export interface TicketFilterState {
   priority: TicketPriority | 'ALL';
   search: string;
 }
+

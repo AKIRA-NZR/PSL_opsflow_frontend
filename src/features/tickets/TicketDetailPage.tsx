@@ -184,3 +184,4 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
     </div>
   );
 };
+

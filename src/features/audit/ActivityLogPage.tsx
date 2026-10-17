@@ -61,3 +61,4 @@ export const ActivityLogPage: React.FC = () => {
     </div>
   );
 };
+

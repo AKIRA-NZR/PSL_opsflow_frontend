@@ -56,3 +56,4 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
     </Modal>
   );
 };
+

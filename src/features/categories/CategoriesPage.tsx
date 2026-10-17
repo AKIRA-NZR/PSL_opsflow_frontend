@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Archive, FolderKanban, Plus } from 'lucide-react';
+import { Archive, Folders, PlusCircle } from '@phosphor-icons/react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { useWorkspace } from '../../context/WorkspaceContext';
@@ -44,7 +44,7 @@ export const CategoriesPage: React.FC = () => {
         {activeRole === 'ADMIN' && (
           <Button
             variant="primary"
-            icon={<Plus className="w-4 h-4" />}
+            icon={<PlusCircle className="w-4 h-4" weight="fill" />}
             onClick={() => setIsModalOpen(true)}
           >
             Nova Categoria
@@ -67,14 +67,15 @@ export const CategoriesPage: React.FC = () => {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2.5 rounded-xl bg-[#232936] border border-[#2F3747] text-[#FCD34D]">
-                      <FolderKanban className="w-4 h-4" />
+                      <Folders className="w-5 h-5" weight="duotone" />
                     </div>
                     <div>
                       <h3 className="text-base font-semibold text-[#F1F5F9]">
                         {cat.name}
                       </h3>
                       <span className="text-xs text-[#64748B]">
-                        Criada em {formatShortDate(cat.createdAt)} · {linkedTickets} chamado(s)
+                        Criada em {formatShortDate(cat.createdAt)} · {linkedTickets}{' '}
+                        chamado(s)
                       </span>
                     </div>
                   </div>
@@ -107,7 +108,7 @@ export const CategoriesPage: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    icon={<Archive className="w-3.5 h-3.5" />}
+                    icon={<Archive className="w-4 h-4" weight="duotone" />}
                     onClick={() => archiveCategory(cat.id)}
                   >
                     Arquivar

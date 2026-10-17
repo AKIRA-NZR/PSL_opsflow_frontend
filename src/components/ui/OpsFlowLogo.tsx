@@ -1,0 +1,105 @@
+import React from 'react';
+
+interface OpsFlowLogoProps {
+  size?: number;
+  className?: string;
+}
+
+/**
+ * OpsFlow Custom Vector Brand Mark ("Fluxo em Camadas")
+ * Precision geometric blades forming a stylized "O" / "F" operational flow with a live SLA pulse node.
+ */
+export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
+  size = 36,
+  className = '',
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`shrink-0 select-none ${className}`}
+      aria-label="OpsFlow Logo"
+    >
+      <defs>
+        <linearGradient
+          id="opsflow-mark-bg"
+          x1="0"
+          y1="0"
+          x2="40"
+          y2="40"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#1E2433" />
+          <stop offset="100%" stopColor="#141822" />
+        </linearGradient>
+        <linearGradient
+          id="opsflow-blade-top"
+          x1="8"
+          y1="9"
+          x2="32"
+          y2="17"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#93C5FD" />
+          <stop offset="100%" stopColor="#6366F1" />
+        </linearGradient>
+        <linearGradient
+          id="opsflow-blade-mid"
+          x1="8"
+          y1="18"
+          x2="29"
+          y2="25"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#818CF8" />
+          <stop offset="100%" stopColor="#4F46E5" />
+        </linearGradient>
+        <linearGradient
+          id="opsflow-blade-bot"
+          x1="8"
+          y1="26"
+          x2="22"
+          y2="33"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#6EE7B7" />
+          <stop offset="100%" stopColor="#3B82F6" />
+        </linearGradient>
+      </defs>
+
+      {/* Outer Squircle Container */}
+      <rect
+        x="1"
+        y="1"
+        width="38"
+        height="38"
+        rx="10"
+        fill="url(#opsflow-mark-bg)"
+        stroke="#2E3648"
+        strokeWidth="1.5"
+      />
+
+      {/* Top Flow Blade */}
+      <path
+        d="M11.5 10.5C11.5 9.67157 12.1716 9 13 9H29.5C30.6046 9 31.3204 10.1626 30.8264 11.1506L29.0764 14.6506C28.738 15.3274 28.0463 15.755 27.2895 15.755H13C12.1716 15.755 11.5 15.0834 11.5 14.255V10.5Z"
+        fill="url(#opsflow-blade-top)"
+      />
+
+      {/* Middle Dynamic Flow Blade */}
+      <path
+        d="M11.5 19.25C11.5 18.4216 12.1716 17.75 13 17.75H25.2C26.3046 17.75 27.0204 18.9126 26.5264 19.9006L24.7764 23.4006C24.438 24.0774 23.7463 24.505 22.9895 24.505H13C12.1716 24.505 11.5 23.8334 11.5 23.005V19.25Z"
+        fill="url(#opsflow-blade-mid)"
+      />
+
+      {/* Bottom Flow Tail + Active Pulse Node */}
+      <path
+        d="M11.5 28C11.5 27.1716 12.1716 26.5 13 26.5H19.4C20.5046 26.5 21.2204 27.6626 20.7264 28.6506L19.4764 31.1506C19.138 31.8274 18.4463 32.255 17.6895 32.255H13C12.1716 32.255 11.5 31.5834 11.5 30.755V28Z"
+        fill="url(#opsflow-blade-bot)"
+      />
+      <circle cx="26.5" cy="29.3" r="2.7" fill="#6EE7B7" />
+    </svg>
+  );
+};

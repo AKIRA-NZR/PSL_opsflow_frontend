@@ -46,3 +46,4 @@ export const ALLOWED_STATUS_TRANSITIONS: Record<TicketStatus, TicketStatus[]> = 
   CLOSED: [],
   CANCELLED: [],
 };
+

@@ -400,3 +400,4 @@ export const SEED_ACTIVITY_LOGS: ActivityLogItem[] = [
     createdAt: hoursAgo(28),
   },
 ];
+

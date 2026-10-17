@@ -230,3 +230,4 @@ export function applyPriorityChange(
     message: `Prioridade atualizada para ${PRIORITY_LABELS[newPriority]}.`,
   };
 }
+
