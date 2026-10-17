@@ -54,9 +54,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }).length;
 
   const navItemClass = (isActive: boolean) =>
-    `w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-colors cursor-pointer ${
+    `group w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${
       isActive
-        ? 'bg-[#232936] text-[#F1F5F9] font-medium'
+        ? 'bg-[#232936] text-[#F1F5F9] font-medium shadow-xs'
         : 'text-[#94A3B8] hover:bg-[#1E2430] hover:text-[#F1F5F9]'
     }`;
 
@@ -77,14 +77,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
               collapsedMode ? 'justify-center' : 'justify-between'
             }`}
           >
-            <div className="flex items-center gap-3 min-w-0">
-              <OpsFlowLogo size={36} />
+            <div
+              onClick={() => {
+                onNavigateTickets('ALL');
+                onCloseMobile();
+              }}
+              className="flex items-center gap-3 min-w-0 cursor-pointer group/brand"
+            >
+              <OpsFlowLogo size={38} />
               {!collapsedMode && (
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-[#F1F5F9] tracking-tight truncate">
-                    OpsFlow
+                  <div className="text-sm font-semibold text-[#F1F5F9] group-hover/brand:text-white tracking-tight truncate flex items-center gap-1.5 transition-colors">
+                    <span>OpsFlow</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 group-hover/brand:scale-125 transition-transform" />
                   </div>
-                  <div className="text-xs text-[#94A3B8] truncate">
+                  <div className="text-xs text-[#94A3B8] group-hover/brand:text-[#CBD5E1] truncate transition-colors">
                     {activeCompany.name}
                   </div>
                 </div>
@@ -145,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <Tray
-                  className="w-4 h-4 text-[#93C5FD] shrink-0"
+                  className="w-4 h-4 text-[#93C5FD] shrink-0 transition-transform duration-150 group-hover:scale-110"
                   weight={isAllActive ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && (
@@ -175,7 +182,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <span className="flex items-center gap-3">
                   <UserCheck
-                    className="w-4 h-4 text-[#6EE7B7] shrink-0"
+                    className="w-4 h-4 text-[#6EE7B7] shrink-0 transition-transform duration-150 group-hover:scale-110"
                     weight={isAssignedActive ? 'fill' : 'duotone'}
                   />
                   {!collapsedMode && <span>Atribuídos a mim</span>}
@@ -199,7 +206,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <ClockCountdown
-                  className="w-4 h-4 text-[#FDA4AF] shrink-0"
+                  className="w-4 h-4 text-[#FDA4AF] shrink-0 transition-transform duration-150 group-hover:scale-110"
                   weight={isSlaActive ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && <span>Atenção no Prazo</span>}
@@ -231,7 +238,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <Folders
-                  className="w-4 h-4 text-[#FCD34D] shrink-0"
+                  className="w-4 h-4 text-[#FCD34D] shrink-0 transition-transform duration-150 group-hover:scale-110"
                   weight={activeSection === 'categories' ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && <span>Categorias</span>}
@@ -249,7 +256,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <UsersThree
-                  className="w-4 h-4 text-[#A5B4FC] shrink-0"
+                  className="w-4 h-4 text-[#A5B4FC] shrink-0 transition-transform duration-150 group-hover:scale-110"
                   weight={activeSection === 'team' ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && <span>Equipe</span>}
@@ -267,7 +274,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <ClockCounterClockwise
-                  className="w-4 h-4 text-[#94A3B8] shrink-0"
+                  className="w-4 h-4 text-[#94A3B8] shrink-0 transition-transform duration-150 group-hover:scale-110"
                   weight={activeSection === 'activity' ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && <span>Atividades</span>}
