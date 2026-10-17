@@ -9,8 +9,7 @@ interface OpsFlowLogoProps {
 /**
  * Interactive OpsFlow Vector Brand Mark ("Fluxo em Camadas")
  * - Hover: Staggered horizontal flow-blade expansion + 3D subtle tilt + border glow
- * - Active / Click: Ripple pulse burst on the emerald SLA node + spring scale
- * - Ambient: Subtle breathing halo on the live operational node
+ * - Active / Click: Spring scale feedback
  */
 export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
   size = 38,
@@ -39,7 +38,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
 
   const handleTriggerClick = () => {
     setIsBursting(true);
-    setTimeout(() => setIsBursting(false), 550);
+    setTimeout(() => setIsBursting(false), 450);
     onClick?.();
   };
 
@@ -74,7 +73,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
     >
       {/* Ambient Subtle Glow on Hover */}
       <span
-        className={`absolute -inset-1 rounded-2xl bg-gradient-to-tr from-[#5865F2]/35 via-[#93C5FD]/25 to-[#6EE7B7]/35 blur-md transition-opacity duration-300 pointer-events-none ${
+        className={`absolute -inset-1 rounded-2xl bg-gradient-to-tr from-[#5865F2]/35 via-[#93C5FD]/25 to-[#818CF8]/35 blur-md transition-opacity duration-300 pointer-events-none ${
           isHovered || isBursting ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -133,7 +132,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
             y2="33"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#6EE7B7" />
+            <stop offset="0%" stopColor="#93C5FD" />
             <stop offset="100%" stopColor="#3B82F6" />
           </linearGradient>
         </defs>
@@ -151,7 +150,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
           style={{ transition: 'stroke 250ms ease, fill 250ms ease' }}
         />
 
-        {/* Top Flow Blade (Slides right on hover) */}
+        {/* Top Flow Blade */}
         <path
           d="M11 10.5C11 9.67157 11.6716 9 12.5 9H29C30.1046 9 30.8204 10.1626 30.3264 11.1506L28.5764 14.6506C28.238 15.3274 27.5463 15.755 26.7895 15.755H12.5C11.6716 15.755 11 15.0834 11 14.255V10.5Z"
           fill={`url(#${uid}-blade-top)`}
@@ -165,9 +164,9 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
           }}
         />
 
-        {/* Middle Dynamic Flow Blade (Slides with 45ms stagger) */}
+        {/* Middle Dynamic Flow Blade */}
         <path
-          d="M11 19.25C11 18.4216 11.6716 17.75 12.5 17.75H24.8C25.9046 17.75 26.6204 18.9126 26.1264 19.9006L24.3764 23.4006C24.038 24.0774 23.3463 24.505 22.5895 24.505H12.5C11.6716 24.505 11 23.8334 11 23.005V19.25Z"
+          d="M11 19.25C11 18.4216 11.6716 17.75 12.5 17.75H25.2C26.3046 17.75 27.0204 18.9126 26.5264 19.9006L24.7764 23.4006C24.438 24.0774 23.7463 24.505 22.9895 24.505H12.5C11.6716 24.505 11 23.8334 11 23.005V19.25Z"
           fill={`url(#${uid}-blade-mid)`}
           style={{
             transform: isBursting
@@ -180,9 +179,9 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
           }}
         />
 
-        {/* Bottom Flow Tail (Slides slightly left/right to create shear motion) */}
+        {/* Bottom Flow Blade */}
         <path
-          d="M11 28C11 27.1716 11.6716 26.5 12.5 26.5H19C20.1046 26.5 20.8204 27.6626 20.3264 28.6506L19.0764 31.1506C18.738 31.8274 18.0463 32.255 17.2895 32.255H12.5C11.6716 32.255 11 31.5834 11 30.755V28Z"
+          d="M11 28C11 27.1716 11.6716 26.5 12.5 26.5H20.8C21.9046 26.5 22.6204 27.6626 22.1264 28.6506L20.8764 31.1506C20.538 31.8274 19.8463 32.255 19.0895 32.255H12.5C11.6716 32.255 11 31.5834 11 30.755V28Z"
           fill={`url(#${uid}-blade-bot)`}
           style={{
             transform: isBursting
@@ -192,35 +191,6 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
                 : 'translateX(0px)',
             transition:
               'transform 340ms cubic-bezier(0.34, 1.56, 0.64, 1) 80ms',
-          }}
-        />
-
-        {/* Expanding Pulse Ring around Emerald Node */}
-        <circle
-          cx="26.5"
-          cy="29.3"
-          r={isBursting ? '7.5' : isHovered ? '5.2' : '2.7'}
-          fill="none"
-          stroke="#6EE7B7"
-          strokeWidth="1.2"
-          style={{
-            opacity: isBursting ? 0 : isHovered ? 0.55 : 0,
-            transformOrigin: '26.5px 29.3px',
-            transition: 'all 420ms cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
-        />
-
-        {/* Core Emerald SLA Status Dot */}
-        <circle
-          cx="26.5"
-          cy="29.3"
-          r={isHovered ? '3.1' : '2.6'}
-          fill="#6EE7B7"
-          style={{
-            filter: isHovered
-              ? 'drop-shadow(0 0 5px rgba(110, 231, 183, 0.85))'
-              : 'none',
-            transition: 'all 240ms ease',
           }}
         />
       </svg>

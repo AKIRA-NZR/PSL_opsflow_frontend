@@ -87,9 +87,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <OpsFlowLogo size={38} />
               {!collapsedMode && (
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-[#F1F5F9] group-hover/brand:text-white tracking-tight truncate flex items-center gap-1.5 transition-colors">
-                    <span>OpsFlow</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 group-hover/brand:scale-125 transition-transform" />
+                  <div className="text-sm font-semibold text-[#F1F5F9] group-hover/brand:text-white tracking-tight truncate transition-colors">
+                    OpsFlow
                   </div>
                   <div className="text-xs text-[#94A3B8] group-hover/brand:text-[#CBD5E1] truncate transition-colors">
                     {activeCompany.name}
