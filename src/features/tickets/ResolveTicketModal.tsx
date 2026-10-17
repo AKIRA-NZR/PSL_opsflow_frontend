@@ -31,7 +31,7 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F5F9] block">
+          <label className="text-xs font-medium text-[#F4F7FB] block">
             Resumo da solução aplicada
           </label>
           <textarea
@@ -40,11 +40,11 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
             placeholder="Descreva de forma clara o que foi feito para solucionar o chamado..."
-            className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] p-3.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-emerald-500"
+            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#2A3140]">
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
@@ -56,4 +56,5 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
     </Modal>
   );
 };
+
 

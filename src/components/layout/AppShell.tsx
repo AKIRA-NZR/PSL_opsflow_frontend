@@ -47,7 +47,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   }, []);
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex bg-[#13161C] text-[#F1F5F9]">
+    <div className="h-screen w-screen overflow-hidden flex spatial-canvas text-[#F4F7FB]">
       <Sidebar
         activeSection={activeSection}
         activeTicketScope={activeTicketScope}

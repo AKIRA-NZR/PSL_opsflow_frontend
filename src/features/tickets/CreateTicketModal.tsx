@@ -82,7 +82,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F5F9] block">
+          <label className="text-xs font-medium text-[#F4F7FB] block">
             Assunto do chamado
           </label>
           <input
@@ -91,12 +91,12 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Ex.: Liberação de acesso à VPN ou lentidão no sistema"
-            className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+            className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F5F9] block">
+          <label className="text-xs font-medium text-[#F4F7FB] block">
             Categoria de atendimento
           </label>
           <DropdownSelect
@@ -108,7 +108,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
 
         {/* Modern Visual Priority Selector Cards */}
         <div className="space-y-2">
-          <label className="text-xs font-medium text-[#F1F5F9] block">
+          <label className="text-xs font-medium text-[#F4F7FB] block">
             Nível de prioridade
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -119,19 +119,19 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
                   key={p}
                   type="button"
                   onClick={() => setPriority(p)}
-                  className={`flex flex-col items-start gap-1.5 p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                  className={`flex flex-col items-start gap-1.5 p-3 rounded-xl text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#232936] border-[#5865F2] ring-2 ring-[#5865F2]/20'
-                      : 'bg-[#13161C] border-[#2A3140] hover:border-[#384152]'
+                      ? 'tactile-surface border-indigo-400/50 ring-2 ring-indigo-400/20'
+                      : 'neumorphic-inset hover:border-white/15'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <PrioritySignalIcon priority={p} />
-                    <span className="text-xs font-semibold text-[#F1F5F9]">
+                    <span className="text-xs font-semibold text-[#F4F7FB]">
                       {PRIORITY_LABELS[p]}
                     </span>
                   </div>
-                  <span className="text-[11px] text-[#64748B]">
+                  <span className="text-[11px] text-[#94A3B8]">
                     Meta: {SLA_HOURS_BY_PRIORITY[p]}h
                   </span>
                 </button>
@@ -141,7 +141,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F5F9] block">
+          <label className="text-xs font-medium text-[#F4F7FB] block">
             Descrição detalhada
           </label>
           <textarea
@@ -149,11 +149,11 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Explique o que está acontecendo e informe detalhes que ajudem no atendimento..."
-            className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] p-3.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#2A3140]">
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
@@ -165,3 +165,4 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
     </Modal>
   );
 };
+

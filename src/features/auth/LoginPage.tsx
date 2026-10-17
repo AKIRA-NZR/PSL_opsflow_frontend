@@ -19,8 +19,8 @@ const QUICK_PROFILES = [
     email: 'kaua.almeida@acme.io',
     description:
       'Acesso completo ao Dashboard de indicadores, fila de atendimento, gestão de categorias, membros da equipe e registro de atividades.',
-    icon: <ShieldStar className="w-5 h-5 text-[#969ECA]" weight="duotone" />,
-    badgeStyle: 'bg-[#1D2030] text-[#C2C7E2] border-[#323854]',
+    icon: <ShieldStar className="w-5 h-5 text-[#A5B4FC]" weight="duotone" />,
+    badgeStyle: 'bg-indigo-500/14 text-[#E0E7FF] border-indigo-400/25',
   },
   {
     roleLabel: 'Técnico de Atendimento',
@@ -29,8 +29,8 @@ const QUICK_PROFILES = [
     email: 'marina.costa@acme.io',
     description:
       'Acesso ao Dashboard operacional, recebimento de chamados da fila, notas técnicas internas e resolução de incidentes.',
-    icon: <Wrench className="w-5 h-5 text-[#7FA998]" weight="duotone" />,
-    badgeStyle: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
+    icon: <Wrench className="w-5 h-5 text-[#6EE7B7]" weight="duotone" />,
+    badgeStyle: 'bg-emerald-500/12 text-[#D1FAE5] border-emerald-400/25',
   },
   {
     roleLabel: 'Colaborador',
@@ -39,8 +39,8 @@ const QUICK_PROFILES = [
     email: 'beatriz.ribeiro@acme.io',
     description:
       'Ambiente simplificado para solicitar suporte técnico, interagir com a equipe de atendimento e acompanhar os próprios chamados.',
-    icon: <UserCircle className="w-5 h-5 text-[#8BA3BE]" weight="duotone" />,
-    badgeStyle: 'bg-[#19202B] text-[#B8C7D9] border-[#2B3646]',
+    icon: <UserCircle className="w-5 h-5 text-[#93C5FD]" weight="duotone" />,
+    badgeStyle: 'bg-sky-500/12 text-[#E0F2FE] border-sky-400/25',
   },
 ];
 
@@ -55,14 +55,14 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#13161C] text-[#F1F5F9] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full spatial-canvas text-[#F4F7FB] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Column: Standard Login Form (5 cols) */}
-        <div className="lg:col-span-5 rounded-2xl bg-[#1B202B] border border-[#2A3140] p-7 sm:p-8 shadow-xl space-y-6">
+        <div className="lg:col-span-5 rounded-3xl glass-panel p-7 sm:p-8 space-y-6">
           <div className="flex items-center gap-3.5">
             <OpsFlowLogo size={42} />
             <div>
-              <h1 className="text-lg font-semibold text-[#F1F5F9] tracking-tight">
+              <h1 className="text-lg font-semibold text-[#F4F7FB] tracking-tight">
                 OpsFlow
               </h1>
               <p className="text-xs text-[#94A3B8]">
@@ -72,7 +72,7 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <div className="space-y-1">
-            <h2 className="text-base font-medium text-[#F1F5F9]">
+            <h2 className="text-base font-medium text-[#F4F7FB]">
               Acesse sua conta
             </h2>
             <p className="text-xs text-[#94A3B8] leading-relaxed">
@@ -91,7 +91,7 @@ export const LoginPage: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nome@empresa.com"
-                className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5D6AB0]"
+                className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
               />
             </div>
 
@@ -105,10 +105,10 @@ export const LoginPage: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] focus:outline-none focus:border-[#5D6AB0]"
+                  className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] focus:outline-none transition-all"
                 />
                 <LockKey
-                  className="w-4 h-4 text-[#64748B] absolute right-3.5 top-1/2 -translate-y-1/2"
+                  className="w-4 h-4 text-[#94A3B8] absolute right-3.5 top-1/2 -translate-y-1/2"
                   weight="duotone"
                 />
               </div>
@@ -131,7 +131,7 @@ export const LoginPage: React.FC = () => {
         {/* Right Column: Role Environment Selector (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
           <div className="px-1">
-            <h3 className="text-sm font-semibold text-[#F1F5F9]">
+            <h3 className="text-sm font-semibold text-[#F4F7FB]">
               Escolha um perfil para acessar rapidamente
             </h3>
             <p className="text-xs text-[#94A3B8] mt-1">
@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             {QUICK_PROFILES.map((prof) => {
               const isSelected = email.toLowerCase() === prof.email.toLowerCase();
               return (
@@ -149,41 +149,44 @@ export const LoginPage: React.FC = () => {
                     setEmail(prof.email);
                     loginWithEmail(prof.email);
                   }}
-                  className={`rounded-2xl border p-5 transition-all cursor-pointer group ${
+                  className={`rounded-2xl glass-panel glass-panel-interactive p-5 cursor-pointer group ${
                     isSelected
-                      ? 'bg-[#1F2532] border-[#4A558F]'
-                      : 'bg-[#1B202B] border-[#2A3140] hover:bg-[#1F2532] hover:border-[#364054]'
+                      ? 'border-indigo-400/40 bg-indigo-500/[0.06]'
+                      : ''
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-[#13161C] border border-[#2A3140]">
+                    <div className="flex items-center gap-3.5">
+                      <div className="p-2.5 rounded-xl neumorphic-inset">
                         {prof.icon}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-[#F1F5F9]">
+                          <span className="text-sm font-semibold text-[#F4F7FB]">
                             {prof.name}
                           </span>
                           <span
-                            className={`px-2 py-0.5 rounded-md text-[11px] font-medium border ${prof.badgeStyle}`}
+                            className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium glass-pill ${prof.badgeStyle}`}
                           >
                             {prof.roleLabel}
                           </span>
                         </div>
                         <div className="text-xs text-[#94A3B8] mt-0.5">
-                          {prof.environment} · <span className="font-mono text-[#64748B]">{prof.email}</span>
+                          {prof.environment} ·{' '}
+                          <span className="font-mono text-[#64748B]">
+                            {prof.email}
+                          </span>
                         </div>
                       </div>
                     </div>
 
-                    <span className="text-xs font-medium text-[#93A8C1] group-hover:text-[#F1F5F9] inline-flex items-center gap-1 transition-colors">
+                    <span className="px-3 py-1.5 rounded-xl tactile-surface text-xs font-medium text-[#E2E8F0] group-hover:text-white inline-flex items-center gap-1.5 transition-all">
                       Acessar
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5" weight="bold" />
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#94A3B8] leading-relaxed mt-3 pl-12">
+                  <p className="text-xs text-[#94A3B8] leading-relaxed mt-3 pl-13">
                     {prof.description}
                   </p>
                 </div>
@@ -197,4 +200,5 @@ export const LoginPage: React.FC = () => {
     </div>
   );
 };
+
 

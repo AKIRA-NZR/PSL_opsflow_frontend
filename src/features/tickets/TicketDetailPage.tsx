@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from '@phosphor-icons/react';
 import { PriorityBadge, StatusBadge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { useWorkspace } from '../../context/WorkspaceContext';
@@ -36,8 +36,8 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
 
   if (!ticket) {
     return (
-      <div className="max-w-xl mx-auto mt-12 rounded-2xl bg-[#1B202B] border border-[#2A3140] p-8 text-center space-y-4">
-        <h2 className="text-lg font-semibold text-[#F1F5F9]">
+      <div className="max-w-xl mx-auto mt-12 rounded-2xl glass-panel p-8 text-center space-y-4">
+        <h2 className="text-lg font-semibold text-[#F4F7FB]">
           Chamado não encontrado
         </h2>
         <p className="text-sm text-[#94A3B8] leading-relaxed">
@@ -46,7 +46,7 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
         <div>
           <Button
             variant="secondary"
-            icon={<ArrowLeft className="w-4 h-4" />}
+            icon={<ArrowLeft className="w-4 h-4" weight="bold" />}
             onClick={onBack}
           >
             Voltar para a fila de chamados
@@ -88,12 +88,12 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
           <Button
             variant="secondary"
             size="sm"
-            icon={<ArrowLeft className="w-4 h-4" />}
+            icon={<ArrowLeft className="w-4 h-4" weight="bold" />}
             onClick={onBack}
           >
             Voltar
           </Button>
-          <span className="font-mono text-sm font-medium text-[#93C5FD] bg-[#1B202B] px-3 py-1 rounded-lg border border-[#2A3140]">
+          <span className="font-mono text-sm font-medium text-[#93C5FD] neumorphic-inset px-3 py-1 rounded-lg">
             {formatTicketCode(ticket.number)}
           </span>
           <StatusBadge status={ticket.status} />
@@ -105,22 +105,22 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-6 space-y-4">
-            <h1 className="text-xl font-semibold text-[#F1F5F9] leading-snug">
+          <div className="rounded-2xl glass-panel p-6 space-y-4">
+            <h1 className="text-xl font-semibold text-[#F4F7FB] leading-snug">
               {ticket.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs text-[#94A3B8] pb-4 border-b border-[#2A3140]">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-[#94A3B8] pb-4 border-b border-white/[0.08]">
               <span>
                 Solicitante:{' '}
-                <strong className="text-[#F1F5F9]">
+                <strong className="text-[#F4F7FB]">
                   {requester?.name || 'Usuário'}
                 </strong>
               </span>
               <span>·</span>
               <span>
                 Categoria:{' '}
-                <strong className="text-[#F1F5F9]">
+                <strong className="text-[#F4F7FB]">
                   {category?.name || 'Geral'}
                 </strong>
               </span>
@@ -133,17 +133,17 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
             </div>
 
             {ticket.resolutionSummary && (
-              <div className="mt-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 p-4 space-y-1.5">
-                <div className="flex items-center justify-between text-xs font-medium text-emerald-300">
+              <div className="mt-4 rounded-xl glass-pill bg-emerald-500/10 border-emerald-400/25 p-4 space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-medium text-[#6EE7B7]">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4" />
+                    <CheckCircle className="w-4 h-4" weight="fill" />
                     Solução Registrada
                   </span>
                   {ticket.resolvedAt && (
                     <span>{formatDateTime(ticket.resolvedAt)}</span>
                   )}
                 </div>
-                <p className="text-sm text-[#F1F5F9] leading-relaxed">
+                <p className="text-sm text-[#F4F7FB] leading-relaxed">
                   {ticket.resolutionSummary}
                 </p>
               </div>
@@ -184,4 +184,5 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
     </div>
   );
 };
+
 

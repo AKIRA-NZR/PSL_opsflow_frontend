@@ -3,24 +3,17 @@
 @layer base {
   :root {
     color-scheme: dark;
-    --bg-canvas: #13161C;
-    --bg-sidebar: #161A22;
-    --bg-surface: #1B202B;
-    --bg-elevated: #232936;
-    --border-subtle: #2A3140;
-    --text-primary: #F1F5F9;
-    --text-secondary: #94A3B8;
-    --text-muted: #64748B;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   body {
-    background-color: var(--bg-canvas);
-    color: var(--text-primary);
+    background-color: #0C1017;
+    color: #F1F5F9;
     font-size: 14px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   code, pre, .font-mono {
@@ -28,21 +21,175 @@
   }
 }
 
-/* Soft Dark Mode scrollbars */
+/* ==========================================================================
+   SPATIAL GLASSMORPHISM & TACTILE MICRO-NEUMORPHISM DESIGN SYSTEM (visionOS)
+   ========================================================================== */
+
+/* 1. Atmospheric Ambient Light Canvas (Required for true Glass Refraction) */
+.spatial-canvas {
+  position: relative;
+  background-color: #0C1017;
+  background-image:
+    radial-gradient(circle at 12% 14%, rgba(99, 102, 241, 0.14) 0%, transparent 42%),
+    radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.10) 0%, transparent 40%),
+    radial-gradient(circle at 52% 88%, rgba(16, 185, 129, 0.08) 0%, transparent 48%);
+}
+
+/* 2. Frosted Spatial Glass Panel (Cards, Tables, Widgets) */
+.glass-panel {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 18px 40px -12px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.glass-panel-interactive {
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 200ms ease,
+              box-shadow 200ms ease,
+              background 200ms ease;
+}
+
+.glass-panel-interactive:hover {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.085) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 22px 44px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 3. Floating Glass Sidebar & Header */
+.glass-sidebar {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 25, 36, 0.78) 0%,
+    rgba(14, 18, 27, 0.86) 100%
+  );
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    8px 0 32px rgba(0, 0, 0, 0.35),
+    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.glass-header {
+  background: rgba(15, 20, 30, 0.68);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 24px -6px rgba(0, 0, 0, 0.32),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* 4. Elevated Glass Popovers & Modals */
+.glass-popover {
+  background: linear-gradient(
+    155deg,
+    rgba(28, 35, 50, 0.88) 0%,
+    rgba(19, 24, 35, 0.94) 100%
+  );
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow:
+    0 24px 56px -8px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 5. Neumorphic Recessed Cavity (Inputs, Search Wells, Code/Metric Wells) */
+.neumorphic-inset {
+  background: rgba(9, 13, 21, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 2px 3px 7px rgba(0, 0, 0, 0.58),
+    inset -1px -1px 4px rgba(255, 255, 255, 0.03),
+    0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.neumorphic-inset:focus-within,
+.neumorphic-inset:focus {
+  background: rgba(12, 17, 28, 0.82);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow:
+    inset 2px 3px 7px rgba(0, 0, 0, 0.65),
+    0 0 0 3px rgba(99, 102, 241, 0.16);
+}
+
+/* 6. Tactile Neumorphic Buttons & Controls */
+.tactile-surface {
+  background: linear-gradient(
+    180deg,
+    rgba(36, 44, 62, 0.78) 0%,
+    rgba(24, 30, 44, 0.88) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    4px 5px 12px rgba(0, 0, 0, 0.42),
+    -2px -2px 8px rgba(255, 255, 255, 0.025),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+  transition: all 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tactile-surface:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(44, 53, 74, 0.88) 0%,
+    rgba(29, 36, 52, 0.94) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+  box-shadow:
+    5px 7px 15px rgba(0, 0, 0, 0.48),
+    -2px -2px 10px rgba(255, 255, 255, 0.035),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+}
+
+.tactile-surface:active {
+  transform: translateY(0.5px);
+  box-shadow:
+    inset 2px 3px 6px rgba(0, 0, 0, 0.55),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.04);
+}
+
+/* 7. Luminous Glass Pill (Status, Priority, SLA & Role Badges) */
+.glass-pill {
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow:
+    0 4px 12px -2px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Sleek glass scrollbars */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #13161C;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2A3140;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3B4458;
+  background: rgba(255, 255, 255, 0.22);
 }

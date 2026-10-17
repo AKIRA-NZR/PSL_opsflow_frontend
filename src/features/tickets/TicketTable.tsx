@@ -1,5 +1,5 @@
 import React from 'react';
-import { Inbox } from 'lucide-react';
+import { Tray } from '@phosphor-icons/react';
 import {
   PriorityBadge,
   SlaBadge,
@@ -32,11 +32,11 @@ export const TicketTable: React.FC<TicketTableProps> = ({
 }) => {
   if (tickets.length === 0) {
     return (
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] py-16 px-6 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-[#232936] flex items-center justify-center mx-auto text-[#64748B]">
-          <Inbox className="w-6 h-6" />
+      <div className="rounded-2xl glass-panel py-16 px-6 text-center">
+        <div className="w-12 h-12 rounded-2xl neumorphic-inset flex items-center justify-center mx-auto text-[#94A3B8]">
+          <Tray className="w-6 h-6" weight="duotone" />
         </div>
-        <h3 className="text-base font-medium text-[#F1F5F9] mt-4">
+        <h3 className="text-base font-medium text-[#F4F7FB] mt-4">
           Nenhum chamado encontrado
         </h3>
         <p className="text-sm text-[#94A3B8] mt-1 max-w-md mx-auto">
@@ -47,11 +47,11 @@ export const TicketTable: React.FC<TicketTableProps> = ({
   }
 
   return (
-    <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] overflow-hidden shadow-sm">
+    <div className="rounded-2xl glass-panel overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-[#2A3140] bg-[#161A22]/60 text-xs font-medium text-[#94A3B8]">
+            <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-[#94A3B8]">
               <th className="py-3.5 px-5 w-28">Código</th>
               <th className="py-3.5 px-5">Assunto</th>
               <th className="py-3.5 px-5">Status</th>
@@ -60,7 +60,7 @@ export const TicketTable: React.FC<TicketTableProps> = ({
               <th className="py-3.5 px-5">Responsável</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#2A3140]/70 text-sm">
+          <tbody className="divide-y divide-white/[0.06] text-sm">
             {tickets.map((t) => {
               const category = categories.find((c) => c.id === t.categoryId);
               const requester = users.find((u) => u.id === t.requesterId);
@@ -71,14 +71,14 @@ export const TicketTable: React.FC<TicketTableProps> = ({
                 <tr
                   key={t.id}
                   onClick={() => onSelectTicket(t.id)}
-                  className="hover:bg-[#232936]/75 transition-colors cursor-pointer group"
+                  className="hover:bg-white/[0.035] transition-colors cursor-pointer group"
                 >
                   <td className="py-4 px-5 font-mono text-xs font-medium text-[#93C5FD] whitespace-nowrap">
                     {formatTicketCode(t.number)}
                   </td>
 
                   <td className="py-4 px-5 min-w-[260px]">
-                    <div className="font-medium text-[#F1F5F9] group-hover:text-white leading-snug">
+                    <div className="font-medium text-[#F4F7FB] group-hover:text-white leading-snug">
                       {t.title}
                     </div>
                     <div className="text-xs text-[#94A3B8] mt-1 flex items-center gap-2">
@@ -105,10 +105,10 @@ export const TicketTable: React.FC<TicketTableProps> = ({
                   <td className="py-4 px-5 whitespace-nowrap">
                     {assignee ? (
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-[#232936] border border-[#2F3747] text-[#CBD5E1] flex items-center justify-center text-xs font-medium">
+                        <div className="w-7 h-7 rounded-full neumorphic-inset text-[#CBD5E1] flex items-center justify-center text-xs font-medium">
                           {getInitials(assignee.name)}
                         </div>
-                        <span className="text-sm text-[#F1F5F9]">
+                        <span className="text-sm text-[#F4F7FB]">
                           {assignee.name}
                         </span>
                       </div>
@@ -127,4 +127,5 @@ export const TicketTable: React.FC<TicketTableProps> = ({
     </div>
   );
 };
+
 

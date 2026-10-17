@@ -115,7 +115,7 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
   return (
     <div className="space-y-5">
       {/* Card 1: Current Status & Workflow Transitions */}
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 space-y-4">
+      <div className="rounded-2xl glass-panel p-5 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
             Status do Chamado
@@ -124,7 +124,7 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
         </div>
 
         {isTerminal ? (
-          <p className="text-xs text-[#94A3B8] leading-relaxed bg-[#13161C] border border-[#2A3140] rounded-xl p-3.5">
+          <p className="text-xs text-[#94A3B8] leading-relaxed neumorphic-inset rounded-xl p-3.5">
             Este chamado já foi finalizado e encontra-se arquivado para consulta.
           </p>
         ) : (
@@ -160,12 +160,12 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
       </div>
 
       {/* Card 2: Assignee */}
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 space-y-3.5">
+      <div className="rounded-2xl glass-panel p-5 space-y-3.5">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
             Responsável
           </h3>
-          <UserCheck className="w-4 h-4 text-[#94A3B8]" weight="duotone" />
+          <UserCheck className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
         </div>
 
         <DropdownSelect
@@ -187,12 +187,12 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
       </div>
 
       {/* Card 3: Priority & SLA Target */}
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 space-y-4">
+      <div className="rounded-2xl glass-panel p-5 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
             Prioridade e Prazo
           </h3>
-          <Clock className="w-4 h-4 text-[#94A3B8]" weight="duotone" />
+          <Clock className="w-4 h-4 text-[#A5B4FC]" weight="duotone" />
         </div>
 
         <div className="space-y-1.5">
@@ -207,21 +207,21 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           />
         </div>
 
-        <div className="rounded-xl bg-[#13161C] border border-[#2A3140] p-4 space-y-3 text-xs">
+        <div className="rounded-xl neumorphic-inset p-4 space-y-3 text-xs">
           <div className="flex items-center justify-between">
             <span className="text-[#94A3B8]">Situação do prazo</span>
             <SlaBadge health={sla.health} text={sla.badgeText} />
           </div>
 
-          <div className="flex items-center justify-between pt-2.5 border-t border-[#2A3140]/70">
+          <div className="flex items-center justify-between pt-2.5 border-t border-white/[0.06]">
             <span className="text-[#94A3B8] flex items-center gap-1.5">
               <CalendarBlank
-                className="w-3.5 h-3.5 text-[#64748B]"
+                className="w-3.5 h-3.5 text-[#93C5FD]"
                 weight="duotone"
               />
               Prazo limite
             </span>
-            <span className="text-[#F1F5F9] font-medium">
+            <span className="text-[#F4F7FB] font-medium">
               {formatDateTime(ticket.dueAt)}
             </span>
           </div>
@@ -237,3 +237,4 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
     </div>
   );
 };
+

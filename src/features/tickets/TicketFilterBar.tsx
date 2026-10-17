@@ -102,18 +102,18 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
     filters.search.trim().length > 0;
 
   return (
-    <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+    <div className="rounded-2xl glass-panel p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
       <div className="relative flex-1 max-w-md">
         <MagnifyingGlass
-          className="w-4 h-4 text-[#64748B] absolute left-3.5 top-1/2 -translate-y-1/2"
-          weight="bold"
+          className="w-4 h-4 text-[#93C5FD] absolute left-3.5 top-1/2 -translate-y-1/2"
+          weight="duotone"
         />
         <input
           type="text"
           value={filters.search}
           onChange={(e) => onChange({ search: e.target.value })}
           placeholder="Pesquisar por número ou assunto do chamado..."
-          className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] pl-10 pr-4 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2] transition-colors"
+          className="w-full rounded-xl neumorphic-inset pl-10 pr-4 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
         />
       </div>
 
@@ -140,7 +140,7 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
             onClick={() =>
               onChange({ status: 'ALL', priority: 'ALL', search: '' })
             }
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#232936] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-[#94A3B8] hover:text-[#F4F7FB] tactile-surface transition-all cursor-pointer"
           >
             <X className="w-3.5 h-3.5" weight="bold" />
             Limpar
@@ -150,3 +150,4 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
     </div>
   );
 };
+

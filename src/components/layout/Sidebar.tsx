@@ -68,8 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItemClass = (isActive: boolean) =>
     `group w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${
       isActive
-        ? 'bg-[#222733] text-[#F1F5F9] font-medium'
-        : 'text-[#94A3B8] hover:bg-[#1C212B] hover:text-[#F1F5F9]'
+        ? 'tactile-surface text-[#F4F7FB] font-medium'
+        : 'text-[#94A3B8] hover:bg-white/[0.04] hover:text-[#F4F7FB]'
     }`;
 
   const renderSidebarContent = (collapsedMode: boolean) => {
@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       activeSection === 'tickets' && activeTicketScope === 'SLA_ATTENTION';
 
     return (
-      <div className="h-full flex flex-col justify-between bg-[#161A22] border-r border-[#2A3140] select-none">
+      <div className="h-full flex flex-col justify-between glass-sidebar select-none">
         <div className="p-4 space-y-6">
           {/* Top Brand & Organization Header */}
           <div
@@ -104,10 +104,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <OpsFlowLogo size={38} />
               {!collapsedMode && (
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-[#F1F5F9] group-hover/brand:text-white tracking-tight truncate transition-colors">
+                  <div className="text-sm font-semibold text-[#F4F7FB] group-hover/brand:text-white tracking-tight truncate transition-colors">
                     OpsFlow
                   </div>
-                  <div className="text-xs text-[#8E97A6] truncate">
+                  <div className="text-xs text-[#94A3B8] truncate">
                     {isStaff ? 'Console de Operações' : 'Portal do Colaborador'}
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 type="button"
                 onClick={onToggleCollapse}
-                className="hidden lg:inline-flex p-1.5 rounded-lg text-[#64748B] hover:text-[#F1F5F9] hover:bg-[#232936] transition-colors cursor-pointer"
+                className="hidden lg:inline-flex p-1.5 rounded-lg text-[#94A3B8] hover:text-[#F4F7FB] tactile-surface transition-colors cursor-pointer"
                 title="Recolher barra lateral"
               >
                 <SidebarSimple className="w-4 h-4" weight="duotone" />
@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={onCloseMobile}
-              className="lg:hidden p-1.5 rounded-lg text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#232936] cursor-pointer"
+              className="lg:hidden p-1.5 rounded-lg text-[#94A3B8] hover:text-[#F4F7FB] tactile-surface cursor-pointer"
             >
               <X className="w-5 h-5" weight="bold" />
             </button>
@@ -139,7 +139,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 type="button"
                 onClick={onToggleCollapse}
-                className="p-2 rounded-lg text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#232936] transition-colors cursor-pointer"
+                className="p-2 rounded-lg text-[#94A3B8] hover:text-[#F4F7FB] tactile-surface transition-colors cursor-pointer"
                 title="Expandir barra lateral"
               >
                 <SidebarSimple className="w-4 h-4" weight="duotone" />
@@ -164,7 +164,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
 
           {/* Group 1: Role-Tailored Main Navigation */}
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {!collapsedMode && (
               <div className="px-3 pb-1 text-xs font-medium text-[#64748B]">
                 {isStaff ? 'Central de Atendimento' : 'Minhas Solicitações'}
@@ -184,7 +184,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <span className="flex items-center gap-3">
                   <ChartBar
-                    className="w-4 h-4 text-[#969ECA] shrink-0"
+                    className="w-4 h-4 text-[#A5B4FC] shrink-0"
                     weight={isDashboardActive ? 'fill' : 'duotone'}
                   />
                   {!collapsedMode && <span>Visão Geral</span>}
@@ -203,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="flex items-center gap-3">
                 <Tray
-                  className="w-4 h-4 text-[#8BA3BE] shrink-0"
+                  className="w-4 h-4 text-[#93C5FD] shrink-0"
                   weight={isAllActive ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && (
@@ -213,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 )}
               </span>
               {!collapsedMode && (
-                <span className="text-xs text-[#64748B] font-mono">
+                <span className="px-2 py-0.5 rounded-md text-xs text-[#94A3B8] font-mono neumorphic-inset">
                   {tenantTickets.length}
                 </span>
               )}
@@ -231,13 +231,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <span className="flex items-center gap-3">
                   <UserCheck
-                    className="w-4 h-4 text-[#7FA998] shrink-0"
+                    className="w-4 h-4 text-[#6EE7B7] shrink-0"
                     weight={isAssignedActive ? 'fill' : 'duotone'}
                   />
                   {!collapsedMode && <span>Meus Atendimentos</span>}
                 </span>
                 {!collapsedMode && assignedCount > 0 && (
-                  <span className="text-xs text-[#94A3B8] font-mono">
+                  <span className="px-2 py-0.5 rounded-md text-xs text-[#A7F3D0] font-mono neumorphic-inset">
                     {assignedCount}
                   </span>
                 )}
@@ -256,13 +256,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <span className="flex items-center gap-3">
                   <ClockCountdown
-                    className="w-4 h-4 text-[#C98A94] shrink-0"
+                    className="w-4 h-4 text-[#FDA4AF] shrink-0"
                     weight={isSlaActive ? 'fill' : 'duotone'}
                   />
                   {!collapsedMode && <span>Atenção no Prazo</span>}
                 </span>
                 {!collapsedMode && attentionCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#251A1D] text-[#D6A6AE] border border-[#3D292E]">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-medium glass-pill bg-rose-500/12 text-[#FECDD3] border-rose-400/25">
                     {attentionCount}
                   </span>
                 )}
@@ -272,7 +272,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Group 2: Governance & Administration (ADMIN & TECHNICIAN) */}
           {isStaff && (
-            <div className="space-y-1 pt-4 border-t border-[#2A3140]">
+            <div className="space-y-1.5 pt-4 border-t border-white/[0.07]">
               {!collapsedMode && (
                 <div className="px-3 pb-1 text-xs font-medium text-[#64748B]">
                   {activeRole === 'ADMIN' ? 'Administração' : 'Catálogo'}
@@ -290,7 +290,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <span className="flex items-center gap-3">
                   <Folders
-                    className="w-4 h-4 text-[#C4A676] shrink-0"
+                    className="w-4 h-4 text-[#FCD34D] shrink-0"
                     weight={activeSection === 'categories' ? 'fill' : 'duotone'}
                   />
                   {!collapsedMode && <span>Categorias</span>}
@@ -310,7 +310,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   >
                     <span className="flex items-center gap-3">
                       <UsersThree
-                        className="w-4 h-4 text-[#969ECA] shrink-0"
+                        className="w-4 h-4 text-[#A5B4FC] shrink-0"
                         weight={activeSection === 'team' ? 'fill' : 'duotone'}
                       />
                       {!collapsedMode && <span>Equipe</span>}
@@ -328,7 +328,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   >
                     <span className="flex items-center gap-3">
                       <ClockCounterClockwise
-                        className="w-4 h-4 text-[#8E97A6] shrink-0"
+                        className="w-4 h-4 text-[#94A3B8] shrink-0"
                         weight={
                           activeSection === 'activity' ? 'fill' : 'duotone'
                         }
@@ -343,11 +343,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Organization info card for Employee */}
           {!isStaff && !collapsedMode && (
-            <div className="rounded-xl bg-[#13161C] border border-[#2A3140] p-3.5 space-y-1 text-xs">
-              <div className="font-medium text-[#CBD5E1]">
+            <div className="rounded-xl neumorphic-inset p-3.5 space-y-1 text-xs">
+              <div className="font-medium text-[#E2E8F0]">
                 {activeCompany.name}
               </div>
-              <p className="text-[#64748B] leading-relaxed">
+              <p className="text-[#94A3B8] leading-relaxed">
                 Acompanhe aqui o andamento das suas solicitações junto à equipe técnica.
               </p>
             </div>
@@ -355,7 +355,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Bottom Profile & Logout Menu */}
-        <div className="p-3 border-t border-[#2A3140]">
+        <div className="p-3 border-t border-white/[0.07]">
           <ProfileSwitcher collapsed={collapsedMode} />
         </div>
       </div>
@@ -375,7 +375,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="fixed inset-0 bg-black/65 backdrop-blur-xs"
+            className="fixed inset-0 bg-[#06080D]/70 backdrop-blur-md"
             onClick={onCloseMobile}
           />
           <aside className="relative w-72 max-w-[85vw] h-full z-10 shadow-2xl">
@@ -386,3 +386,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
+

@@ -142,22 +142,22 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     {
       label: 'Resolvidos / Concluídos',
       count: metrics.resolvedOrClosed,
-      color: '#7FA998', // Matte Sage Green
+      color: '#34D399', // Luminous Emerald
     },
     {
       label: 'Em Atendimento',
       count: metrics.inProgress,
-      color: '#828BB8', // Matte Slate Indigo
+      color: '#818CF8', // Luminous Indigo
     },
     {
       label: 'Aguardando Triagem',
       count: metrics.openUnassigned,
-      color: '#8BA3BE', // Matte Steel Blue
+      color: '#60A5FA', // Luminous Sky Blue
     },
     {
       label: 'Aguardando Solicitante',
       count: metrics.waitingUser,
-      color: '#C4A676', // Matte Warm Sand
+      color: '#FBBF24', // Luminous Warm Amber
     },
   ];
 
@@ -167,70 +167,70 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Row 1: Top Operational KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 flex items-center justify-between">
+        <div className="rounded-2xl glass-panel p-5 flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-[#94A3B8]">
               Chamados Pendentes
             </p>
-            <p className="text-2xl font-semibold text-[#F1F5F9] mt-1">
+            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
               {metrics.pendingTotal}
             </p>
             <p className="text-xs text-[#64748B] mt-1">
               {metrics.inProgress} em atendimento ativo
             </p>
           </div>
-          <div className="p-3 rounded-xl bg-[#1D2030] border border-[#323854] text-[#969ECA]">
+          <div className="p-3 rounded-xl neumorphic-inset text-[#A5B4FC]">
             <Clock className="w-5 h-5" weight="duotone" />
           </div>
         </div>
 
-        <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 flex items-center justify-between">
+        <div className="rounded-2xl glass-panel p-5 flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-[#94A3B8]">
               Chamados Resolvidos
             </p>
-            <p className="text-2xl font-semibold text-[#F1F5F9] mt-1">
+            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
               {metrics.resolvedOrClosed}
             </p>
-            <p className="text-xs text-[#7FA998] mt-1">
+            <p className="text-xs text-[#6EE7B7] mt-1">
               {metrics.resolutionRate}% do volume atual
             </p>
           </div>
-          <div className="p-3 rounded-xl bg-[#17231F] border border-[#263B34] text-[#7FA998]">
+          <div className="p-3 rounded-xl neumorphic-inset text-[#6EE7B7]">
             <CheckCircle className="w-5 h-5" weight="duotone" />
           </div>
         </div>
 
-        <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 flex items-center justify-between">
+        <div className="rounded-2xl glass-panel p-5 flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-[#94A3B8]">
               Fila de Triagem (Sem Técnico)
             </p>
-            <p className="text-2xl font-semibold text-[#F1F5F9] mt-1">
+            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
               {triageQueue.length}
             </p>
-            <p className="text-xs text-[#8BA3BE] mt-1">
+            <p className="text-xs text-[#93C5FD] mt-1">
               Aguardando atribuição da equipe
             </p>
           </div>
-          <div className="p-3 rounded-xl bg-[#19202B] border border-[#2B3646] text-[#8BA3BE]">
+          <div className="p-3 rounded-xl neumorphic-inset text-[#93C5FD]">
             <Tray className="w-5 h-5" weight="duotone" />
           </div>
         </div>
 
-        <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 flex items-center justify-between">
+        <div className="rounded-2xl glass-panel p-5 flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-[#94A3B8]">
               Conformidade de Prazo (SLA)
             </p>
-            <p className="text-2xl font-semibold text-[#F1F5F9] mt-1">
+            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
               {metrics.slaComplianceRate}%
             </p>
-            <p className="text-xs text-[#C4A676] mt-1">
+            <p className="text-xs text-[#FCD34D] mt-1">
               {metrics.slaAttentionCount} chamado(s) exigem atenção
             </p>
           </div>
-          <div className="p-3 rounded-xl bg-[#231F19] border border-[#3A3226] text-[#C4A676]">
+          <div className="p-3 rounded-xl neumorphic-inset text-[#FCD34D]">
             <WarningOctagon className="w-5 h-5" weight="duotone" />
           </div>
         </div>
@@ -239,11 +239,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Row 2: Visual Charts (Weekly Resolved vs Pending Bar Chart + Status Donut Chart) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Chart: Weekly Resolved vs Pending (7 cols) */}
-        <div className="lg:col-span-7 rounded-2xl bg-[#1B202B] border border-[#2A3140] p-6 flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-7 rounded-2xl glass-panel p-6 flex flex-col justify-between space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-semibold text-[#F1F5F9] flex items-center gap-2">
-                <ChartBar className="w-4 h-4 text-[#8BA3BE]" weight="duotone" />
+              <h3 className="text-sm font-semibold text-[#F4F7FB] flex items-center gap-2">
+                <ChartBar className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
                 Evolução de Chamados: Resolvidos vs. Pendentes
               </h3>
               <p className="text-xs text-[#94A3B8] mt-0.5">
@@ -253,24 +253,24 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             <div className="flex items-center gap-4 text-xs text-[#94A3B8]">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-xs bg-[#7FA998]" />
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#34D399]" />
                 Resolvidos
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-xs bg-[#5C6B8A]" />
+                <span className="w-2.5 h-2.5 rounded-xs bg-[#818CF8]" />
                 Pendentes
               </span>
             </div>
           </div>
 
-          {/* Custom Matte Bar Chart */}
-          <div className="h-52 pt-4 flex items-end justify-between gap-3 sm:gap-5 px-2 border-b border-[#2A3140]">
+          {/* Custom Spatial Bar Chart */}
+          <div className="h-52 pt-4 flex items-end justify-between gap-3 sm:gap-5 px-4 rounded-2xl neumorphic-inset">
             {weeklySeries.map((item) => {
               const resolvedHeight = Math.round(
-                (item.resolved / maxWeeklyVal) * 150
+                (item.resolved / maxWeeklyVal) * 140
               );
               const pendingHeight = Math.round(
-                (item.pending / maxWeeklyVal) * 150
+                (item.pending / maxWeeklyVal) * 140
               );
 
               return (
@@ -278,32 +278,32 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   key={item.day}
                   className="flex-1 flex flex-col items-center gap-2 group"
                 >
-                  <div className="w-full flex items-end justify-center gap-1.5 h-40">
+                  <div className="w-full flex items-end justify-center gap-1.5 h-36">
                     {/* Resolved Bar */}
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-[#7FA998] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-mono text-[#6EE7B7] opacity-0 group-hover:opacity-100 transition-opacity">
                         {item.resolved}
                       </span>
                       <div
                         style={{ height: `${Math.max(8, resolvedHeight)}px` }}
-                        className="w-3.5 sm:w-5 rounded-t-md bg-[#7FA998]/85 group-hover:bg-[#7FA998] transition-all"
+                        className="w-3.5 sm:w-5 rounded-t-md bg-gradient-to-t from-emerald-500/40 to-emerald-400/85 border-t border-emerald-300/50 group-hover:to-emerald-300 transition-all"
                         title={`Resolvidos (${item.day}): ${item.resolved}`}
                       />
                     </div>
 
                     {/* Pending Bar */}
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-[#94A3B8] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-mono text-[#A5B4FC] opacity-0 group-hover:opacity-100 transition-opacity">
                         {item.pending}
                       </span>
                       <div
                         style={{ height: `${Math.max(8, pendingHeight)}px` }}
-                        className="w-3.5 sm:w-5 rounded-t-md bg-[#5C6B8A]/85 group-hover:bg-[#7384A8] transition-all"
+                        className="w-3.5 sm:w-5 rounded-t-md bg-gradient-to-t from-indigo-500/35 to-indigo-400/80 border-t border-indigo-300/45 group-hover:to-indigo-300 transition-all"
                         title={`Pendentes (${item.day}): ${item.pending}`}
                       />
                     </div>
                   </div>
-                  <span className="text-xs font-medium text-[#94A3B8] pb-2">
+                  <span className="text-xs font-medium text-[#94A3B8] pb-2.5">
                     {item.day}
                   </span>
                 </div>
@@ -323,7 +323,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 return (
                   <div
                     key={c.id}
-                    className="rounded-xl bg-[#13161C] border border-[#2A3140] p-3 space-y-2"
+                    className="rounded-xl neumorphic-inset p-3.5 space-y-2"
                   >
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-medium text-[#E2E8F0] truncate">
@@ -333,10 +333,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         {c.resolved}/{c.total} resolvidos
                       </span>
                     </div>
-                    <div className="w-full h-1.5 rounded-full bg-[#1F2532] overflow-hidden">
+                    <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
                       <div
                         style={{ width: `${pct}%` }}
-                        className="h-full rounded-full bg-[#7FA998] transition-all"
+                        className="h-full rounded-full bg-gradient-to-r from-indigo-400 to-emerald-400 transition-all"
                       />
                     </div>
                   </div>
@@ -347,10 +347,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {/* Right Chart: Status Distribution Donut Chart (5 cols) */}
-        <div className="lg:col-span-5 rounded-2xl bg-[#1B202B] border border-[#2A3140] p-6 flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-5 rounded-2xl glass-panel p-6 flex flex-col justify-between space-y-6">
           <div>
-            <h3 className="text-sm font-semibold text-[#F1F5F9] flex items-center gap-2">
-              <ChartDonut className="w-4 h-4 text-[#969ECA]" weight="duotone" />
+            <h3 className="text-sm font-semibold text-[#F4F7FB] flex items-center gap-2">
+              <ChartDonut className="w-4 h-4 text-[#A5B4FC]" weight="duotone" />
               Distribuição da Fila por Status
             </h3>
             <p className="text-xs text-[#94A3B8] mt-0.5">
@@ -359,7 +359,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           <div className="flex flex-col items-center justify-center py-2">
-            <div className="relative w-40 h-40 flex items-center justify-center">
+            <div className="relative w-44 h-44 rounded-full neumorphic-inset flex items-center justify-center p-2">
               <svg
                 viewBox="0 0 140 140"
                 className="w-full h-full -rotate-90 transform"
@@ -369,8 +369,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   cy="70"
                   r={radius}
                   fill="transparent"
-                  stroke="#13161C"
-                  strokeWidth="16"
+                  stroke="rgba(255,255,255,0.05)"
+                  strokeWidth="15"
                 />
                 {segments.map((seg) => {
                   const pct = seg.count / totalForDonut;
@@ -388,7 +388,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                       r={radius}
                       fill="transparent"
                       stroke={seg.color}
-                      strokeWidth="16"
+                      strokeWidth="15"
                       strokeDasharray={strokeDasharray}
                       strokeDashoffset={strokeDashoffset}
                       strokeLinecap="butt"
@@ -397,7 +397,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 })}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span className="text-2xl font-semibold text-[#F1F5F9]">
+                <span className="text-2xl font-semibold text-[#F4F7FB]">
                   {metrics.total}
                 </span>
                 <span className="text-[11px] text-[#94A3B8]">Chamados</span>
@@ -405,7 +405,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="space-y-2.5 pt-2 border-t border-[#2A3140]">
+          <div className="space-y-2.5 pt-3 border-t border-white/[0.07]">
             {segments.map((seg) => {
               const pct = Math.round((seg.count / totalForDonut) * 100);
               return (
@@ -415,8 +415,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 >
                   <span className="flex items-center gap-2.5 text-[#CBD5E1]">
                     <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ backgroundColor: seg.color }}
+                      className="w-2.5 h-2.5 rounded-full shrink-0 shadow-[0_0_8px_currentColor]"
+                      style={{ backgroundColor: seg.color, color: seg.color }}
                     />
                     {seg.label}
                   </span>
@@ -431,10 +431,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* Row 3: Immediate Triage Queue (Unassigned Tickets from Employees) */}
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#2A3140] flex flex-wrap items-center justify-between gap-3">
+      <div className="rounded-2xl glass-panel overflow-hidden">
+        <div className="px-6 py-4 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="text-sm font-semibold text-[#F1F5F9]">
+            <h3 className="text-sm font-semibold text-[#F4F7FB]">
               Chamados Aguardando Triagem e Atribuição ({triageQueue.length})
             </h3>
             <p className="text-xs text-[#94A3B8] mt-0.5">
@@ -457,7 +457,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             Excelente! Todos os chamados da fila já possuem um técnico responsável atribuído.
           </div>
         ) : (
-          <div className="divide-y divide-[#2A3140]/70">
+          <div className="divide-y divide-white/[0.06]">
             {triageQueue.map((t) => {
               const requester = tenantUsers.find(
                 (u) => u.id === t.requesterId
@@ -470,17 +470,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               return (
                 <div
                   key={t.id}
-                  className="px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:bg-[#212734]/60 transition-colors"
+                  className="px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:bg-white/[0.03] transition-colors"
                 >
                   <div
                     onClick={() => onSelectTicket(t.id)}
-                    className="space-y-1 cursor-pointer min-w-0 flex-1"
+                    className="space-y-1.5 cursor-pointer min-w-0 flex-1"
                   >
                     <div className="flex flex-wrap items-center gap-2.5">
-                      <span className="font-mono text-xs font-medium text-[#93A8C1]">
+                      <span className="font-mono text-xs font-medium text-[#93C5FD]">
                         {formatTicketCode(t.number)}
                       </span>
-                      <span className="text-sm font-medium text-[#F1F5F9] hover:underline">
+                      <span className="text-sm font-medium text-[#F4F7FB] hover:underline">
                         {t.title}
                       </span>
                       <StatusBadge status={t.status} />
@@ -526,4 +526,5 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     </div>
   );
 };
+
 

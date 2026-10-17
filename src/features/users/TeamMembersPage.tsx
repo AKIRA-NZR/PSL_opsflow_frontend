@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserMinus, UserPlus } from 'lucide-react';
+import { UserMinus, UserPlus } from '@phosphor-icons/react';
 import { RolePill } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
@@ -45,7 +45,7 @@ export const TeamMembersPage: React.FC = () => {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-[#F1F5F9]">
+          <h2 className="text-lg font-semibold text-[#F4F7FB]">
             Membros da Equipe
           </h2>
           <p className="text-sm text-[#94A3B8] mt-0.5">
@@ -56,7 +56,7 @@ export const TeamMembersPage: React.FC = () => {
         {activeRole === 'ADMIN' && (
           <Button
             variant="primary"
-            icon={<UserPlus className="w-4 h-4" />}
+            icon={<UserPlus className="w-4 h-4" weight="duotone" />}
             onClick={() => setIsModalOpen(true)}
           >
             Adicionar Membro
@@ -64,11 +64,11 @@ export const TeamMembersPage: React.FC = () => {
         )}
       </div>
 
-      <div className="rounded-2xl bg-[#1B202B] border border-[#2A3140] overflow-hidden">
+      <div className="rounded-2xl glass-panel overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#2A3140] bg-[#161A22]/60 text-xs font-medium text-[#94A3B8]">
+              <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-[#94A3B8]">
                 <th className="py-3.5 px-5">Membro</th>
                 <th className="py-3.5 px-5">Departamento</th>
                 <th className="py-3.5 px-5">Perfis de Acesso</th>
@@ -76,16 +76,16 @@ export const TeamMembersPage: React.FC = () => {
                 <th className="py-3.5 px-5 text-right">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#2A3140]/70 text-sm">
+            <tbody className="divide-y divide-white/[0.06] text-sm">
               {tenantUsers.map((u) => (
-                <tr key={u.id} className="hover:bg-[#232936]/50 transition-colors">
+                <tr key={u.id} className="hover:bg-white/[0.03] transition-colors">
                   <td className="py-4 px-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[#232936] border border-[#2F3747] text-xs font-semibold text-[#F1F5F9] flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-full neumorphic-inset text-xs font-semibold text-[#F4F7FB] flex items-center justify-center shrink-0">
                         {getInitials(u.name)}
                       </div>
                       <div>
-                        <div className="font-medium text-[#F1F5F9]">
+                        <div className="font-medium text-[#F4F7FB]">
                           {u.name}
                         </div>
                         <div className="text-xs text-[#94A3B8]">{u.email}</div>
@@ -105,8 +105,8 @@ export const TeamMembersPage: React.FC = () => {
 
                   <td className="py-4 px-5">
                     {u.active && !u.deletedAt ? (
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#6EE7B7]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] shadow-[0_0_8px_rgba(52,211,153,0.75)]" />
                         Ativo desde {formatShortDate(u.createdAt)}
                       </span>
                     ) : (
@@ -122,7 +122,7 @@ export const TeamMembersPage: React.FC = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          icon={<UserMinus className="w-3.5 h-3.5" />}
+                          icon={<UserMinus className="w-3.5 h-3.5" weight="duotone" />}
                           onClick={() => deactivateMember(u.id)}
                         >
                           Desativar
@@ -144,7 +144,7 @@ export const TeamMembersPage: React.FC = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F5F9] block">
+            <label className="text-xs font-medium text-[#F4F7FB] block">
               Nome completo
             </label>
             <input
@@ -153,13 +153,13 @@ export const TeamMembersPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex.: Camila Santana"
-              className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F5F9] block">
+              <label className="text-xs font-medium text-[#F4F7FB] block">
                 E-mail corporativo
               </label>
               <input
@@ -168,12 +168,12 @@ export const TeamMembersPage: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="camila@empresa.com"
-                className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+                className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F5F9] block">
+              <label className="text-xs font-medium text-[#F4F7FB] block">
                 Departamento
               </label>
               <input
@@ -181,13 +181,13 @@ export const TeamMembersPage: React.FC = () => {
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 placeholder="Ex.: Operações de TI"
-                className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+                className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-[#F1F5F9] block">
+            <label className="text-xs font-medium text-[#F4F7FB] block">
               Perfis de permissão
             </label>
             <div className="flex flex-wrap gap-2">
@@ -198,10 +198,10 @@ export const TeamMembersPage: React.FC = () => {
                     key={r}
                     type="button"
                     onClick={() => toggleRole(r)}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
+                    className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                       selected
-                        ? 'bg-[#5865F2]/20 text-[#F1F5F9] border-[#5865F2]'
-                        : 'bg-[#13161C] text-[#94A3B8] border-[#2A3140]'
+                        ? 'tactile-surface text-[#F4F7FB] border-indigo-400/50 ring-2 ring-indigo-400/20'
+                        : 'neumorphic-inset text-[#94A3B8] hover:text-[#F4F7FB]'
                     }`}
                   >
                     {ROLE_LABELS[r]}
@@ -211,7 +211,7 @@ export const TeamMembersPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t border-[#2A3140]">
+          <div className="flex justify-end gap-3 pt-3 border-t border-white/[0.08]">
             <Button
               type="button"
               variant="ghost"
@@ -228,4 +228,5 @@ export const TeamMembersPage: React.FC = () => {
     </div>
   );
 };
+
 

@@ -25,7 +25,7 @@ import type {
 } from '../../core/types/domain.types';
 
 /**
- * Custom SVG Signal Bars for Priority using muted, non-neon architectural tones
+ * Custom SVG Signal Bars for Priority with subtle ambient glow
  */
 export const PrioritySignalIcon: React.FC<{
   priority: TicketPriority;
@@ -34,8 +34,8 @@ export const PrioritySignalIcon: React.FC<{
   if (priority === 'CRITICAL') {
     return (
       <WarningOctagon
-        className={`${className} text-[#C98A94] shrink-0`}
-        weight="duotone"
+        className={`${className} text-rose-300 drop-shadow-[0_0_6px_rgba(251,113,133,0.45)] shrink-0`}
+        weight="fill"
       />
     );
   }
@@ -45,12 +45,12 @@ export const PrioritySignalIcon: React.FC<{
 
   const activeColor =
     priority === 'HIGH'
-      ? '#C49A72' // Muted Warm Sand/Amber
+      ? '#FDBA74' // Soft Warm Amber/Orange
       : priority === 'MEDIUM'
-        ? '#8BA3BE' // Muted Steel Blue
-        : '#7D8796'; // Muted Slate
+        ? '#93C5FD' // Soft Sky Blue
+        : '#94A3B8'; // Soft Slate
 
-  const mutedColor = '#2A303C';
+  const inactiveColor = 'rgba(255, 255, 255, 0.16)';
 
   return (
     <svg
@@ -65,7 +65,7 @@ export const PrioritySignalIcon: React.FC<{
         width="2.6"
         height="4"
         rx="1"
-        fill={activeBars >= 1 ? activeColor : mutedColor}
+        fill={activeBars >= 1 ? activeColor : inactiveColor}
       />
       <rect
         x="6.7"
@@ -73,7 +73,7 @@ export const PrioritySignalIcon: React.FC<{
         width="2.6"
         height="7.5"
         rx="1"
-        fill={activeBars >= 2 ? activeColor : mutedColor}
+        fill={activeBars >= 2 ? activeColor : inactiveColor}
       />
       <rect
         x="11.4"
@@ -81,14 +81,14 @@ export const PrioritySignalIcon: React.FC<{
         width="2.6"
         height="11.5"
         rx="1"
-        fill={activeBars >= 3 ? activeColor : mutedColor}
+        fill={activeBars >= 3 ? activeColor : inactiveColor}
       />
     </svg>
   );
 };
 
 /**
- * Dedicated vector icon for each TicketStatus in soft, desaturated tones
+ * Dedicated vector icon for each TicketStatus with luminous glass tint
  */
 export const StatusIcon: React.FC<{
   status: TicketStatus;
@@ -98,42 +98,42 @@ export const StatusIcon: React.FC<{
     case 'OPEN':
       return (
         <CircleDashed
-          className={`${className} text-[#8BA3BE] shrink-0`}
+          className={`${className} text-sky-300 drop-shadow-[0_0_5px_rgba(125,211,252,0.4)] shrink-0`}
           weight="bold"
         />
       );
     case 'IN_PROGRESS':
       return (
         <CircleHalf
-          className={`${className} text-[#969ECA] shrink-0`}
+          className={`${className} text-indigo-300 drop-shadow-[0_0_6px_rgba(165,180,252,0.45)] shrink-0`}
           weight="fill"
         />
       );
     case 'WAITING_USER':
       return (
         <Clock
-          className={`${className} text-[#C4A676] shrink-0`}
-          weight="duotone"
+          className={`${className} text-amber-300 drop-shadow-[0_0_5px_rgba(252,211,77,0.4)] shrink-0`}
+          weight="fill"
         />
       );
     case 'RESOLVED':
       return (
         <CheckCircle
-          className={`${className} text-[#7FA998] shrink-0`}
+          className={`${className} text-emerald-300 drop-shadow-[0_0_6px_rgba(110,231,183,0.45)] shrink-0`}
           weight="fill"
         />
       );
     case 'CLOSED':
       return (
         <SealCheck
-          className={`${className} text-[#838D9B] shrink-0`}
-          weight="duotone"
+          className={`${className} text-slate-300 shrink-0`}
+          weight="fill"
         />
       );
     case 'CANCELLED':
       return (
         <MinusCircle
-          className={`${className} text-[#646E7D] shrink-0`}
+          className={`${className} text-slate-400 shrink-0`}
           weight="duotone"
         />
       );
@@ -141,44 +141,64 @@ export const StatusIcon: React.FC<{
 };
 
 /**
- * Matte, Soft Dark Mode Status Badge (Zero Neon)
+ * Luminous Glass Pill Status Badge (Glassmorphism + Specular top highlight + glowing status dot)
  */
 export const StatusBadge: React.FC<{ status: TicketStatus }> = ({ status }) => {
-  const styles: Record<TicketStatus, string> = {
-    OPEN: 'bg-[#1A212B] text-[#B8C7D9] border-[#2B3646]',
-    IN_PROGRESS: 'bg-[#1D2030] text-[#C2C7E2] border-[#323854]',
-    WAITING_USER: 'bg-[#231F19] text-[#D4BE98] border-[#3A3226]',
-    RESOLVED: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
-    CLOSED: 'bg-[#191D24] text-[#9BA3B0] border-[#282E38]',
-    CANCELLED: 'bg-[#161920] text-[#687282] border-[#222731]',
+  const styles: Record<TicketStatus, { pill: string; dot: string }> = {
+    OPEN: {
+      pill: 'bg-sky-400/[0.08] text-sky-100 border-sky-300/20',
+      dot: 'bg-sky-300 shadow-[0_0_8px_rgba(125,211,252,0.85)]',
+    },
+    IN_PROGRESS: {
+      pill: 'bg-indigo-400/[0.10] text-indigo-100 border-indigo-300/25',
+      dot: 'bg-indigo-300 shadow-[0_0_8px_rgba(165,180,252,0.9)]',
+    },
+    WAITING_USER: {
+      pill: 'bg-amber-400/[0.09] text-amber-100 border-amber-300/22',
+      dot: 'bg-amber-300 shadow-[0_0_8px_rgba(252,211,77,0.85)]',
+    },
+    RESOLVED: {
+      pill: 'bg-emerald-400/[0.09] text-emerald-100 border-emerald-300/22',
+      dot: 'bg-emerald-300 shadow-[0_0_8px_rgba(110,231,183,0.85)]',
+    },
+    CLOSED: {
+      pill: 'bg-white/[0.05] text-slate-200 border-white/12',
+      dot: 'bg-slate-300',
+    },
+    CANCELLED: {
+      pill: 'bg-white/[0.03] text-slate-400 border-white/8 line-through',
+      dot: 'bg-slate-500',
+    },
   };
+
+  const s = styles[status];
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors ${styles[status]}`}
+      className={`glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border transition-all ${s.pill}`}
     >
-      <StatusIcon status={status} />
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
       <span>{STATUS_LABELS[status]}</span>
     </span>
   );
 };
 
 /**
- * Matte Priority Badge with subtle neutral/earthy tones
+ * Luminous Glass Pill Priority Badge with Signal Bars
  */
 export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
   priority,
 }) => {
   const styles: Record<TicketPriority, string> = {
-    LOW: 'bg-[#171A21] text-[#8E97A6] border-[#242934]',
-    MEDIUM: 'bg-[#191F28] text-[#AEBDD0] border-[#283240]',
-    HIGH: 'bg-[#231E19] text-[#D1B08E] border-[#382F26]',
-    CRITICAL: 'bg-[#251A1D] text-[#D6A6AE] border-[#3D292E]',
+    LOW: 'bg-white/[0.04] text-slate-200 border-white/10',
+    MEDIUM: 'bg-sky-400/[0.07] text-sky-100 border-sky-300/18',
+    HIGH: 'bg-orange-400/[0.09] text-orange-100 border-orange-300/22',
+    CRITICAL: 'bg-rose-400/[0.11] text-rose-100 border-rose-300/25',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors ${styles[priority]}`}
+      className={`glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border transition-all ${styles[priority]}`}
     >
       <PrioritySignalIcon priority={priority} />
       <span>{PRIORITY_LABELS[priority]}</span>
@@ -187,7 +207,7 @@ export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
 };
 
 /**
- * Matte SLA Health Indicator Pill
+ * Luminous Glass Pill SLA Health Indicator
  */
 export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
   health,
@@ -198,27 +218,37 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
     { style: string; icon: React.ReactNode }
   > = {
     ON_TIME: {
-      style: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
-      icon: <Timer className="w-3.5 h-3.5 text-[#7FA998] shrink-0" weight="duotone" />,
-    },
-    AT_RISK: {
-      style: 'bg-[#231F19] text-[#D4BE98] border-[#3A3226]',
-      icon: <Timer className="w-3.5 h-3.5 text-[#C4A676] shrink-0" weight="duotone" />,
-    },
-    BREACHED: {
-      style: 'bg-[#251A1D] text-[#D6A6AE] border-[#3D292E]',
+      style: 'bg-emerald-400/[0.08] text-emerald-100 border-emerald-300/20',
       icon: (
-        <WarningOctagon
-          className="w-3.5 h-3.5 text-[#C98A94] shrink-0"
+        <Timer
+          className="w-3.5 h-3.5 text-emerald-300 drop-shadow-[0_0_5px_rgba(110,231,183,0.45)] shrink-0"
           weight="duotone"
         />
       ),
     },
+    AT_RISK: {
+      style: 'bg-amber-400/[0.10] text-amber-100 border-amber-300/24',
+      icon: (
+        <Timer
+          className="w-3.5 h-3.5 text-amber-300 drop-shadow-[0_0_5px_rgba(252,211,77,0.45)] shrink-0"
+          weight="fill"
+        />
+      ),
+    },
+    BREACHED: {
+      style: 'bg-rose-400/[0.11] text-rose-100 border-rose-300/26',
+      icon: (
+        <WarningOctagon
+          className="w-3.5 h-3.5 text-rose-300 drop-shadow-[0_0_5px_rgba(251,113,133,0.5)] shrink-0"
+          weight="fill"
+        />
+      ),
+    },
     COMPLETED: {
-      style: 'bg-[#171A21] text-[#8E97A6] border-[#242934]',
+      style: 'bg-white/[0.04] text-slate-200 border-white/10',
       icon: (
         <CheckCircle
-          className="w-3.5 h-3.5 text-[#727C8C] shrink-0"
+          className="w-3.5 h-3.5 text-slate-300 shrink-0"
           weight="duotone"
         />
       ),
@@ -229,7 +259,7 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border ${current.style}`}
+      className={`glass-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${current.style}`}
     >
       {current.icon}
       <span>{text}</span>
@@ -238,7 +268,7 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
 };
 
 /**
- * Matte Role Pill
+ * Luminous Glass Role Pill
  */
 export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
   const config: Record<
@@ -246,16 +276,16 @@ export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
     { style: string; icon: React.ReactNode }
   > = {
     ADMIN: {
-      style: 'bg-[#1D2030] text-[#C2C7E2] border-[#323854]',
-      icon: <ShieldStar className="w-3.5 h-3.5 text-[#969ECA]" weight="duotone" />,
+      style: 'bg-indigo-400/[0.10] text-indigo-100 border-indigo-300/24',
+      icon: <ShieldStar className="w-3.5 h-3.5 text-indigo-300" weight="duotone" />,
     },
     TECHNICIAN: {
-      style: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
-      icon: <Wrench className="w-3.5 h-3.5 text-[#7FA998]" weight="duotone" />,
+      style: 'bg-emerald-400/[0.09] text-emerald-100 border-emerald-300/22',
+      icon: <Wrench className="w-3.5 h-3.5 text-emerald-300" weight="duotone" />,
     },
     EMPLOYEE: {
-      style: 'bg-[#171A21] text-[#9BA3B0] border-[#252B36]',
-      icon: <UserCircle className="w-3.5 h-3.5 text-[#838D9B]" weight="duotone" />,
+      style: 'bg-white/[0.05] text-slate-200 border-white/12',
+      icon: <UserCircle className="w-3.5 h-3.5 text-slate-300" weight="duotone" />,
     },
   };
 
@@ -263,7 +293,7 @@ export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-xs font-medium border ${current.style}`}
+      className={`glass-pill inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${current.style}`}
     >
       {current.icon}
       <span>{ROLE_LABELS[role]}</span>

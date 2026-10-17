@@ -61,16 +61,16 @@ export const CategoriesPage: React.FC = () => {
           return (
             <div
               key={cat.id}
-              className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-6 flex flex-col justify-between gap-4"
+              className="rounded-2xl glass-panel p-6 flex flex-col justify-between gap-4"
             >
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 rounded-xl bg-[#232936] border border-[#2F3747] text-[#FCD34D]">
+                    <div className="p-2.5 rounded-xl neumorphic-inset text-[#FCD34D]">
                       <Folders className="w-5 h-5" weight="duotone" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-[#F1F5F9]">
+                      <h3 className="text-base font-semibold text-[#F4F7FB]">
                         {cat.name}
                       </h3>
                       <span className="text-xs text-[#64748B]">
@@ -81,10 +81,10 @@ export const CategoriesPage: React.FC = () => {
                   </div>
 
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium glass-pill ${
                       cat.active
-                        ? 'bg-emerald-500/12 text-emerald-300 border-emerald-500/25'
-                        : 'bg-slate-500/12 text-slate-400 border-slate-500/25'
+                        ? 'bg-emerald-500/12 text-[#D1FAE5] border-emerald-400/25'
+                        : 'bg-slate-500/12 text-[#CBD5E1] border-slate-400/20'
                     }`}
                   >
                     {cat.active ? 'Ativa' : 'Pausada'}
@@ -97,7 +97,7 @@ export const CategoriesPage: React.FC = () => {
               </div>
 
               {activeRole === 'ADMIN' && (
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#2A3140]/80">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.07]">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -128,7 +128,7 @@ export const CategoriesPage: React.FC = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F5F9] block">
+            <label className="text-xs font-medium text-[#F4F7FB] block">
               Nome da categoria
             </label>
             <input
@@ -137,12 +137,12 @@ export const CategoriesPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex.: Infraestrutura e Redes"
-              className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] px-3.5 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F5F9] block">
+            <label className="text-xs font-medium text-[#F4F7FB] block">
               Descrição
             </label>
             <textarea
@@ -150,11 +150,11 @@ export const CategoriesPage: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Descreva que tipos de demandas devem ser abertas nesta categoria..."
-              className="w-full rounded-xl bg-[#13161C] border border-[#2A3140] p-3.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#5865F2]"
+              className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t border-[#2A3140]">
+          <div className="flex justify-end gap-3 pt-3 border-t border-white/[0.08]">
             <Button
               type="button"
               variant="ghost"
@@ -171,3 +171,4 @@ export const CategoriesPage: React.FC = () => {
     </div>
   );
 };
+

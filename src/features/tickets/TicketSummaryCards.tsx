@@ -42,30 +42,26 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
     {
       label: 'Aguardando Triagem',
       value: stats.open,
-      icon: <Tray className="w-5 h-5 text-[#8BA3BE]" weight="duotone" />,
-      iconBg: 'bg-[#19202B] border-[#2B3646]',
+      icon: <Tray className="w-5 h-5 text-[#93C5FD]" weight="duotone" />,
     },
     {
       label: 'Em Atendimento',
       value: stats.inProgress,
-      icon: <Clock className="w-5 h-5 text-[#969ECA]" weight="duotone" />,
-      iconBg: 'bg-[#1D2030] border-[#323854]',
+      icon: <Clock className="w-5 h-5 text-[#A5B4FC]" weight="duotone" />,
     },
     {
       label: 'Atenção no Prazo',
       value: stats.attentionSla,
       icon: (
-        <WarningOctagon className="w-5 h-5 text-[#C4A676]" weight="duotone" />
+        <WarningOctagon className="w-5 h-5 text-[#FCD34D]" weight="duotone" />
       ),
-      iconBg: 'bg-[#231F19] border-[#3A3226]',
     },
     {
       label: 'Resolvidos e Concluídos',
       value: stats.completed,
       icon: (
-        <CheckCircle className="w-5 h-5 text-[#7FA998]" weight="duotone" />
+        <CheckCircle className="w-5 h-5 text-[#6EE7B7]" weight="duotone" />
       ),
-      iconBg: 'bg-[#17231F] border-[#263B34]',
     },
   ];
 
@@ -74,17 +70,18 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
       {cards.map((c) => (
         <div
           key={c.label}
-          className="rounded-2xl bg-[#1B202B] border border-[#2A3140] p-5 flex items-center justify-between"
+          className="rounded-2xl glass-panel p-5 flex items-center justify-between"
         >
           <div>
             <p className="text-xs font-medium text-[#94A3B8]">{c.label}</p>
-            <p className="text-2xl font-semibold text-[#F1F5F9] mt-1">
+            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
               {c.value}
             </p>
           </div>
-          <div className={`p-3 rounded-xl border ${c.iconBg}`}>{c.icon}</div>
+          <div className="p-3 rounded-xl neumorphic-inset">{c.icon}</div>
         </div>
       ))}
     </div>
   );
 };
+

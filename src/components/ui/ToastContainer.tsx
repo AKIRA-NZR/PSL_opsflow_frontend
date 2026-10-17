@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react';
+import { CheckCircle, Info, WarningCircle, X } from '@phosphor-icons/react';
 import { useWorkspace } from '../../context/WorkspaceContext';
 
 export const ToastContainer: React.FC = () => {
@@ -12,29 +12,38 @@ export const ToastContainer: React.FC = () => {
       {toasts.map((t) => {
         const icon =
           t.variant === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <CheckCircle
+              className="w-4.5 h-4.5 text-[#6EE7B7] shrink-0 mt-0.5"
+              weight="fill"
+            />
           ) : t.variant === 'error' ? (
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+            <WarningCircle
+              className="w-4.5 h-4.5 text-[#FDA4AF] shrink-0 mt-0.5"
+              weight="fill"
+            />
           ) : (
-            <Info className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+            <Info
+              className="w-4.5 h-4.5 text-[#A5B4FC] shrink-0 mt-0.5"
+              weight="fill"
+            />
           );
 
         const borderClass =
           t.variant === 'success'
-            ? 'border-emerald-500/30'
+            ? 'border-emerald-400/25'
             : t.variant === 'error'
-              ? 'border-rose-500/35'
-              : 'border-indigo-500/30';
+              ? 'border-rose-400/30'
+              : 'border-indigo-400/25';
 
         return (
           <div
             key={t.id}
-            className={`pointer-events-auto rounded-xl bg-[#1B202B] border ${borderClass} shadow-xl p-4 flex items-start justify-between gap-3`}
+            className={`pointer-events-auto rounded-2xl glass-popover border ${borderClass} p-4 flex items-start justify-between gap-3`}
           >
             <div className="flex items-start gap-3">
               {icon}
               <div>
-                <h4 className="text-sm font-medium text-[#F1F5F9]">{t.title}</h4>
+                <h4 className="text-sm font-medium text-[#F4F7FB]">{t.title}</h4>
                 <p className="text-xs text-[#94A3B8] mt-0.5 leading-relaxed">
                   {t.message}
                 </p>
@@ -42,9 +51,9 @@ export const ToastContainer: React.FC = () => {
             </div>
             <button
               onClick={() => dismissToast(t.id)}
-              className="text-[#64748B] hover:text-[#F1F5F9] p-1 rounded cursor-pointer"
+              className="text-[#94A3B8] hover:text-[#F4F7FB] p-1 rounded-lg tactile-surface cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-3.5 h-3.5" weight="bold" />
             </button>
           </div>
         );
@@ -52,4 +61,5 @@ export const ToastContainer: React.FC = () => {
     </div>
   );
 };
+
 
