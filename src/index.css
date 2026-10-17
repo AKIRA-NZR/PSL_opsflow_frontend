@@ -3,13 +3,24 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --bg-canvas: #13161C;
+    --bg-sidebar: #161A22;
+    --bg-surface: #1B202B;
+    --bg-elevated: #232936;
+    --border-subtle: #2A3140;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   body {
-    background-color: #09090B;
-    color: #FAFAFA;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   code, pre, .font-mono {
@@ -17,21 +28,21 @@
   }
 }
 
-/* Custom sleek dark scrollbar */
+/* Soft Dark Mode scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090B;
+  background: #13161C;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
+  background: #2A3140;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3F3F46;
+  background: #3B4458;
 }

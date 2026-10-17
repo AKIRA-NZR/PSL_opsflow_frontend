@@ -27,3 +27,4 @@ Frontend B2B de alta densidade inspirado em **Linear / Vercel / Raycast**, proje
 npm install
 npm run dev
 ```
+
