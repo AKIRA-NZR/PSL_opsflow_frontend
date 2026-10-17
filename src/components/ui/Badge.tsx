@@ -1,5 +1,18 @@
 import React from 'react';
 import {
+  CheckCircle,
+  Clock,
+  CircleDashed,
+  CircleHalf,
+  MinusCircle,
+  SealCheck,
+  Timer,
+  WarningOctagon,
+  ShieldStar,
+  Wrench,
+  UserCircle,
+} from '@phosphor-icons/react';
+import {
   PRIORITY_LABELS,
   ROLE_LABELS,
   STATUS_LABELS,
@@ -11,87 +24,249 @@ import type {
   TicketStatus,
 } from '../../core/types/domain.types';
 
+/**
+ * Custom SVG Signal Bars for Priority (Linear-inspired urgency indicator)
+ */
+export const PrioritySignalIcon: React.FC<{
+  priority: TicketPriority;
+  className?: string;
+}> = ({ priority, className = 'w-3.5 h-3.5' }) => {
+  if (priority === 'CRITICAL') {
+    return (
+      <WarningOctagon
+        className={`${className} text-rose-400 shrink-0`}
+        weight="fill"
+      />
+    );
+  }
+
+  const activeBars =
+    priority === 'HIGH' ? 3 : priority === 'MEDIUM' ? 2 : 1;
+
+  const activeColor =
+    priority === 'HIGH'
+      ? '#FB923C' // Orange-400
+      : priority === 'MEDIUM'
+        ? '#60A5FA' // Blue-400
+        : '#94A3B8'; // Slate-400
+
+  const mutedColor = '#333B4D';
+
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      className={`${className} shrink-0`}
+      aria-hidden="true"
+    >
+      <rect
+        x="2"
+        y="10"
+        width="2.6"
+        height="4"
+        rx="1"
+        fill={activeBars >= 1 ? activeColor : mutedColor}
+      />
+      <rect
+        x="6.7"
+        y="6.5"
+        width="2.6"
+        height="7.5"
+        rx="1"
+        fill={activeBars >= 2 ? activeColor : mutedColor}
+      />
+      <rect
+        x="11.4"
+        y="2.5"
+        width="2.6"
+        height="11.5"
+        rx="1"
+        fill={activeBars >= 3 ? activeColor : mutedColor}
+      />
+    </svg>
+  );
+};
+
+/**
+ * Dedicated vector icon for each TicketStatus
+ */
+export const StatusIcon: React.FC<{
+  status: TicketStatus;
+  className?: string;
+}> = ({ status, className = 'w-3.5 h-3.5' }) => {
+  switch (status) {
+    case 'OPEN':
+      return (
+        <CircleDashed
+          className={`${className} text-[#60A5FA] shrink-0`}
+          weight="bold"
+        />
+      );
+    case 'IN_PROGRESS':
+      return (
+        <CircleHalf
+          className={`${className} text-[#818CF8] shrink-0`}
+          weight="fill"
+        />
+      );
+    case 'WAITING_USER':
+      return (
+        <Clock
+          className={`${className} text-[#FBBF24] shrink-0`}
+          weight="fill"
+        />
+      );
+    case 'RESOLVED':
+      return (
+        <CheckCircle
+          className={`${className} text-[#34D399] shrink-0`}
+          weight="fill"
+        />
+      );
+    case 'CLOSED':
+      return (
+        <SealCheck
+          className={`${className} text-[#94A3B8] shrink-0`}
+          weight="fill"
+        />
+      );
+    case 'CANCELLED':
+      return (
+        <MinusCircle
+          className={`${className} text-[#64748B] shrink-0`}
+          weight="duotone"
+        />
+      );
+  }
+};
+
+/**
+ * Modern Status Badge with custom state icon, soft surface tint, and subtle inner border
+ */
 export const StatusBadge: React.FC<{ status: TicketStatus }> = ({ status }) => {
   const styles: Record<TicketStatus, string> = {
-    OPEN: 'bg-blue-500/12 text-blue-300 border-blue-500/25',
-    IN_PROGRESS: 'bg-indigo-500/14 text-indigo-300 border-indigo-500/28',
-    WAITING_USER: 'bg-amber-500/12 text-amber-300 border-amber-500/25',
-    RESOLVED: 'bg-emerald-500/12 text-emerald-300 border-emerald-500/25',
-    CLOSED: 'bg-slate-400/12 text-slate-300 border-slate-400/20',
-    CANCELLED: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
-  };
-
-  const dotColors: Record<TicketStatus, string> = {
-    OPEN: 'bg-blue-400',
-    IN_PROGRESS: 'bg-indigo-400',
-    WAITING_USER: 'bg-amber-400',
-    RESOLVED: 'bg-emerald-400',
-    CLOSED: 'bg-slate-400',
-    CANCELLED: 'bg-slate-500',
+    OPEN: 'bg-[#1E293B]/90 text-[#BFDBFE] border-[#3B82F6]/30',
+    IN_PROGRESS: 'bg-[#1E2238]/95 text-[#C7D2FE] border-[#6366F1]/35',
+    WAITING_USER: 'bg-[#2B2318]/90 text-[#FDE68A] border-[#F59E0B]/30',
+    RESOLVED: 'bg-[#142924]/90 text-[#A7F3D0] border-[#10B981]/30',
+    CLOSED: 'bg-[#1E232D] text-[#CBD5E1] border-[#333C4D]',
+    CANCELLED: 'bg-[#181C24] text-[#64748B] border-[#262C3A] line-through',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${styles[status]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border shadow-2xs transition-colors ${styles[status]}`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${dotColors[status]}`} />
-      {STATUS_LABELS[status]}
+      <StatusIcon status={status} />
+      <span>{STATUS_LABELS[status]}</span>
     </span>
   );
 };
 
+/**
+ * Modern Priority Badge with Signal Bars / Urgency Icon
+ */
 export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
   priority,
 }) => {
   const styles: Record<TicketPriority, string> = {
-    LOW: 'bg-slate-500/12 text-slate-300 border-slate-500/20',
-    MEDIUM: 'bg-sky-500/12 text-sky-300 border-sky-500/25',
-    HIGH: 'bg-orange-500/12 text-orange-300 border-orange-500/25',
-    CRITICAL: 'bg-rose-500/14 text-rose-300 border-rose-500/28',
+    LOW: 'bg-[#181C24] text-[#94A3B8] border-[#262C3A]',
+    MEDIUM: 'bg-[#1B2230] text-[#CBD5E1] border-[#2E384D]',
+    HIGH: 'bg-[#2A2019] text-[#FDBA74] border-[#EA580C]/30',
+    CRITICAL: 'bg-[#2C1820] text-[#FECDD3] border-[#F43F5E]/35',
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border ${styles[priority]}`}
+      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors ${styles[priority]}`}
     >
-      {PRIORITY_LABELS[priority]}
+      <PrioritySignalIcon priority={priority} />
+      <span>{PRIORITY_LABELS[priority]}</span>
     </span>
   );
 };
 
+/**
+ * Modern SLA Health Indicator Pill
+ */
 export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
   health,
   text,
 }) => {
-  const styles: Record<SlaHealth, string> = {
-    ON_TIME: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20',
-    AT_RISK: 'bg-amber-500/15 text-amber-200 border-amber-500/30',
-    BREACHED: 'bg-rose-500/14 text-rose-300 border-rose-500/28',
-    COMPLETED: 'bg-slate-500/12 text-slate-300 border-slate-500/20',
+  const config: Record<
+    SlaHealth,
+    { style: string; icon: React.ReactNode }
+  > = {
+    ON_TIME: {
+      style: 'bg-[#162723] text-[#A7F3D0] border-[#10B981]/25',
+      icon: <Timer className="w-3.5 h-3.5 text-[#34D399] shrink-0" weight="duotone" />,
+    },
+    AT_RISK: {
+      style: 'bg-[#2B2318] text-[#FDE68A] border-[#F59E0B]/30',
+      icon: <Timer className="w-3.5 h-3.5 text-[#FBBF24] shrink-0" weight="fill" />,
+    },
+    BREACHED: {
+      style: 'bg-[#2C1820] text-[#FECDD3] border-[#F43F5E]/35',
+      icon: (
+        <WarningOctagon
+          className="w-3.5 h-3.5 text-[#FB7185] shrink-0"
+          weight="fill"
+        />
+      ),
+    },
+    COMPLETED: {
+      style: 'bg-[#181C24] text-[#94A3B8] border-[#262C3A]',
+      icon: (
+        <CheckCircle
+          className="w-3.5 h-3.5 text-[#64748B] shrink-0"
+          weight="duotone"
+        />
+      ),
+    },
   };
+
+  const current = config[health];
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border ${styles[health]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border ${current.style}`}
     >
-      {text}
+      {current.icon}
+      <span>{text}</span>
     </span>
   );
 };
 
+/**
+ * Modern Role Pill with Subtle Icon
+ */
 export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
-  const styles: Record<RoleName, string> = {
-    ADMIN: 'bg-indigo-500/14 text-indigo-300 border-indigo-500/25',
-    TECHNICIAN: 'bg-emerald-500/12 text-emerald-300 border-emerald-500/25',
-    EMPLOYEE: 'bg-slate-500/12 text-slate-300 border-slate-500/25',
+  const config: Record<
+    RoleName,
+    { style: string; icon: React.ReactNode }
+  > = {
+    ADMIN: {
+      style: 'bg-[#1E2238] text-[#C7D2FE] border-[#6366F1]/30',
+      icon: <ShieldStar className="w-3.5 h-3.5 text-[#818CF8]" weight="duotone" />,
+    },
+    TECHNICIAN: {
+      style: 'bg-[#142924] text-[#A7F3D0] border-[#10B981]/30',
+      icon: <Wrench className="w-3.5 h-3.5 text-[#34D399]" weight="duotone" />,
+    },
+    EMPLOYEE: {
+      style: 'bg-[#181C24] text-[#CBD5E1] border-[#2A3140]',
+      icon: <UserCircle className="w-3.5 h-3.5 text-[#94A3B8]" weight="duotone" />,
+    },
   };
+
+  const current = config[role];
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium border ${styles[role]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-xs font-medium border ${current.style}`}
     >
-      {ROLE_LABELS[role]}
+      {current.icon}
+      <span>{ROLE_LABELS[role]}</span>
     </span>
   );
 };
-
