@@ -30,27 +30,19 @@ export const CategoriesPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-semibold text-[#F1F5F9]">
-            Categorias de Atendimento
-          </h2>
-          <p className="text-sm text-[#94A3B8] mt-0.5">
-            Organize as filas de solicitações para direcionar os chamados à equipe correta.
-          </p>
-        </div>
-
-        {activeRole === 'ADMIN' && (
+    <div className="max-w-6xl mx-auto space-y-5">
+      {activeRole === 'ADMIN' && (
+        <div className="flex justify-end">
           <Button
             variant="primary"
+            size="sm"
             icon={<PlusCircle className="w-4 h-4" weight="fill" />}
             onClick={() => setIsModalOpen(true)}
           >
             Nova Categoria
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {tenantCategories.map((cat) => {
@@ -61,54 +53,53 @@ export const CategoriesPage: React.FC = () => {
           return (
             <div
               key={cat.id}
-              className="rounded-2xl glass-panel p-6 flex flex-col justify-between gap-4"
+              className="rounded-2xl glass-panel p-5 flex flex-col justify-between gap-4"
             >
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 rounded-xl neumorphic-inset text-[#FCD34D]">
-                      <Folders className="w-5 h-5" weight="duotone" />
+                    <div className="p-2.5 rounded-xl neumorphic-inset text-zinc-300">
+                      <Folders className="w-4 h-4" weight="duotone" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-[#F4F7FB]">
+                      <h3 className="text-sm font-semibold text-zinc-100">
                         {cat.name}
                       </h3>
-                      <span className="text-xs text-[#64748B]">
-                        Criada em {formatShortDate(cat.createdAt)} · {linkedTickets}{' '}
+                      <span className="text-xs text-zinc-500">
+                        {formatShortDate(cat.createdAt)} · {linkedTickets}{' '}
                         chamado(s)
                       </span>
                     </div>
                   </div>
 
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium glass-pill ${
-                      cat.active
-                        ? 'bg-emerald-500/12 text-[#D1FAE5] border-emerald-400/25'
-                        : 'bg-slate-500/12 text-[#CBD5E1] border-slate-400/20'
-                    }`}
-                  >
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium glass-pill bg-white/[0.04] border-white/[0.09] text-zinc-200">
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        cat.active ? 'bg-[#10B981]' : 'bg-zinc-500'
+                      }`}
+                    />
                     {cat.active ? 'Ativa' : 'Pausada'}
                   </span>
                 </div>
 
-                <p className="text-sm text-[#94A3B8] leading-relaxed pt-1">
+                <p className="text-xs text-zinc-400 leading-relaxed pt-1">
                   {cat.description}
                 </p>
               </div>
 
               {activeRole === 'ADMIN' && (
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.07]">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.06]">
                   <Button
                     variant="secondary"
                     size="sm"
                     onClick={() => toggleCategoryStatus(cat.id)}
                   >
-                    {cat.active ? 'Pausar recebimento' : 'Reativar categoria'}
+                    {cat.active ? 'Pausar' : 'Reativar'}
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    icon={<Archive className="w-4 h-4" weight="duotone" />}
+                    icon={<Archive className="w-3.5 h-3.5" weight="duotone" />}
                     onClick={() => archiveCategory(cat.id)}
                   >
                     Arquivar
@@ -123,38 +114,37 @@ export const CategoriesPage: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Criar Nova Categoria"
-        subtitle="Defina um nome claro e o escopo de solicitações atendidas por esta fila."
+        title="Nova Categoria"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F4F7FB] block">
-              Nome da categoria
+            <label className="text-xs font-medium text-zinc-300 block">
+              Nome
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ex.: Infraestrutura e Redes"
-              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+              placeholder="Ex.: Infraestrutura"
+              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F4F7FB] block">
+            <label className="text-xs font-medium text-zinc-300 block">
               Descrição
             </label>
             <textarea
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Descreva que tipos de demandas devem ser abertas nesta categoria..."
-              className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+              placeholder="Escopo da categoria..."
+              className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t border-white/[0.08]">
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
             <Button
               type="button"
               variant="ghost"
@@ -163,7 +153,7 @@ export const CategoriesPage: React.FC = () => {
               Cancelar
             </Button>
             <Button type="submit" variant="primary">
-              Criar Categoria
+              Criar
             </Button>
           </div>
         </form>
@@ -171,4 +161,3 @@ export const CategoriesPage: React.FC = () => {
     </div>
   );
 };
-

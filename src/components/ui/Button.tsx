@@ -15,19 +15,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
  */
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-to-b from-[#6366F1]/90 to-[#4F46E5]/90 hover:from-[#6E72F7] hover:to-[#564EEB] text-white border border-indigo-300/30 shadow-[0_6px_16px_rgba(79,70,229,0.35),inset_0_1px_0_rgba(255,255,255,0.28)] active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)] active:translate-y-[0.5px]',
-  secondary: 'tactile-surface text-[#F1F5F9]',
+    'bg-gradient-to-b from-[#F4F4F5] to-[#D4D4D8] hover:from-white hover:to-[#E4E4E7] text-[#090D14] font-semibold border border-white/70 shadow-[0_6px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,1)] active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35)] active:translate-y-[0.5px]',
+  secondary: 'tactile-surface text-zinc-100',
   ghost:
-    'bg-transparent hover:bg-white/[0.06] text-[#94A3B8] hover:text-[#F1F5F9] border border-transparent hover:border-white/10',
+    'bg-transparent hover:bg-white/[0.06] text-zinc-400 hover:text-zinc-100 border border-transparent hover:border-white/10',
   danger:
-    'bg-gradient-to-b from-rose-500/20 to-rose-600/25 hover:from-rose-500/28 hover:to-rose-600/32 text-rose-100 border border-rose-300/25 shadow-[0_6px_14px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.16)] active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]',
+    'tactile-surface text-rose-200 hover:border-rose-400/30',
   success:
-    'bg-gradient-to-b from-emerald-500/22 to-emerald-600/28 hover:from-emerald-500/30 hover:to-emerald-600/35 text-emerald-100 border border-emerald-300/25 shadow-[0_6px_14px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.18)] active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]',
+    'bg-gradient-to-b from-[#F4F4F5] to-[#D4D4D8] hover:from-white hover:to-[#E4E4E7] text-[#090D14] font-semibold border border-white/70 shadow-[0_6px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,1)]',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'px-3.5 py-1.5 text-xs rounded-xl gap-1.5',
-  md: 'px-4 py-2.5 text-sm rounded-xl gap-2',
+  sm: 'px-3 py-1.5 text-xs rounded-xl gap-1.5',
+  md: 'px-4 py-2 text-xs sm:text-sm rounded-xl gap-2',
 };
 
 export const Button: React.FC<ButtonProps> = ({

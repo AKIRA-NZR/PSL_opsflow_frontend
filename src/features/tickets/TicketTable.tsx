@@ -32,16 +32,13 @@ export const TicketTable: React.FC<TicketTableProps> = ({
 }) => {
   if (tickets.length === 0) {
     return (
-      <div className="rounded-2xl glass-panel py-16 px-6 text-center">
-        <div className="w-12 h-12 rounded-2xl neumorphic-inset flex items-center justify-center mx-auto text-[#94A3B8]">
-          <Tray className="w-6 h-6" weight="duotone" />
+      <div className="rounded-2xl glass-panel py-14 px-6 text-center">
+        <div className="w-11 h-11 rounded-2xl neumorphic-inset flex items-center justify-center mx-auto text-zinc-400">
+          <Tray className="w-5 h-5" weight="duotone" />
         </div>
-        <h3 className="text-base font-medium text-[#F4F7FB] mt-4">
+        <h3 className="text-sm font-medium text-zinc-200 mt-3">
           Nenhum chamado encontrado
         </h3>
-        <p className="text-sm text-[#94A3B8] mt-1 max-w-md mx-auto">
-          Não há chamados correspondentes aos filtros selecionados no momento.
-        </p>
       </div>
     );
   }
@@ -51,13 +48,13 @@ export const TicketTable: React.FC<TicketTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-[#94A3B8]">
-              <th className="py-3.5 px-5 w-28">Código</th>
-              <th className="py-3.5 px-5">Assunto</th>
-              <th className="py-3.5 px-5">Status</th>
-              <th className="py-3.5 px-5">Prioridade</th>
-              <th className="py-3.5 px-5">Prazo de Atendimento</th>
-              <th className="py-3.5 px-5">Responsável</th>
+            <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-zinc-400">
+              <th className="py-3 px-5 w-24">Código</th>
+              <th className="py-3 px-5">Assunto</th>
+              <th className="py-3 px-5">Status</th>
+              <th className="py-3 px-5">Prioridade</th>
+              <th className="py-3 px-5">SLA</th>
+              <th className="py-3 px-5">Responsável</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/[0.06] text-sm">
@@ -73,49 +70,47 @@ export const TicketTable: React.FC<TicketTableProps> = ({
                   onClick={() => onSelectTicket(t.id)}
                   className="hover:bg-white/[0.035] transition-colors cursor-pointer group"
                 >
-                  <td className="py-4 px-5 font-mono text-xs font-medium text-[#93C5FD] whitespace-nowrap">
+                  <td className="py-3.5 px-5 font-mono text-xs text-zinc-400 whitespace-nowrap">
                     {formatTicketCode(t.number)}
                   </td>
 
-                  <td className="py-4 px-5 min-w-[260px]">
-                    <div className="font-medium text-[#F4F7FB] group-hover:text-white leading-snug">
+                  <td className="py-3.5 px-5 min-w-[240px]">
+                    <div className="font-medium text-zinc-100 group-hover:text-white leading-snug">
                       {t.title}
                     </div>
-                    <div className="text-xs text-[#94A3B8] mt-1 flex items-center gap-2">
+                    <div className="text-xs text-zinc-500 mt-0.5 flex items-center gap-1.5">
                       <span>{category?.name || 'Geral'}</span>
                       <span>·</span>
-                      <span>Solicitado por {requester?.name || 'Usuário'}</span>
+                      <span>{requester?.name || 'Usuário'}</span>
                       <span>·</span>
                       <span>{formatDateTime(t.createdAt)}</span>
                     </div>
                   </td>
 
-                  <td className="py-4 px-5 whitespace-nowrap">
+                  <td className="py-3.5 px-5 whitespace-nowrap">
                     <StatusBadge status={t.status} />
                   </td>
 
-                  <td className="py-4 px-5 whitespace-nowrap">
+                  <td className="py-3.5 px-5 whitespace-nowrap">
                     <PriorityBadge priority={t.priority} />
                   </td>
 
-                  <td className="py-4 px-5 whitespace-nowrap">
+                  <td className="py-3.5 px-5 whitespace-nowrap">
                     <SlaBadge health={sla.health} text={sla.badgeText} />
                   </td>
 
-                  <td className="py-4 px-5 whitespace-nowrap">
+                  <td className="py-3.5 px-5 whitespace-nowrap">
                     {assignee ? (
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full neumorphic-inset text-[#CBD5E1] flex items-center justify-center text-xs font-medium">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full neumorphic-inset text-zinc-300 flex items-center justify-center text-[11px] font-medium">
                           {getInitials(assignee.name)}
                         </div>
-                        <span className="text-sm text-[#F4F7FB]">
+                        <span className="text-xs text-zinc-200">
                           {assignee.name}
                         </span>
                       </div>
                     ) : (
-                      <span className="text-xs text-[#64748B]">
-                        Aguardando atribuição
-                      </span>
+                      <span className="text-xs text-zinc-500">Não atribuído</span>
                     )}
                   </td>
                 </tr>

@@ -13,47 +13,40 @@ export const ToastContainer: React.FC = () => {
         const icon =
           t.variant === 'success' ? (
             <CheckCircle
-              className="w-4.5 h-4.5 text-[#6EE7B7] shrink-0 mt-0.5"
+              className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"
               weight="fill"
             />
           ) : t.variant === 'error' ? (
             <WarningCircle
-              className="w-4.5 h-4.5 text-[#FDA4AF] shrink-0 mt-0.5"
+              className="w-4 h-4 text-rose-400 shrink-0 mt-0.5"
               weight="fill"
             />
           ) : (
             <Info
-              className="w-4.5 h-4.5 text-[#A5B4FC] shrink-0 mt-0.5"
+              className="w-4 h-4 text-zinc-300 shrink-0 mt-0.5"
               weight="fill"
             />
           );
 
-        const borderClass =
-          t.variant === 'success'
-            ? 'border-emerald-400/25'
-            : t.variant === 'error'
-              ? 'border-rose-400/30'
-              : 'border-indigo-400/25';
-
         return (
           <div
             key={t.id}
-            className={`pointer-events-auto rounded-2xl glass-popover border ${borderClass} p-4 flex items-start justify-between gap-3`}
+            className="pointer-events-auto rounded-2xl glass-popover p-3.5 flex items-start justify-between gap-3"
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-2.5">
               {icon}
               <div>
-                <h4 className="text-sm font-medium text-[#F4F7FB]">{t.title}</h4>
-                <p className="text-xs text-[#94A3B8] mt-0.5 leading-relaxed">
+                <h4 className="text-xs font-semibold text-zinc-100">{t.title}</h4>
+                <p className="text-xs text-zinc-400 mt-0.5 leading-snug">
                   {t.message}
                 </p>
               </div>
             </div>
             <button
               onClick={() => dismissToast(t.id)}
-              className="text-[#94A3B8] hover:text-[#F4F7FB] p-1 rounded-lg tactile-surface cursor-pointer"
+              className="text-zinc-400 hover:text-white p-1 rounded-lg tactile-surface cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" weight="bold" />
+              <X className="w-3 h-3" weight="bold" />
             </button>
           </div>
         );

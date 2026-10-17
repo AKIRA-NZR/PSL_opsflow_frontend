@@ -37,28 +37,28 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`w-full flex items-center gap-3 p-2.5 rounded-xl tactile-surface transition-all cursor-pointer text-left ${
+        className={`w-full flex items-center gap-2.5 p-2 rounded-xl tactile-surface transition-all cursor-pointer text-left ${
           collapsed ? 'justify-center' : 'justify-between'
         }`}
         title={`${currentUser.name} (${ROLE_LABELS[activeRole]})`}
       >
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-full neumorphic-inset text-[#C7D2FE] flex items-center justify-center text-xs font-semibold shrink-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-full neumorphic-inset text-zinc-200 flex items-center justify-center text-xs font-semibold shrink-0">
             {getInitials(currentUser.name)}
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-sm font-medium text-[#F4F7FB] truncate">
+              <div className="text-xs font-medium text-zinc-100 truncate">
                 {currentUser.name}
               </div>
-              <div className="text-xs text-[#94A3B8] truncate">
+              <div className="text-[11px] text-zinc-400 truncate">
                 {ROLE_LABELS[activeRole]}
               </div>
             </div>
           )}
         </div>
         {!collapsed && (
-          <CaretUpDown className="w-4 h-4 text-[#94A3B8] shrink-0" />
+          <CaretUpDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
         )}
       </button>
 
@@ -68,12 +68,11 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
             className="fixed inset-0 z-40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute bottom-16 left-0 w-72 rounded-2xl glass-popover p-3 z-50 space-y-3">
-            {/* Switch Account quickly */}
+          <div className="absolute bottom-14 left-0 w-64 rounded-2xl glass-popover p-2.5 z-50 space-y-2.5">
             <div>
-              <div className="px-2 py-1 text-xs font-medium text-[#64748B] flex items-center gap-1.5">
+              <div className="px-2 py-1 text-[11px] font-medium text-zinc-500 flex items-center gap-1.5">
                 <UserSwitch className="w-3.5 h-3.5" />
-                Alternar perfil de teste
+                Alternar perfil
               </div>
               <div className="mt-1 space-y-0.5">
                 {activeUsers.map((u) => {
@@ -92,23 +91,23 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
                         switchUserSession(u.id);
                         setOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-white/[0.08] text-[#F4F7FB] font-medium'
-                          : 'text-[#94A3B8] hover:bg-white/[0.05] hover:text-[#F4F7FB]'
+                          ? 'bg-white/[0.09] text-white font-medium'
+                          : 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-100'
                       }`}
                     >
                       <div className="truncate pr-2 text-left">
-                        <div className="text-sm text-[#F4F7FB] truncate">
+                        <div className="text-xs text-zinc-100 truncate">
                           {u.name}
                         </div>
-                        <div className="text-xs text-[#94A3B8]">
-                          {ROLE_LABELS[primaryRole]} · {u.department}
+                        <div className="text-[11px] text-zinc-500">
+                          {ROLE_LABELS[primaryRole]}
                         </div>
                       </div>
                       {isCurrent && (
                         <Check
-                          className="w-4 h-4 text-[#A5B4FC] shrink-0"
+                          className="w-3.5 h-3.5 text-white shrink-0"
                           weight="bold"
                         />
                       )}
@@ -118,9 +117,8 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
               </div>
             </div>
 
-            {/* Switch Organization */}
-            <div className="pt-2 border-t border-white/[0.07]">
-              <div className="px-2 py-1 text-xs font-medium text-[#64748B] flex items-center gap-1.5">
+            <div className="pt-2 border-t border-white/[0.06]">
+              <div className="px-2 py-1 text-[11px] font-medium text-zinc-500 flex items-center gap-1.5">
                 <Buildings className="w-3.5 h-3.5" />
                 Organização
               </div>
@@ -135,16 +133,16 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
                         switchCompanyTenant(c.id);
                         setOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-white/[0.08] text-[#F4F7FB] font-medium'
-                          : 'text-[#94A3B8] hover:bg-white/[0.05] hover:text-[#F4F7FB]'
+                          ? 'bg-white/[0.09] text-white font-medium'
+                          : 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-100'
                       }`}
                     >
                       <span>{c.name}</span>
                       {isCurrent && (
                         <Check
-                          className="w-4 h-4 text-[#A5B4FC] shrink-0"
+                          className="w-3.5 h-3.5 text-white shrink-0"
                           weight="bold"
                         />
                       )}
@@ -154,18 +152,17 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
               </div>
             </div>
 
-            {/* Logout Button */}
-            <div className="pt-2 border-t border-white/[0.07]">
+            <div className="pt-2 border-t border-white/[0.06]">
               <button
                 type="button"
                 onClick={() => {
                   setOpen(false);
                   logout();
                 }}
-                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium text-[#FECDD3] hover:bg-rose-500/15 transition-colors cursor-pointer"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
               >
-                <SignOut className="w-4 h-4" weight="bold" />
-                Sair e voltar para a tela de Login
+                <SignOut className="w-3.5 h-3.5" weight="bold" />
+                Sair da conta
               </button>
             </div>
           </div>

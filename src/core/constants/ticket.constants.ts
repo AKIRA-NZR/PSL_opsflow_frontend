@@ -3,19 +3,19 @@ import type { RoleName, TicketPriority, TicketStatus } from '../types/domain.typ
 export const STATUS_LABELS: Record<TicketStatus, string> = {
   OPEN: 'Aberto',
   IN_PROGRESS: 'Em Atendimento',
-  WAITING_USER: 'Aguardando Solicitante',
+  WAITING_USER: 'Aguardando',
   RESOLVED: 'Resolvido',
   CLOSED: 'Concluído',
   CANCELLED: 'Cancelado',
 };
 
 export const STATUS_ACTION_LABELS: Record<TicketStatus, string> = {
-  OPEN: 'Reabrir para Triagem',
+  OPEN: 'Reabrir',
   IN_PROGRESS: 'Iniciar Atendimento',
-  WAITING_USER: 'Aguardar Solicitante',
-  RESOLVED: 'Marcar como Resolvido',
-  CLOSED: 'Concluir Chamado',
-  CANCELLED: 'Cancelar Chamado',
+  WAITING_USER: 'Aguardar Retorno',
+  RESOLVED: 'Resolver Chamado',
+  CLOSED: 'Concluir',
+  CANCELLED: 'Cancelar',
 };
 
 export const PRIORITY_LABELS: Record<TicketPriority, string> = {
@@ -26,7 +26,7 @@ export const PRIORITY_LABELS: Record<TicketPriority, string> = {
 };
 
 export const ROLE_LABELS: Record<RoleName, string> = {
-  ADMIN: 'Administrador',
+  ADMIN: 'Admin',
   TECHNICIAN: 'Técnico',
   EMPLOYEE: 'Colaborador',
 };

@@ -13,8 +13,7 @@ import { TicketListPage } from './features/tickets/TicketListPage';
 import { TeamMembersPage } from './features/users/TeamMembersPage';
 
 const WorkspaceRouter: React.FC = () => {
-  const { isAuthenticated, activeCompany, activeRole, currentUser } =
-    useWorkspace();
+  const { isAuthenticated, activeRole, currentUser } = useWorkspace();
 
   const isStaff = activeRole === 'ADMIN' || activeRole === 'TECHNICIAN';
 
@@ -62,59 +61,21 @@ const WorkspaceRouter: React.FC = () => {
     setActiveSection(section);
   };
 
-  const getHeaderMeta = (): { title: string; subtitle: string } => {
-    if (selectedTicketId) {
-      return {
-        title: 'Atendimento do Chamado',
-        subtitle: `Acompanhamento detalhado · ${activeCompany.name}`,
-      };
-    }
-    if (activeSection === 'dashboard') {
-      return {
-        title: 'Visão Geral de Operações',
-        subtitle: `Indicadores de resolução, fila de triagem e SLA · ${activeCompany.name}`,
-      };
-    }
-    if (activeSection === 'categories') {
-      return {
-        title: 'Categorias de Atendimento',
-        subtitle: `Catálogo de filas · ${activeCompany.name}`,
-      };
-    }
-    if (activeSection === 'team') {
-      return {
-        title: 'Equipe e Permissões',
-        subtitle: `Gestão de membros · ${activeCompany.name}`,
-      };
-    }
-    if (activeSection === 'activity') {
-      return {
-        title: 'Registro de Atividades',
-        subtitle: `Histórico administrativo · ${activeCompany.name}`,
-      };
-    }
-    return {
-      title:
-        activeRole === 'EMPLOYEE'
-          ? 'Minhas Solicitações de Suporte'
-          : filters.scope === 'ASSIGNED_TO_ME'
-            ? 'Meus Atendimentos'
-            : filters.scope === 'SLA_ATTENTION'
-              ? 'Chamados com Atenção no Prazo'
-              : 'Fila de Chamados',
-      subtitle:
-        activeRole === 'EMPLOYEE'
-          ? `Portal do Solicitante · ${activeCompany.name}`
-          : `Console de Atendimento · ${activeCompany.name}`,
-    };
+  const getHeaderTitle = (): string => {
+    if (selectedTicketId) return 'Detalhes do Chamado';
+    if (activeSection === 'dashboard') return 'Visão Geral';
+    if (activeSection === 'categories') return 'Categorias';
+    if (activeSection === 'team') return 'Equipe';
+    if (activeSection === 'activity') return 'Atividades';
+    if (activeRole === 'EMPLOYEE') return 'Meus Chamados';
+    if (filters.scope === 'ASSIGNED_TO_ME') return 'Atribuídos a mim';
+    if (filters.scope === 'SLA_ATTENTION') return 'SLA Crítico';
+    return 'Chamados';
   };
-
-  const { title, subtitle } = getHeaderMeta();
 
   return (
     <AppShell
-      title={title}
-      subtitle={subtitle}
+      title={getHeaderTitle()}
       activeRole={activeRole}
       activeSection={activeSection}
       activeTicketScope={filters.scope}

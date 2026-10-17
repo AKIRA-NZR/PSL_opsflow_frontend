@@ -39,33 +39,29 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Reply Box */}
       <form
         onSubmit={handleSubmit}
-        className={`rounded-2xl glass-panel p-5 space-y-4 transition-colors ${
-          isInternal && activeRole !== 'EMPLOYEE'
-            ? 'border-amber-400/35 bg-amber-500/[0.06]'
-            : ''
-        }`}
+        className="rounded-2xl glass-panel p-5 space-y-3.5 transition-colors"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-sm font-medium text-[#F4F7FB] flex items-center gap-2">
-            <ChatText className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
-            Adicionar resposta
+          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+            <ChatText className="w-4 h-4 text-zinc-400" weight="duotone" />
+            Responder
           </span>
 
           {activeRole !== 'EMPLOYEE' && (
-            <label className="inline-flex items-center gap-2 text-xs text-[#94A3B8] cursor-pointer select-none">
+            <label className="inline-flex items-center gap-2 text-xs text-zinc-400 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={isInternal}
                 onChange={(e) => setIsInternal(e.target.checked)}
                 className="rounded border-white/20 bg-black/40"
               />
-              <span className="inline-flex items-center gap-1.5 text-[#FDE68A] font-medium">
-                <LockKey className="w-3.5 h-3.5" weight="duotone" />
-                Nota interna da equipe (visível apenas para técnicos)
+              <span className="inline-flex items-center gap-1.5 text-zinc-300 font-medium">
+                <LockKey className="w-3.5 h-3.5 text-zinc-400" weight="duotone" />
+                Nota interna
               </span>
             </label>
           )}
@@ -76,35 +72,34 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={
-            isInternal
-              ? 'Escreva uma anotação técnica interna para a equipe...'
-              : 'Escreva uma mensagem ou atualização sobre o chamado...'
+            isInternal ? 'Anotação interna da equipe...' : 'Escreva uma resposta...'
           }
-          className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+          className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
         />
 
         <div className="flex justify-end">
           <Button
             type="submit"
             variant="primary"
+            size="sm"
             disabled={!content.trim()}
-            icon={<PaperPlaneRight className="w-4 h-4" weight="fill" />}
+            icon={<PaperPlaneRight className="w-3.5 h-3.5" weight="fill" />}
           >
-            {isInternal ? 'Salvar Nota Interna' : 'Enviar Mensagem'}
+            {isInternal ? 'Salvar Nota' : 'Enviar'}
           </Button>
         </div>
       </form>
 
       {/* Tabs: Conversation vs History */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 border-b border-white/[0.08] pb-3">
+      <div className="space-y-3.5">
+        <div className="flex items-center gap-2 border-b border-white/[0.08] pb-2.5">
           <button
             type="button"
             onClick={() => setTab('comments')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
               tab === 'comments'
-                ? 'tactile-surface text-[#F4F7FB]'
-                : 'text-[#94A3B8] hover:text-[#F4F7FB]'
+                ? 'tactile-surface text-zinc-100'
+                : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
             Mensagens ({comments.length})
@@ -112,21 +107,21 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
           <button
             type="button"
             onClick={() => setTab('history')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
               tab === 'history'
-                ? 'tactile-surface text-[#F4F7FB]'
-                : 'text-[#94A3B8] hover:text-[#F4F7FB]'
+                ? 'tactile-surface text-zinc-100'
+                : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            Histórico de Andamento ({history.length})
+            Histórico ({history.length})
           </button>
         </div>
 
         {tab === 'comments' ? (
-          <div className="space-y-3.5">
+          <div className="space-y-3">
             {comments.length === 0 ? (
-              <div className="rounded-2xl glass-panel p-8 text-center text-sm text-[#64748B]">
-                Nenhuma mensagem registrada neste chamado ainda.
+              <div className="rounded-2xl glass-panel p-8 text-center text-sm text-zinc-500">
+                Sem mensagens.
               </div>
             ) : (
               comments.map((c) => {
@@ -140,38 +135,32 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                 return (
                   <div
                     key={c.id}
-                    className={`rounded-2xl glass-panel p-5 space-y-3 ${
-                      c.internal
-                        ? 'border-amber-400/30 bg-amber-500/[0.05]'
-                        : ''
-                    }`}
+                    className="rounded-2xl glass-panel p-5 space-y-2.5"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full neumorphic-inset text-xs font-medium text-[#F4F7FB] flex items-center justify-center">
+                        <div className="w-7 h-7 rounded-full neumorphic-inset text-[11px] font-medium text-zinc-200 flex items-center justify-center">
                           {getInitials(author?.name || 'Usuário')}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-[#F4F7FB]">
-                              {author?.name || 'Usuário'}
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium text-zinc-100">
+                            {author?.name || 'Usuário'}
+                          </span>
+                          <RolePill role={primaryRole} />
+                          {c.internal && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium glass-pill bg-white/[0.04] text-zinc-300 border-white/10">
+                              <LockKey className="w-3 h-3 text-zinc-400" weight="fill" />
+                              Interna
                             </span>
-                            <RolePill role={primaryRole} />
-                            {c.internal && (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium glass-pill bg-amber-500/12 text-[#FDE68A] border-amber-400/25">
-                                <LockKey className="w-3 h-3" weight="fill" />
-                                Nota Interna
-                              </span>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
-                      <span className="text-xs text-[#64748B]">
+                      <span className="text-xs text-zinc-500">
                         {formatDateTime(c.createdAt)}
                       </span>
                     </div>
 
-                    <p className="text-sm text-[#E2E8F0] leading-relaxed whitespace-pre-line">
+                    <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">
                       {c.content}
                     </p>
                   </div>
@@ -189,19 +178,19 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                   className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-sm"
                 >
                   <div>
-                    <div className="text-[#F4F7FB] font-medium">
+                    <div className="text-zinc-200 font-medium">
                       {h.summary}{' '}
-                      <span className="text-[#94A3B8] font-normal">
+                      <span className="text-zinc-400 font-normal">
                         por {actor?.name || 'Sistema'}
                       </span>
                     </div>
                     {h.detail && (
-                      <div className="text-xs text-[#94A3B8] mt-0.5">
+                      <div className="text-xs text-zinc-500 mt-0.5">
                         {h.detail}
                       </div>
                     )}
                   </div>
-                  <span className="text-xs text-[#64748B] shrink-0">
+                  <span className="text-xs text-zinc-500 shrink-0">
                     {formatDateTime(h.createdAt)}
                   </span>
                 </div>
@@ -213,4 +202,3 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
     </div>
   );
 };
-

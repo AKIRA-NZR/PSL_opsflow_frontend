@@ -65,11 +65,11 @@ export function DropdownSelect<T extends string = string>({
         type="button"
         disabled={disabled}
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`tactile-surface w-full flex items-center justify-between gap-2.5 rounded-xl px-3.5 py-2.5 text-sm text-[#F1F5F9] cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${
-          isOpen ? 'border-indigo-400/50 ring-2 ring-indigo-400/20' : ''
+        className={`tactile-surface w-full flex items-center justify-between gap-2.5 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-zinc-100 cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${
+          isOpen ? 'border-white/25 ring-2 ring-white/10' : ''
         }`}
       >
-        <span className="flex items-center gap-2.5 min-w-0 truncate">
+        <span className="flex items-center gap-2 min-w-0 truncate">
           {selectedOption?.icon && (
             <span className="shrink-0">{selectedOption.icon}</span>
           )}
@@ -78,7 +78,7 @@ export function DropdownSelect<T extends string = string>({
           </span>
         </span>
         <CaretDown
-          className={`w-4 h-4 text-[#94A3B8] shrink-0 transition-transform duration-150 ${
+          className={`w-3.5 h-3.5 text-zinc-400 shrink-0 transition-transform duration-150 ${
             isOpen ? 'rotate-180 text-white' : ''
           }`}
           weight="bold"
@@ -87,7 +87,7 @@ export function DropdownSelect<T extends string = string>({
 
       {isOpen && (
         <div
-          className={`glass-popover absolute z-40 mt-2 min-w-full w-64 rounded-2xl p-1.5 space-y-0.5 animate-in fade-in zoom-in-95 duration-100 ${
+          className={`glass-popover absolute z-40 mt-2 min-w-full w-60 rounded-2xl p-1.5 space-y-0.5 animate-in fade-in zoom-in-95 duration-100 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
@@ -101,10 +101,10 @@ export function DropdownSelect<T extends string = string>({
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-left transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer ${
                   isSelected
                     ? 'bg-white/[0.10] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]'
-                    : 'text-[#CBD5E1] hover:bg-white/[0.05] hover:text-white'
+                    : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -114,7 +114,7 @@ export function DropdownSelect<T extends string = string>({
                       {opt.label}
                     </div>
                     {opt.description && (
-                      <div className="text-[11px] text-[#94A3B8] truncate">
+                      <div className="text-[11px] text-zinc-400 truncate">
                         {opt.description}
                       </div>
                     )}
@@ -122,7 +122,7 @@ export function DropdownSelect<T extends string = string>({
                 </div>
                 {isSelected && (
                   <Check
-                    className="w-4 h-4 text-indigo-300 shrink-0"
+                    className="w-3.5 h-3.5 text-white shrink-0"
                     weight="bold"
                   />
                 )}

@@ -44,23 +44,23 @@ export const CommandModal: React.FC<CommandModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-3 border-b border-white/[0.08]">
-          <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl neumorphic-inset">
+          <div className="flex items-center gap-3 px-3.5 py-2 rounded-xl neumorphic-inset">
             <MagnifyingGlass
-              className="w-4 h-4 text-[#93C5FD] shrink-0"
-              weight="duotone"
+              className="w-4 h-4 text-zinc-400 shrink-0"
+              weight="bold"
             />
             <input
               type="text"
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Digite o número ou título do chamado..."
-              className="w-full bg-transparent text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none"
+              placeholder="Buscar por código ou assunto..."
+              className="w-full bg-transparent text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none"
             />
             <button
               type="button"
               onClick={onClose}
-              className="text-[#94A3B8] hover:text-[#F4F7FB] p-1 rounded-lg tactile-surface cursor-pointer"
+              className="text-zinc-400 hover:text-white p-1 rounded-lg tactile-surface cursor-pointer"
             >
               <X className="w-3.5 h-3.5" weight="bold" />
             </button>
@@ -69,7 +69,7 @@ export const CommandModal: React.FC<CommandModalProps> = ({
 
         <div className="max-h-80 overflow-y-auto p-2">
           {results.length === 0 ? (
-            <div className="py-10 text-center text-sm text-[#64748B]">
+            <div className="py-8 text-center text-xs text-zinc-500">
               Nenhum chamado encontrado.
             </div>
           ) : (
@@ -81,17 +81,17 @@ export const CommandModal: React.FC<CommandModalProps> = ({
                   onSelectTicket(t.id);
                   onClose();
                 }}
-                className="w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-xl hover:bg-white/[0.06] transition-colors cursor-pointer text-left"
+                className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.06] transition-colors cursor-pointer text-left"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <TicketIcon
-                    className="w-4 h-4 text-[#94A3B8] shrink-0"
+                    className="w-4 h-4 text-zinc-500 shrink-0"
                     weight="duotone"
                   />
-                  <span className="font-mono text-xs text-[#93C5FD] shrink-0">
+                  <span className="font-mono text-xs text-zinc-400 shrink-0">
                     {formatTicketCode(t.number)}
                   </span>
-                  <span className="text-sm text-[#F4F7FB] truncate">{t.title}</span>
+                  <span className="text-sm text-zinc-100 truncate">{t.title}</span>
                 </div>
                 <div className="shrink-0">
                   <StatusBadge status={t.status} />

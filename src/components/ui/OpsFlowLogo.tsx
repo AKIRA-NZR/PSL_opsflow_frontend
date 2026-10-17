@@ -73,7 +73,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
     >
       {/* Ambient Subtle Glow on Hover */}
       <span
-        className={`absolute -inset-1 rounded-2xl bg-gradient-to-tr from-[#5865F2]/35 via-[#93C5FD]/25 to-[#818CF8]/35 blur-md transition-opacity duration-300 pointer-events-none ${
+        className={`absolute -inset-1 rounded-2xl bg-white/15 blur-md transition-opacity duration-300 pointer-events-none ${
           isHovered || isBursting ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -85,7 +85,7 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="relative z-10 overflow-visible"
-        aria-label="OpsFlow Logo Interativa"
+        aria-label="OpsFlow Logo"
       >
         <defs>
           <linearGradient
@@ -96,8 +96,8 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
             y2="40"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor={isHovered ? '#232B3E' : '#1E2433'} />
-            <stop offset="100%" stopColor="#141822" />
+            <stop offset="0%" stopColor={isHovered ? '#262B36' : '#1C2029'} />
+            <stop offset="100%" stopColor="#11141B" />
           </linearGradient>
 
           <linearGradient
@@ -108,8 +108,8 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
             y2="17"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#93C5FD" />
-            <stop offset="100%" stopColor="#6366F1" />
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#D4D4D8" />
           </linearGradient>
 
           <linearGradient
@@ -120,8 +120,8 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
             y2="25"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#A5B4FC" />
-            <stop offset="100%" stopColor="#4F46E5" />
+            <stop offset="0%" stopColor="#E4E4E7" />
+            <stop offset="100%" stopColor="#A1A1AA" />
           </linearGradient>
 
           <linearGradient
@@ -132,8 +132,8 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
             y2="33"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#93C5FD" />
-            <stop offset="100%" stopColor="#3B82F6" />
+            <stop offset="0%" stopColor="#A1A1AA" />
+            <stop offset="100%" stopColor="#71717A" />
           </linearGradient>
         </defs>
 
@@ -145,8 +145,8 @@ export const OpsFlowLogo: React.FC<OpsFlowLogoProps> = ({
           height="38"
           rx="10.5"
           fill={`url(#${uid}-bg)`}
-          stroke={isHovered ? '#5865F2' : '#2E3648'}
-          strokeWidth="1.5"
+          stroke={isHovered ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.14)'}
+          strokeWidth="1.25"
           style={{ transition: 'stroke 250ms ease, fill 250ms ease' }}
         />
 

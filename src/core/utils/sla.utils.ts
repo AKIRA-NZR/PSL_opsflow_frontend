@@ -25,7 +25,7 @@ export function evaluateTicketSla(ticket: Ticket): SlaDescriptor {
 
     return {
       health: finishedLate ? 'BREACHED' : 'COMPLETED',
-      badgeText: finishedLate ? 'Concluído com atraso' : 'Concluído no prazo',
+      badgeText: finishedLate ? 'Com atraso' : 'No prazo',
       wasRecalculated,
     };
   }
@@ -38,12 +38,12 @@ export function evaluateTicketSla(ticket: Ticket): SlaDescriptor {
   const totalMinutes = Math.round(Math.abs(diffMs) / 60_000);
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
-  const timeText = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  const timeText = hours > 0 ? `${hours}h` : `${minutes}m`;
 
   if (diffMs < 0) {
     return {
       health: 'BREACHED',
-      badgeText: `Atrasado há ${timeText}`,
+      badgeText: `-${timeText} (Vencido)`,
       wasRecalculated,
     };
   }
@@ -51,14 +51,14 @@ export function evaluateTicketSla(ticket: Ticket): SlaDescriptor {
   if (remainingRatio <= 0.25) {
     return {
       health: 'AT_RISK',
-      badgeText: `Vence em ${timeText}`,
+      badgeText: `${timeText} rest.`,
       wasRecalculated,
     };
   }
 
   return {
     health: 'ON_TIME',
-    badgeText: `Restam ${timeText}`,
+    badgeText: `${timeText} rest.`,
     wasRecalculated,
   };
 }

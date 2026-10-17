@@ -123,39 +123,39 @@
 
 .neumorphic-inset:focus-within,
 .neumorphic-inset:focus {
-  background: rgba(12, 17, 28, 0.82);
-  border-color: rgba(129, 140, 248, 0.45);
+  background: rgba(12, 16, 24, 0.85);
+  border-color: rgba(255, 255, 255, 0.24);
   box-shadow:
     inset 2px 3px 7px rgba(0, 0, 0, 0.65),
-    0 0 0 3px rgba(99, 102, 241, 0.16);
+    0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 
-/* 6. Tactile Neumorphic Buttons & Controls */
+/* 6. Tactile Neumorphic Buttons & Controls (Monochrome Titanium) */
 .tactile-surface {
   background: linear-gradient(
     180deg,
-    rgba(36, 44, 62, 0.78) 0%,
-    rgba(24, 30, 44, 0.88) 100%
+    rgba(255, 255, 255, 0.075) 0%,
+    rgba(255, 255, 255, 0.03) 100%
   );
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     4px 5px 12px rgba(0, 0, 0, 0.42),
-    -2px -2px 8px rgba(255, 255, 255, 0.025),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+    -2px -2px 8px rgba(255, 255, 255, 0.02),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   transition: all 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tactile-surface:hover {
   background: linear-gradient(
     180deg,
-    rgba(44, 53, 74, 0.88) 0%,
-    rgba(29, 36, 52, 0.94) 100%
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.05) 100%
   );
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.18);
   transform: translateY(-1px);
   box-shadow:
     5px 7px 15px rgba(0, 0, 0, 0.48),
-    -2px -2px 10px rgba(255, 255, 255, 0.035),
+    -2px -2px 10px rgba(255, 255, 255, 0.03),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
 }
 
@@ -166,13 +166,13 @@
     inset -1px -1px 3px rgba(255, 255, 255, 0.04);
 }
 
-/* 7. Luminous Glass Pill (Status, Priority, SLA & Role Badges) */
+/* 7. Luminous Glass Pill (Neutral Smoked Capsule) */
 .glass-pill {
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   box-shadow:
-    0 4px 12px -2px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+    0 3px 10px -2px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
 }
 
 /* Sleek glass scrollbars */

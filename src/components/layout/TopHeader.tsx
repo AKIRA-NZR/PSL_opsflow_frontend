@@ -15,68 +15,59 @@ interface TopHeaderProps {
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
   title,
-  subtitle,
   activeRole,
   onOpenMobileSidebar,
   onOpenCommandModal,
   onOpenNewTicket,
 }) => {
   return (
-    <header className="h-16 glass-header px-4 lg:px-8 flex items-center justify-between gap-4 shrink-0">
+    <header className="h-14 glass-header px-4 lg:px-8 flex items-center justify-between gap-4 shrink-0">
       <div className="flex items-center gap-3 min-w-0">
         <button
           type="button"
           onClick={onOpenMobileSidebar}
-          className="lg:hidden p-2 rounded-lg text-[#94A3B8] hover:text-[#F4F7FB] tactile-surface transition-colors cursor-pointer"
-          title="Abrir menu de navegação"
+          className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-white tactile-surface transition-colors cursor-pointer"
+          title="Menu"
         >
-          <List className="w-5 h-5" weight="bold" />
+          <List className="w-4 h-4" weight="bold" />
         </button>
 
-        <div className="min-w-0">
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-base sm:text-lg font-semibold text-[#F4F7FB] truncate">
-              {title}
-            </h1>
-            <span className="hidden md:inline-flex">
-              <RolePill role={activeRole} />
-            </span>
-          </div>
-          {subtitle && (
-            <p className="hidden sm:block text-xs text-[#94A3B8] truncate">
-              {subtitle}
-            </p>
-          )}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <h1 className="text-sm sm:text-base font-semibold text-zinc-100 truncate">
+            {title}
+          </h1>
+          <span className="hidden md:inline-flex">
+            <RolePill role={activeRole} />
+          </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2.5 shrink-0">
         <button
           type="button"
           onClick={onOpenCommandModal}
-          className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl neumorphic-inset hover:border-white/15 text-xs text-[#94A3B8] hover:text-[#F4F7FB] transition-all cursor-pointer"
+          className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl neumorphic-inset hover:border-white/15 text-xs text-zinc-400 hover:text-zinc-100 transition-all cursor-pointer"
         >
-          <MagnifyingGlass className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
-          <span className="hidden md:inline">Buscar chamado...</span>
-          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[11px] font-mono tactile-surface rounded text-[#94A3B8]">
+          <MagnifyingGlass className="w-3.5 h-3.5 text-zinc-400" weight="bold" />
+          <span className="hidden md:inline">Buscar...</span>
+          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono tactile-surface rounded text-zinc-400">
             Ctrl+K
           </kbd>
         </button>
 
-        {/* Only EMPLOYEE has the primary "+ Solicitar Suporte" action in the header */}
         {activeRole === 'EMPLOYEE' && (
           <Button
             variant="primary"
-            size="md"
-            icon={<PlusCircle className="w-4 h-4" weight="fill" />}
+            size="sm"
+            icon={<PlusCircle className="w-3.5 h-3.5" weight="fill" />}
             onClick={onOpenNewTicket}
           >
-            <span className="hidden sm:inline">Solicitar Suporte</span>
-            <span className="sm:hidden">Solicitar</span>
+            <span>Novo Chamado</span>
           </Button>
         )}
       </div>
     </header>
   );
 };
+
 

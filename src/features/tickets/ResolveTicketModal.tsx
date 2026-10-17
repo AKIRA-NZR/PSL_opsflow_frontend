@@ -23,38 +23,31 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Concluir Atendimento e Resolver Chamado"
-      subtitle="Registre a solução aplicada para informar o solicitante e manter o histórico da equipe."
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title="Resolver Chamado">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F4F7FB] block">
-            Resumo da solução aplicada
+          <label className="text-xs font-medium text-zinc-300 block">
+            Solução aplicada
           </label>
           <textarea
             rows={4}
             required
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
-            placeholder="Descreva de forma clara o que foi feito para solucionar o chamado..."
-            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+            placeholder="Descreva o que foi feito para solucionar o chamado..."
+            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
+        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="submit" variant="success">
-            Confirmar Resolução
+          <Button type="submit" variant="primary">
+            Confirmar
           </Button>
         </div>
       </form>
     </Modal>
   );
 };
-
-

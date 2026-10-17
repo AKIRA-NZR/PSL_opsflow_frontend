@@ -40,45 +40,45 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
 
   const cards = [
     {
-      label: 'Aguardando Triagem',
+      label: 'Na Triagem',
       value: stats.open,
-      icon: <Tray className="w-5 h-5 text-[#93C5FD]" weight="duotone" />,
+      icon: <Tray className="w-4 h-4 text-zinc-300" weight="duotone" />,
     },
     {
       label: 'Em Atendimento',
       value: stats.inProgress,
-      icon: <Clock className="w-5 h-5 text-[#A5B4FC]" weight="duotone" />,
+      icon: <Clock className="w-4 h-4 text-zinc-300" weight="duotone" />,
     },
     {
-      label: 'Atenção no Prazo',
+      label: 'SLA Crítico',
       value: stats.attentionSla,
       icon: (
-        <WarningOctagon className="w-5 h-5 text-[#FCD34D]" weight="duotone" />
+        <WarningOctagon className="w-4 h-4 text-zinc-300" weight="duotone" />
       ),
     },
     {
-      label: 'Resolvidos e Concluídos',
+      label: 'Concluídos',
       value: stats.completed,
       icon: (
-        <CheckCircle className="w-5 h-5 text-[#6EE7B7]" weight="duotone" />
+        <CheckCircle className="w-4 h-4 text-zinc-300" weight="duotone" />
       ),
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
       {cards.map((c) => (
         <div
           key={c.label}
-          className="rounded-2xl glass-panel p-5 flex items-center justify-between"
+          className="rounded-2xl glass-panel p-4 sm:p-5 flex items-center justify-between"
         >
           <div>
-            <p className="text-xs font-medium text-[#94A3B8]">{c.label}</p>
-            <p className="text-2xl font-semibold text-[#F4F7FB] mt-1">
+            <p className="text-xs font-medium text-zinc-400">{c.label}</p>
+            <p className="text-2xl font-semibold text-white mt-1">
               {c.value}
             </p>
           </div>
-          <div className="p-3 rounded-xl neumorphic-inset">{c.icon}</div>
+          <div className="p-2.5 rounded-xl neumorphic-inset">{c.icon}</div>
         </div>
       ))}
     </div>

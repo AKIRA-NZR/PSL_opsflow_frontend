@@ -50,8 +50,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
       activeCategories.map((c) => ({
         value: c.id,
         label: c.name,
-        description: c.description,
-        icon: <Folders className="w-4 h-4 text-[#FCD34D]" weight="duotone" />,
+        icon: <Folders className="w-4 h-4 text-zinc-400" weight="duotone" />,
       })),
     [activeCategories]
   );
@@ -74,30 +73,25 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Abrir Novo Chamado"
-      subtitle="Descreva sua solicitação ou incidente para direcionarmos à equipe responsável."
-    >
-      <form onSubmit={handleSubmit} className="space-y-5">
+    <Modal isOpen={isOpen} onClose={onClose} title="Novo Chamado">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F4F7FB] block">
-            Assunto do chamado
+          <label className="text-xs font-medium text-zinc-300 block">
+            Assunto
           </label>
           <input
             type="text"
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Ex.: Liberação de acesso à VPN ou lentidão no sistema"
-            className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+            placeholder="Ex.: Acesso à VPN ou lentidão no sistema"
+            className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F4F7FB] block">
-            Categoria de atendimento
+          <label className="text-xs font-medium text-zinc-300 block">
+            Categoria
           </label>
           <DropdownSelect
             value={categoryId}
@@ -106,12 +100,11 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
           />
         </div>
 
-        {/* Modern Visual Priority Selector Cards */}
-        <div className="space-y-2">
-          <label className="text-xs font-medium text-[#F4F7FB] block">
-            Nível de prioridade
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-zinc-300 block">
+            Prioridade
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {PRIORITIES.map((p) => {
               const isSelected = priority === p;
               return (
@@ -119,20 +112,20 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
                   key={p}
                   type="button"
                   onClick={() => setPriority(p)}
-                  className={`flex flex-col items-start gap-1.5 p-3 rounded-xl text-left transition-all cursor-pointer ${
+                  className={`flex flex-col items-start gap-1 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'tactile-surface border-indigo-400/50 ring-2 ring-indigo-400/20'
+                      ? 'tactile-surface border-white/25 ring-1 ring-white/15'
                       : 'neumorphic-inset hover:border-white/15'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <PrioritySignalIcon priority={p} />
-                    <span className="text-xs font-semibold text-[#F4F7FB]">
+                    <span className="text-xs font-semibold text-zinc-100">
                       {PRIORITY_LABELS[p]}
                     </span>
                   </div>
-                  <span className="text-[11px] text-[#94A3B8]">
-                    Meta: {SLA_HOURS_BY_PRIORITY[p]}h
+                  <span className="text-[11px] text-zinc-400">
+                    SLA {SLA_HOURS_BY_PRIORITY[p]}h
                   </span>
                 </button>
               );
@@ -141,28 +134,27 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F4F7FB] block">
-            Descrição detalhada
+          <label className="text-xs font-medium text-zinc-300 block">
+            Descrição
           </label>
           <textarea
-            rows={4}
+            rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Explique o que está acontecendo e informe detalhes que ajudem no atendimento..."
-            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-[#F4F7FB] placeholder-[#64748B] focus:outline-none transition-all"
+            placeholder="Detalhes do chamado..."
+            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
+        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">
-            Registrar Chamado
+            Criar Chamado
           </Button>
         </div>
       </form>
     </Modal>
   );
 };
-
