@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import type { RoleName } from '../../core/types/domain.types';
 import type { TicketScope } from '../../core/types/service.types';
 import { ToastContainer } from '../ui/ToastContainer';
 import { CommandModal } from './CommandModal';
@@ -8,6 +9,7 @@ import { TopHeader } from './TopHeader';
 interface AppShellProps {
   title: string;
   subtitle?: string;
+  activeRole: RoleName;
   activeSection: NavigationSection;
   activeTicketScope: TicketScope;
   onNavigateTickets: (scope: TicketScope) => void;
@@ -20,6 +22,7 @@ interface AppShellProps {
 export const AppShell: React.FC<AppShellProps> = ({
   title,
   subtitle,
+  activeRole,
   activeSection,
   activeTicketScope,
   onNavigateTickets,
@@ -54,12 +57,14 @@ export const AppShell: React.FC<AppShellProps> = ({
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
         onNavigateTickets={onNavigateTickets}
         onNavigateSection={onNavigateSection}
+        onOpenNewTicket={onOpenNewTicket}
       />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <TopHeader
           title={title}
           subtitle={subtitle}
+          activeRole={activeRole}
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
           onOpenCommandModal={() => setIsCommandOpen(true)}
           onOpenNewTicket={onOpenNewTicket}
@@ -78,4 +83,3 @@ export const AppShell: React.FC<AppShellProps> = ({
     </div>
   );
 };
-

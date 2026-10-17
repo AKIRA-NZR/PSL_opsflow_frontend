@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   CheckCircle,
   Clock,
   Tray,
   WarningOctagon,
 } from '@phosphor-icons/react';
-import { useMemo } from 'react';
 import type { Ticket } from '../../core/types/domain.types';
 import { evaluateTicketSla } from '../../core/utils/sla.utils';
 
@@ -43,30 +42,30 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
     {
       label: 'Aguardando Triagem',
       value: stats.open,
-      icon: <Tray className="w-5 h-5 text-blue-400" weight="duotone" />,
-      iconBg: 'bg-blue-500/10 border-blue-500/20',
+      icon: <Tray className="w-5 h-5 text-[#8BA3BE]" weight="duotone" />,
+      iconBg: 'bg-[#19202B] border-[#2B3646]',
     },
     {
       label: 'Em Atendimento',
       value: stats.inProgress,
-      icon: <Clock className="w-5 h-5 text-indigo-400" weight="duotone" />,
-      iconBg: 'bg-indigo-500/10 border-indigo-500/20',
+      icon: <Clock className="w-5 h-5 text-[#969ECA]" weight="duotone" />,
+      iconBg: 'bg-[#1D2030] border-[#323854]',
     },
     {
       label: 'Atenção no Prazo',
       value: stats.attentionSla,
       icon: (
-        <WarningOctagon className="w-5 h-5 text-amber-400" weight="duotone" />
+        <WarningOctagon className="w-5 h-5 text-[#C4A676]" weight="duotone" />
       ),
-      iconBg: 'bg-amber-500/10 border-amber-500/20',
+      iconBg: 'bg-[#231F19] border-[#3A3226]',
     },
     {
       label: 'Resolvidos e Concluídos',
       value: stats.completed,
       icon: (
-        <CheckCircle className="w-5 h-5 text-emerald-400" weight="duotone" />
+        <CheckCircle className="w-5 h-5 text-[#7FA998]" weight="duotone" />
       ),
-      iconBg: 'bg-emerald-500/10 border-emerald-500/20',
+      iconBg: 'bg-[#17231F] border-[#263B34]',
     },
   ];
 

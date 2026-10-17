@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import type {
   ActivityLogItem,
   Company,
@@ -35,10 +41,12 @@ import { validateAndBuildCategory } from '../services/category.service';
 import { validateAndBuildUser } from '../services/user.service';
 
 interface WorkspaceContextValue {
+  isAuthenticated: boolean;
   companies: Company[];
   activeCompany: Company;
   currentUser: User;
   activeRole: RoleName;
+  allUsers: User[];
 
   tenantUsers: User[];
   tenantCategories: TicketCategory[];
@@ -48,6 +56,8 @@ interface WorkspaceContextValue {
   toasts: ToastNotification[];
   dismissToast: (id: string) => void;
 
+  loginWithEmail: (email: string) => boolean;
+  logout: () => void;
   switchUserSession: (userId: string) => void;
   switchCompanyTenant: (companyId: string) => void;
 
@@ -58,6 +68,7 @@ interface WorkspaceContextValue {
     resolutionSummary?: string
   ) => boolean;
   assignTicket: (ticketId: string, assigneeId: string | null) => boolean;
+  assumeAndStartTicket: (ticketId: string) => boolean;
   changePriority: (ticketId: string, newPriority: TicketPriority) => boolean;
   addComment: (ticketId: string, content: string, internal: boolean) => boolean;
   getTicketDetails: (ticketId: string) => {
@@ -88,6 +99,8 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
   const [activityLogs, setActivityLogs] =
     useState<ActivityLogItem[]>(SEED_ACTIVITY_LOGS);
 
+  // Starts at Login screen by default so user can authenticate as Admin, Technician, or Employee
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentUserId, setCurrentUserId] = useState<string>('usr-acme-admin');
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
 
@@ -121,6 +134,32 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
     if (currentUser.roles.includes('TECHNICIAN')) return 'TECHNICIAN';
     return 'EMPLOYEE';
   }, [currentUser]);
+
+  const loginWithEmail = useCallback(
+    (email: string): boolean => {
+      const normalized = email.trim().toLowerCase();
+      const target = users.find(
+        (u) => u.email.toLowerCase() === normalized && u.active && !u.deletedAt
+      );
+      if (!target) {
+        notify(
+          'error',
+          'Credenciais não encontradas',
+          'Verifique o e-mail informado ou selecione uma das contas disponíveis.'
+        );
+        return false;
+      }
+      setCurrentUserId(target.id);
+      setIsAuthenticated(true);
+      notify('success', `Bem-vindo(a), ${target.name}`, `Sessão iniciada com sucesso.`);
+      return true;
+    },
+    [users, notify]
+  );
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+  }, []);
 
   const recordActivity = useCallback(
     (actionLabel: string, targetLabel: string, detail: string) => {
@@ -169,7 +208,9 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const tenantTickets = useMemo(() => {
-    const companyTickets = tickets.filter((t) => t.companyId === activeCompany.id);
+    const companyTickets = tickets.filter(
+      (t) => t.companyId === activeCompany.id
+    );
     if (activeRole === 'EMPLOYEE') {
       return companyTickets.filter((t) => t.requesterId === currentUser.id);
     }
@@ -184,14 +225,13 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
   const switchUserSession = useCallback(
     (userId: string) => {
       const target = users.find((u) => u.id === userId);
-      if (!target || !target.active || target.deletedAt) {
-        notify('error', 'Conta desativada', 'Este membro não possui acesso ativo.');
+      if (!target || !target.active || !isAuthenticated || target.deletedAt) {
         return;
       }
       setCurrentUserId(target.id);
-      notify('info', 'Sessão alternada', `Você está visualizando como ${target.name}.`);
+      notify('info', 'Conta alternada', `Conectado como ${target.name}.`);
     },
-    [users, notify]
+    [users, isAuthenticated, notify]
   );
 
   const switchCompanyTenant = useCallback(
@@ -203,7 +243,7 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
         setCurrentUserId(firstActive.id);
         const comp = companies.find((c) => c.id === companyId);
         if (comp) {
-          notify('info', 'Organização alterada', `Ambiente ativo: ${comp.name}`);
+          notify('info', 'Organização alterada', `Ambiente: ${comp.name}`);
         }
       }
     },
@@ -237,7 +277,7 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
         `Chamado #${String(created.number).padStart(5, '0')}`,
         created.title
       );
-      notify('success', 'Chamado registrado', result.message!);
+      notify('success', 'Solicitação enviada', result.message!);
       return created;
     },
     [
@@ -343,6 +383,56 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
     [activeRole, tickets, activeCompany.id, tenantUsers, recordTicketHistory, notify]
   );
 
+  const assumeAndStartTicket = useCallback(
+    (ticketId: string): boolean => {
+      if (activeRole === 'EMPLOYEE') return false;
+      const ticket = tickets.find(
+        (t) => t.id === ticketId && t.companyId === activeCompany.id
+      );
+      if (!ticket) return false;
+
+      const nowIso = new Date().toISOString();
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === ticket.id
+            ? {
+                ...t,
+                assigneeId: currentUser.id,
+                status: t.status === 'OPEN' ? 'IN_PROGRESS' : t.status,
+                version: t.version + 1,
+                updatedAt: nowIso,
+              }
+            : t
+        )
+      );
+
+      recordTicketHistory(
+        ticket.id,
+        `Atendimento assumido e iniciado por ${currentUser.name}`
+      );
+      recordActivity(
+        'Atendimento iniciado',
+        `Chamado #${String(ticket.number).padStart(5, '0')}`,
+        `${currentUser.name} assumiu o chamado na fila de triagem.`
+      );
+      notify(
+        'success',
+        'Atendimento iniciado',
+        `Você assumiu o chamado #${String(ticket.number).padStart(5, '0')}.`
+      );
+      return true;
+    },
+    [
+      activeRole,
+      tickets,
+      activeCompany.id,
+      currentUser,
+      recordTicketHistory,
+      recordActivity,
+      notify,
+    ]
+  );
+
   const changePriority = useCallback(
     (ticketId: string, newPriority: TicketPriority): boolean => {
       const ticket = tickets.find(
@@ -398,8 +488,7 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getTicketDetails = useCallback(
     (ticketId: string) => {
-      const ticket =
-        tenantTickets.find((t) => t.id === ticketId) || null;
+      const ticket = tenantTickets.find((t) => t.id === ticketId) || null;
       if (!ticket) {
         return { ticket: null, comments: [], history: [] };
       }
@@ -565,21 +654,26 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const value: WorkspaceContextValue = {
+    isAuthenticated,
     companies,
     activeCompany,
     currentUser,
     activeRole,
+    allUsers: users,
     tenantUsers,
     tenantCategories,
     tenantTickets,
     tenantActivityLogs,
     toasts,
     dismissToast,
+    loginWithEmail,
+    logout,
     switchUserSession,
     switchCompanyTenant,
     createTicket,
     changeTicketStatus,
     assignTicket,
+    assumeAndStartTicket,
     changePriority,
     addComment,
     getTicketDetails,
@@ -604,4 +698,3 @@ export function useWorkspace(): WorkspaceContextValue {
   }
   return ctx;
 }
-

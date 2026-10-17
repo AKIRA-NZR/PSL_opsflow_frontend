@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+  ChartBar,
   ClockCountdown,
-  Folders,
   ClockCounterClockwise,
-  Tray,
+  Folders,
+  PlusCircle,
   SidebarSimple,
+  Tray,
   UserCheck,
   UsersThree,
   X,
@@ -12,10 +14,16 @@ import {
 import { useWorkspace } from '../../context/WorkspaceContext';
 import type { TicketScope } from '../../core/types/service.types';
 import { evaluateTicketSla } from '../../core/utils/sla.utils';
+import { Button } from '../ui/Button';
 import { OpsFlowLogo } from '../ui/OpsFlowLogo';
 import { ProfileSwitcher } from './ProfileSwitcher';
 
-export type NavigationSection = 'tickets' | 'categories' | 'team' | 'activity';
+export type NavigationSection =
+  | 'dashboard'
+  | 'tickets'
+  | 'categories'
+  | 'team'
+  | 'activity';
 
 interface SidebarProps {
   activeSection: NavigationSection;
@@ -26,6 +34,7 @@ interface SidebarProps {
   onCloseMobile: () => void;
   onNavigateTickets: (scope: TicketScope) => void;
   onNavigateSection: (section: NavigationSection) => void;
+  onOpenNewTicket: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -37,9 +46,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onCloseMobile,
   onNavigateTickets,
   onNavigateSection,
+  onOpenNewTicket,
 }) => {
   const { activeCompany, currentUser, activeRole, tenantTickets } =
     useWorkspace();
+
+  const isStaff = activeRole === 'ADMIN' || activeRole === 'TECHNICIAN';
 
   const assignedCount = tenantTickets.filter(
     (t) =>
@@ -56,11 +68,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItemClass = (isActive: boolean) =>
     `group w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer ${
       isActive
-        ? 'bg-[#232936] text-[#F1F5F9] font-medium shadow-xs'
-        : 'text-[#94A3B8] hover:bg-[#1E2430] hover:text-[#F1F5F9]'
+        ? 'bg-[#222733] text-[#F1F5F9] font-medium'
+        : 'text-[#94A3B8] hover:bg-[#1C212B] hover:text-[#F1F5F9]'
     }`;
 
   const renderSidebarContent = (collapsedMode: boolean) => {
+    const isDashboardActive = activeSection === 'dashboard';
     const isAllActive =
       activeSection === 'tickets' && activeTicketScope === 'ALL';
     const isAssignedActive =
@@ -79,7 +92,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <div
               onClick={() => {
-                onNavigateTickets('ALL');
+                if (isStaff) {
+                  onNavigateSection('dashboard');
+                } else {
+                  onNavigateTickets('ALL');
+                }
                 onCloseMobile();
               }}
               className="flex items-center gap-3 min-w-0 cursor-pointer group/brand"
@@ -90,14 +107,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <div className="text-sm font-semibold text-[#F1F5F9] group-hover/brand:text-white tracking-tight truncate transition-colors">
                     OpsFlow
                   </div>
-                  <div className="text-xs text-[#94A3B8] group-hover/brand:text-[#CBD5E1] truncate transition-colors">
-                    {activeCompany.name}
+                  <div className="text-xs text-[#8E97A6] truncate">
+                    {isStaff ? 'Console de Operações' : 'Portal do Colaborador'}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Desktop Collapse Button */}
             {!collapsedMode && (
               <button
                 type="button"
@@ -109,7 +125,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </button>
             )}
 
-            {/* Mobile Close Button */}
             <button
               type="button"
               onClick={onCloseMobile}
@@ -132,12 +147,49 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           )}
 
-          {/* Group 1: Service Desk Views */}
+          {/* Employee Prominent Action: Request Support */}
+          {!isStaff && !collapsedMode && (
+            <Button
+              variant="primary"
+              size="md"
+              icon={<PlusCircle className="w-4 h-4" weight="fill" />}
+              className="w-full justify-center"
+              onClick={() => {
+                onOpenNewTicket();
+                onCloseMobile();
+              }}
+            >
+              Solicitar Suporte
+            </Button>
+          )}
+
+          {/* Group 1: Role-Tailored Main Navigation */}
           <div className="space-y-1">
             {!collapsedMode && (
               <div className="px-3 pb-1 text-xs font-medium text-[#64748B]">
-                Atendimento
+                {isStaff ? 'Central de Atendimento' : 'Minhas Solicitações'}
               </div>
+            )}
+
+            {/* Dashboard is exclusively for ADMIN and TECHNICIAN */}
+            {isStaff && (
+              <button
+                type="button"
+                onClick={() => {
+                  onNavigateSection('dashboard');
+                  onCloseMobile();
+                }}
+                className={navItemClass(isDashboardActive)}
+                title="Visão Geral & Indicadores"
+              >
+                <span className="flex items-center gap-3">
+                  <ChartBar
+                    className="w-4 h-4 text-[#969ECA] shrink-0"
+                    weight={isDashboardActive ? 'fill' : 'duotone'}
+                  />
+                  {!collapsedMode && <span>Visão Geral</span>}
+                </span>
+              </button>
             )}
 
             <button
@@ -147,18 +199,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onCloseMobile();
               }}
               className={navItemClass(isAllActive)}
-              title="Todos os Chamados"
+              title={isStaff ? 'Fila de Chamados' : 'Meus Chamados'}
             >
               <span className="flex items-center gap-3">
                 <Tray
-                  className="w-4 h-4 text-[#93C5FD] shrink-0 transition-transform duration-150 group-hover:scale-110"
+                  className="w-4 h-4 text-[#8BA3BE] shrink-0"
                   weight={isAllActive ? 'fill' : 'duotone'}
                 />
                 {!collapsedMode && (
                   <span>
-                    {activeRole === 'EMPLOYEE'
-                      ? 'Meus Chamados'
-                      : 'Todos os Chamados'}
+                    {isStaff ? 'Fila de Chamados' : 'Meus Chamados'}
                   </span>
                 )}
               </span>
@@ -169,7 +219,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               )}
             </button>
 
-            {activeRole !== 'EMPLOYEE' && (
+            {isStaff && (
               <button
                 type="button"
                 onClick={() => {
@@ -177,14 +227,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onCloseMobile();
                 }}
                 className={navItemClass(isAssignedActive)}
-                title="Atribuídos a mim"
+                title="Meus Atendimentos"
               >
                 <span className="flex items-center gap-3">
                   <UserCheck
-                    className="w-4 h-4 text-[#6EE7B7] shrink-0 transition-transform duration-150 group-hover:scale-110"
+                    className="w-4 h-4 text-[#7FA998] shrink-0"
                     weight={isAssignedActive ? 'fill' : 'duotone'}
                   />
-                  {!collapsedMode && <span>Atribuídos a mim</span>}
+                  {!collapsedMode && <span>Meus Atendimentos</span>}
                 </span>
                 {!collapsedMode && assignedCount > 0 && (
                   <span className="text-xs text-[#94A3B8] font-mono">
@@ -194,95 +244,117 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateTickets('SLA_ATTENTION');
-                onCloseMobile();
-              }}
-              className={navItemClass(isSlaActive)}
-              title="Atenção no Prazo"
-            >
-              <span className="flex items-center gap-3">
-                <ClockCountdown
-                  className="w-4 h-4 text-[#FDA4AF] shrink-0 transition-transform duration-150 group-hover:scale-110"
-                  weight={isSlaActive ? 'fill' : 'duotone'}
-                />
-                {!collapsedMode && <span>Atenção no Prazo</span>}
-              </span>
-              {!collapsedMode && attentionCount > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-rose-500/15 text-rose-300">
-                  {attentionCount}
+            {isStaff && (
+              <button
+                type="button"
+                onClick={() => {
+                  onNavigateTickets('SLA_ATTENTION');
+                  onCloseMobile();
+                }}
+                className={navItemClass(isSlaActive)}
+                title="Atenção no Prazo"
+              >
+                <span className="flex items-center gap-3">
+                  <ClockCountdown
+                    className="w-4 h-4 text-[#C98A94] shrink-0"
+                    weight={isSlaActive ? 'fill' : 'duotone'}
+                  />
+                  {!collapsedMode && <span>Atenção no Prazo</span>}
                 </span>
-              )}
-            </button>
-          </div>
-
-          {/* Group 2: Organization & Management */}
-          <div className="space-y-1 pt-4 border-t border-[#2A3140]">
-            {!collapsedMode && (
-              <div className="px-3 pb-1 text-xs font-medium text-[#64748B]">
-                Organização
-              </div>
+                {!collapsedMode && attentionCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-md text-xs font-medium bg-[#251A1D] text-[#D6A6AE] border border-[#3D292E]">
+                    {attentionCount}
+                  </span>
+                )}
+              </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateSection('categories');
-                onCloseMobile();
-              }}
-              className={navItemClass(activeSection === 'categories')}
-              title="Categorias de Atendimento"
-            >
-              <span className="flex items-center gap-3">
-                <Folders
-                  className="w-4 h-4 text-[#FCD34D] shrink-0 transition-transform duration-150 group-hover:scale-110"
-                  weight={activeSection === 'categories' ? 'fill' : 'duotone'}
-                />
-                {!collapsedMode && <span>Categorias</span>}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateSection('team');
-                onCloseMobile();
-              }}
-              className={navItemClass(activeSection === 'team')}
-              title="Membros da Equipe"
-            >
-              <span className="flex items-center gap-3">
-                <UsersThree
-                  className="w-4 h-4 text-[#A5B4FC] shrink-0 transition-transform duration-150 group-hover:scale-110"
-                  weight={activeSection === 'team' ? 'fill' : 'duotone'}
-                />
-                {!collapsedMode && <span>Equipe</span>}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateSection('activity');
-                onCloseMobile();
-              }}
-              className={navItemClass(activeSection === 'activity')}
-              title="Registro de Atividades"
-            >
-              <span className="flex items-center gap-3">
-                <ClockCounterClockwise
-                  className="w-4 h-4 text-[#94A3B8] shrink-0 transition-transform duration-150 group-hover:scale-110"
-                  weight={activeSection === 'activity' ? 'fill' : 'duotone'}
-                />
-                {!collapsedMode && <span>Atividades</span>}
-              </span>
-            </button>
           </div>
+
+          {/* Group 2: Governance & Administration (ADMIN & TECHNICIAN) */}
+          {isStaff && (
+            <div className="space-y-1 pt-4 border-t border-[#2A3140]">
+              {!collapsedMode && (
+                <div className="px-3 pb-1 text-xs font-medium text-[#64748B]">
+                  {activeRole === 'ADMIN' ? 'Administração' : 'Catálogo'}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  onNavigateSection('categories');
+                  onCloseMobile();
+                }}
+                className={navItemClass(activeSection === 'categories')}
+                title="Categorias de Atendimento"
+              >
+                <span className="flex items-center gap-3">
+                  <Folders
+                    className="w-4 h-4 text-[#C4A676] shrink-0"
+                    weight={activeSection === 'categories' ? 'fill' : 'duotone'}
+                  />
+                  {!collapsedMode && <span>Categorias</span>}
+                </span>
+              </button>
+
+              {activeRole === 'ADMIN' && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onNavigateSection('team');
+                      onCloseMobile();
+                    }}
+                    className={navItemClass(activeSection === 'team')}
+                    title="Membros da Equipe"
+                  >
+                    <span className="flex items-center gap-3">
+                      <UsersThree
+                        className="w-4 h-4 text-[#969ECA] shrink-0"
+                        weight={activeSection === 'team' ? 'fill' : 'duotone'}
+                      />
+                      {!collapsedMode && <span>Equipe</span>}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onNavigateSection('activity');
+                      onCloseMobile();
+                    }}
+                    className={navItemClass(activeSection === 'activity')}
+                    title="Registro de Atividades"
+                  >
+                    <span className="flex items-center gap-3">
+                      <ClockCounterClockwise
+                        className="w-4 h-4 text-[#8E97A6] shrink-0"
+                        weight={
+                          activeSection === 'activity' ? 'fill' : 'duotone'
+                        }
+                      />
+                      {!collapsedMode && <span>Atividades</span>}
+                    </span>
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Organization info card for Employee */}
+          {!isStaff && !collapsedMode && (
+            <div className="rounded-xl bg-[#13161C] border border-[#2A3140] p-3.5 space-y-1 text-xs">
+              <div className="font-medium text-[#CBD5E1]">
+                {activeCompany.name}
+              </div>
+              <p className="text-[#64748B] leading-relaxed">
+                Acompanhe aqui o andamento das suas solicitações junto à equipe técnica.
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Bottom Profile & Tenant Switcher */}
+        {/* Bottom Profile & Logout Menu */}
         <div className="p-3 border-t border-[#2A3140]">
           <ProfileSwitcher collapsed={collapsedMode} />
         </div>
@@ -292,7 +364,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Sidebar (Collapsible: w-64 or w-18) */}
       <aside
         className={`hidden lg:block shrink-0 transition-all duration-200 ${
           isCollapsed ? 'w-18' : 'w-64'
@@ -301,7 +372,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {renderSidebarContent(isCollapsed)}
       </aside>
 
-      {/* Mobile & Tablet Drawer Overlay */}
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div

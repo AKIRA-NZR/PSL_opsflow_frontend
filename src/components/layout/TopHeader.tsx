@@ -1,10 +1,13 @@
 import React from 'react';
 import { List, MagnifyingGlass, PlusCircle } from '@phosphor-icons/react';
+import { RolePill } from '../ui/Badge';
 import { Button } from '../ui/Button';
+import type { RoleName } from '../../core/types/domain.types';
 
 interface TopHeaderProps {
   title: string;
   subtitle?: string;
+  activeRole: RoleName;
   onOpenMobileSidebar: () => void;
   onOpenCommandModal: () => void;
   onOpenNewTicket: () => void;
@@ -13,6 +16,7 @@ interface TopHeaderProps {
 export const TopHeader: React.FC<TopHeaderProps> = ({
   title,
   subtitle,
+  activeRole,
   onOpenMobileSidebar,
   onOpenCommandModal,
   onOpenNewTicket,
@@ -30,11 +34,16 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         </button>
 
         <div className="min-w-0">
-          <h1 className="text-base sm:text-lg font-semibold text-[#F1F5F9] truncate">
-            {title}
-          </h1>
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-base sm:text-lg font-semibold text-[#F1F5F9] truncate">
+              {title}
+            </h1>
+            <span className="hidden md:inline-flex">
+              <RolePill role={activeRole} />
+            </span>
+          </div>
           {subtitle && (
-            <p className="hidden sm:block text-xs text-[#94A3B8] truncate">
+            <p className="hidden sm:block text-xs text-[#8E97A6] truncate">
               {subtitle}
             </p>
           )}
@@ -45,24 +54,27 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         <button
           type="button"
           onClick={onOpenCommandModal}
-          className="inline-flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#1B202B] hover:bg-[#232936] border border-[#2A3140] text-xs text-[#94A3B8] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#1B202B] hover:bg-[#222733] border border-[#2A3140] text-xs text-[#94A3B8] transition-colors cursor-pointer"
         >
-          <MagnifyingGlass className="w-4 h-4 text-[#93C5FD]" weight="duotone" />
+          <MagnifyingGlass className="w-4 h-4 text-[#8BA3BE]" weight="duotone" />
           <span className="hidden md:inline">Buscar chamado...</span>
           <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[11px] font-mono bg-[#13161C] border border-[#2A3140] rounded text-[#64748B]">
             Ctrl+K
           </kbd>
         </button>
 
-        <Button
-          variant="primary"
-          size="md"
-          icon={<PlusCircle className="w-4 h-4" weight="fill" />}
-          onClick={onOpenNewTicket}
-        >
-          <span className="hidden sm:inline">Novo Chamado</span>
-          <span className="sm:hidden">Novo</span>
-        </Button>
+        {/* Only EMPLOYEE has the primary "+ Solicitar Suporte" action in the header */}
+        {activeRole === 'EMPLOYEE' && (
+          <Button
+            variant="primary"
+            size="md"
+            icon={<PlusCircle className="w-4 h-4" weight="fill" />}
+            onClick={onOpenNewTicket}
+          >
+            <span className="hidden sm:inline">Solicitar Suporte</span>
+            <span className="sm:hidden">Solicitar</span>
+          </Button>
+        )}
       </div>
     </header>
   );

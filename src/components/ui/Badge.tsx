@@ -25,7 +25,7 @@ import type {
 } from '../../core/types/domain.types';
 
 /**
- * Custom SVG Signal Bars for Priority (Linear-inspired urgency indicator)
+ * Custom SVG Signal Bars for Priority using muted, non-neon architectural tones
  */
 export const PrioritySignalIcon: React.FC<{
   priority: TicketPriority;
@@ -34,8 +34,8 @@ export const PrioritySignalIcon: React.FC<{
   if (priority === 'CRITICAL') {
     return (
       <WarningOctagon
-        className={`${className} text-rose-400 shrink-0`}
-        weight="fill"
+        className={`${className} text-[#C98A94] shrink-0`}
+        weight="duotone"
       />
     );
   }
@@ -45,12 +45,12 @@ export const PrioritySignalIcon: React.FC<{
 
   const activeColor =
     priority === 'HIGH'
-      ? '#FB923C' // Orange-400
+      ? '#C49A72' // Muted Warm Sand/Amber
       : priority === 'MEDIUM'
-        ? '#60A5FA' // Blue-400
-        : '#94A3B8'; // Slate-400
+        ? '#8BA3BE' // Muted Steel Blue
+        : '#7D8796'; // Muted Slate
 
-  const mutedColor = '#333B4D';
+  const mutedColor = '#2A303C';
 
   return (
     <svg
@@ -88,7 +88,7 @@ export const PrioritySignalIcon: React.FC<{
 };
 
 /**
- * Dedicated vector icon for each TicketStatus
+ * Dedicated vector icon for each TicketStatus in soft, desaturated tones
  */
 export const StatusIcon: React.FC<{
   status: TicketStatus;
@@ -98,42 +98,42 @@ export const StatusIcon: React.FC<{
     case 'OPEN':
       return (
         <CircleDashed
-          className={`${className} text-[#60A5FA] shrink-0`}
+          className={`${className} text-[#8BA3BE] shrink-0`}
           weight="bold"
         />
       );
     case 'IN_PROGRESS':
       return (
         <CircleHalf
-          className={`${className} text-[#818CF8] shrink-0`}
+          className={`${className} text-[#969ECA] shrink-0`}
           weight="fill"
         />
       );
     case 'WAITING_USER':
       return (
         <Clock
-          className={`${className} text-[#FBBF24] shrink-0`}
-          weight="fill"
+          className={`${className} text-[#C4A676] shrink-0`}
+          weight="duotone"
         />
       );
     case 'RESOLVED':
       return (
         <CheckCircle
-          className={`${className} text-[#34D399] shrink-0`}
+          className={`${className} text-[#7FA998] shrink-0`}
           weight="fill"
         />
       );
     case 'CLOSED':
       return (
         <SealCheck
-          className={`${className} text-[#94A3B8] shrink-0`}
-          weight="fill"
+          className={`${className} text-[#838D9B] shrink-0`}
+          weight="duotone"
         />
       );
     case 'CANCELLED':
       return (
         <MinusCircle
-          className={`${className} text-[#64748B] shrink-0`}
+          className={`${className} text-[#646E7D] shrink-0`}
           weight="duotone"
         />
       );
@@ -141,21 +141,21 @@ export const StatusIcon: React.FC<{
 };
 
 /**
- * Modern Status Badge with custom state icon, soft surface tint, and subtle inner border
+ * Matte, Soft Dark Mode Status Badge (Zero Neon)
  */
 export const StatusBadge: React.FC<{ status: TicketStatus }> = ({ status }) => {
   const styles: Record<TicketStatus, string> = {
-    OPEN: 'bg-[#1E293B]/90 text-[#BFDBFE] border-[#3B82F6]/30',
-    IN_PROGRESS: 'bg-[#1E2238]/95 text-[#C7D2FE] border-[#6366F1]/35',
-    WAITING_USER: 'bg-[#2B2318]/90 text-[#FDE68A] border-[#F59E0B]/30',
-    RESOLVED: 'bg-[#142924]/90 text-[#A7F3D0] border-[#10B981]/30',
-    CLOSED: 'bg-[#1E232D] text-[#CBD5E1] border-[#333C4D]',
-    CANCELLED: 'bg-[#181C24] text-[#64748B] border-[#262C3A] line-through',
+    OPEN: 'bg-[#1A212B] text-[#B8C7D9] border-[#2B3646]',
+    IN_PROGRESS: 'bg-[#1D2030] text-[#C2C7E2] border-[#323854]',
+    WAITING_USER: 'bg-[#231F19] text-[#D4BE98] border-[#3A3226]',
+    RESOLVED: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
+    CLOSED: 'bg-[#191D24] text-[#9BA3B0] border-[#282E38]',
+    CANCELLED: 'bg-[#161920] text-[#687282] border-[#222731]',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border shadow-2xs transition-colors ${styles[status]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors ${styles[status]}`}
     >
       <StatusIcon status={status} />
       <span>{STATUS_LABELS[status]}</span>
@@ -164,16 +164,16 @@ export const StatusBadge: React.FC<{ status: TicketStatus }> = ({ status }) => {
 };
 
 /**
- * Modern Priority Badge with Signal Bars / Urgency Icon
+ * Matte Priority Badge with subtle neutral/earthy tones
  */
 export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
   priority,
 }) => {
   const styles: Record<TicketPriority, string> = {
-    LOW: 'bg-[#181C24] text-[#94A3B8] border-[#262C3A]',
-    MEDIUM: 'bg-[#1B2230] text-[#CBD5E1] border-[#2E384D]',
-    HIGH: 'bg-[#2A2019] text-[#FDBA74] border-[#EA580C]/30',
-    CRITICAL: 'bg-[#2C1820] text-[#FECDD3] border-[#F43F5E]/35',
+    LOW: 'bg-[#171A21] text-[#8E97A6] border-[#242934]',
+    MEDIUM: 'bg-[#191F28] text-[#AEBDD0] border-[#283240]',
+    HIGH: 'bg-[#231E19] text-[#D1B08E] border-[#382F26]',
+    CRITICAL: 'bg-[#251A1D] text-[#D6A6AE] border-[#3D292E]',
   };
 
   return (
@@ -187,7 +187,7 @@ export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
 };
 
 /**
- * Modern SLA Health Indicator Pill
+ * Matte SLA Health Indicator Pill
  */
 export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
   health,
@@ -198,27 +198,27 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
     { style: string; icon: React.ReactNode }
   > = {
     ON_TIME: {
-      style: 'bg-[#162723] text-[#A7F3D0] border-[#10B981]/25',
-      icon: <Timer className="w-3.5 h-3.5 text-[#34D399] shrink-0" weight="duotone" />,
+      style: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
+      icon: <Timer className="w-3.5 h-3.5 text-[#7FA998] shrink-0" weight="duotone" />,
     },
     AT_RISK: {
-      style: 'bg-[#2B2318] text-[#FDE68A] border-[#F59E0B]/30',
-      icon: <Timer className="w-3.5 h-3.5 text-[#FBBF24] shrink-0" weight="fill" />,
+      style: 'bg-[#231F19] text-[#D4BE98] border-[#3A3226]',
+      icon: <Timer className="w-3.5 h-3.5 text-[#C4A676] shrink-0" weight="duotone" />,
     },
     BREACHED: {
-      style: 'bg-[#2C1820] text-[#FECDD3] border-[#F43F5E]/35',
+      style: 'bg-[#251A1D] text-[#D6A6AE] border-[#3D292E]',
       icon: (
         <WarningOctagon
-          className="w-3.5 h-3.5 text-[#FB7185] shrink-0"
-          weight="fill"
+          className="w-3.5 h-3.5 text-[#C98A94] shrink-0"
+          weight="duotone"
         />
       ),
     },
     COMPLETED: {
-      style: 'bg-[#181C24] text-[#94A3B8] border-[#262C3A]',
+      style: 'bg-[#171A21] text-[#8E97A6] border-[#242934]',
       icon: (
         <CheckCircle
-          className="w-3.5 h-3.5 text-[#64748B] shrink-0"
+          className="w-3.5 h-3.5 text-[#727C8C] shrink-0"
           weight="duotone"
         />
       ),
@@ -238,7 +238,7 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
 };
 
 /**
- * Modern Role Pill with Subtle Icon
+ * Matte Role Pill
  */
 export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
   const config: Record<
@@ -246,16 +246,16 @@ export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
     { style: string; icon: React.ReactNode }
   > = {
     ADMIN: {
-      style: 'bg-[#1E2238] text-[#C7D2FE] border-[#6366F1]/30',
-      icon: <ShieldStar className="w-3.5 h-3.5 text-[#818CF8]" weight="duotone" />,
+      style: 'bg-[#1D2030] text-[#C2C7E2] border-[#323854]',
+      icon: <ShieldStar className="w-3.5 h-3.5 text-[#969ECA]" weight="duotone" />,
     },
     TECHNICIAN: {
-      style: 'bg-[#142924] text-[#A7F3D0] border-[#10B981]/30',
-      icon: <Wrench className="w-3.5 h-3.5 text-[#34D399]" weight="duotone" />,
+      style: 'bg-[#17231F] text-[#A8C7BA] border-[#263B34]',
+      icon: <Wrench className="w-3.5 h-3.5 text-[#7FA998]" weight="duotone" />,
     },
     EMPLOYEE: {
-      style: 'bg-[#181C24] text-[#CBD5E1] border-[#2A3140]',
-      icon: <UserCircle className="w-3.5 h-3.5 text-[#94A3B8]" weight="duotone" />,
+      style: 'bg-[#171A21] text-[#9BA3B0] border-[#252B36]',
+      icon: <UserCircle className="w-3.5 h-3.5 text-[#838D9B]" weight="duotone" />,
     },
   };
 

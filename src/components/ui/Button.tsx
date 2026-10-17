@@ -11,20 +11,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'bg-[#5865F2] hover:bg-[#4752C4] text-white border border-transparent shadow-xs',
+    'bg-[#4A558F] hover:bg-[#5562A3] text-[#F1F5F9] border border-[#5D6AB0]/40 shadow-2xs',
   secondary:
-    'bg-[#232936] hover:bg-[#2C3444] text-[#F1F5F9] border border-[#2F3747]',
+    'bg-[#212631] hover:bg-[#282E3B] text-[#E2E8F0] border border-[#2E3543]',
   ghost:
-    'bg-transparent hover:bg-[#232936] text-[#94A3B8] hover:text-[#F1F5F9] border border-transparent',
+    'bg-transparent hover:bg-[#1F242F] text-[#94A3B8] hover:text-[#E2E8F0] border border-transparent',
   danger:
-    'bg-rose-500/12 hover:bg-rose-500/20 text-rose-300 border border-rose-500/25',
+    'bg-[#281B1F] hover:bg-[#322126] text-[#D6A6AE] border border-[#422B31]',
   success:
-    'bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30',
+    'bg-[#192823] hover:bg-[#1F322C] text-[#A8C7BA] border border-[#2B443B]',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
   sm: 'px-3 py-1.5 text-xs rounded-lg gap-1.5',
-  md: 'px-4 py-2 text-sm rounded-lg gap-2',
+  md: 'px-4 py-2 text-sm rounded-xl gap-2',
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -45,4 +45,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-

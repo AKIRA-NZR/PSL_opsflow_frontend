@@ -35,7 +35,7 @@ export const SEED_USERS: User[] = [
     companyId: 'comp-acme',
     name: 'Kauã Almeida',
     email: 'kaua.almeida@acme.io',
-    department: 'Engenharia & Operações',
+    department: 'Diretoria de Operações & TI',
     roles: ['ADMIN', 'TECHNICIAN'],
     active: true,
     deletedAt: null,
@@ -85,7 +85,6 @@ export const SEED_USERS: User[] = [
     deletedAt: null,
     createdAt: hoursAgo(320),
   },
-  // Second company (Globex)
   {
     id: 'usr-globex-admin',
     companyId: 'comp-globex',
@@ -159,6 +158,50 @@ export const SEED_CATEGORIES: TicketCategory[] = [
 ];
 
 export const SEED_TICKETS: Ticket[] = [
+  {
+    id: 'tkt-147',
+    companyId: 'comp-acme',
+    number: 147,
+    title: 'Liberação de permissão de leitura no painel de auditoria fiscal',
+    description:
+      'Preciso de acesso de visualização aos relatórios consolidados do trimestre para conferência junto à contabilidade externa.',
+    status: 'OPEN',
+    priority: 'MEDIUM',
+    categoryId: 'cat-sec',
+    requesterId: 'usr-acme-emp1',
+    assigneeId: null,
+    dueAt: hoursFromNow(18),
+    originalDueAt: hoursFromNow(18),
+    resolvedAt: null,
+    closedAt: null,
+    cancelledAt: null,
+    resolutionSummary: null,
+    version: 0,
+    createdAt: hoursAgo(6),
+    updatedAt: hoursAgo(6),
+  },
+  {
+    id: 'tkt-146',
+    companyId: 'comp-acme',
+    number: 146,
+    title: 'Substituição de monitor externo com falha de imagem no 4º andar',
+    description:
+      'O monitor secundário da estação de trabalho 14 está piscando continuamente mesmo após a troca do cabo HDMI.',
+    status: 'OPEN',
+    priority: 'LOW',
+    categoryId: 'cat-hw',
+    requesterId: 'usr-acme-emp2',
+    assigneeId: null,
+    dueAt: hoursFromNow(62),
+    originalDueAt: hoursFromNow(62),
+    resolvedAt: null,
+    closedAt: null,
+    cancelledAt: null,
+    resolutionSummary: null,
+    version: 0,
+    createdAt: hoursAgo(10),
+    updatedAt: hoursAgo(10),
+  },
   {
     id: 'tkt-145',
     companyId: 'comp-acme',
@@ -272,6 +315,29 @@ export const SEED_TICKETS: Ticket[] = [
     updatedAt: hoursAgo(26),
   },
   {
+    id: 'tkt-140',
+    companyId: 'comp-acme',
+    number: 140,
+    title: 'Sincronização de conciliação bancária concluída com sucesso',
+    description:
+      'Verificar fila de webhooks do gateway de pagamentos após manutenção programada.',
+    status: 'CLOSED',
+    priority: 'HIGH',
+    categoryId: 'cat-erp',
+    requesterId: 'usr-acme-emp1',
+    assigneeId: 'usr-acme-tech1',
+    dueAt: hoursAgo(50),
+    originalDueAt: hoursAgo(50),
+    resolvedAt: hoursAgo(54),
+    closedAt: hoursAgo(52),
+    cancelledAt: null,
+    resolutionSummary:
+      'Fila reprocessada integralmente dentro da janela de SLA.',
+    version: 3,
+    createdAt: hoursAgo(58),
+    updatedAt: hoursAgo(52),
+  },
+  {
     id: 'tkt-globex-42',
     companyId: 'comp-globex',
     number: 42,
@@ -376,7 +442,8 @@ export const SEED_ACTIVITY_LOGS: ActivityLogItem[] = [
     actorEmail: 'kaua.almeida@acme.io',
     actionLabel: 'Prioridade de chamado elevada',
     targetLabel: 'Chamado #00145',
-    detail: 'Prioridade alterada de Média para Crítica com atualização automática da meta de atendimento.',
+    detail:
+      'Prioridade alterada de Média para Crítica com atualização automática da meta de atendimento.',
     createdAt: hoursAgo(1.2),
   },
   {
@@ -400,4 +467,3 @@ export const SEED_ACTIVITY_LOGS: ActivityLogItem[] = [
     createdAt: hoursAgo(28),
   },
 ];
-

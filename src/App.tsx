@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppShell } from './components/layout/AppShell';
 import type { NavigationSection } from './components/layout/Sidebar';
 import { WorkspaceProvider, useWorkspace } from './context/WorkspaceContext';
 import type { TicketFilterState, TicketScope } from './core/types/service.types';
 import { ActivityLogPage } from './features/audit/ActivityLogPage';
+import { LoginPage } from './features/auth/LoginPage';
 import { CategoriesPage } from './features/categories/CategoriesPage';
+import { DashboardPage } from './features/dashboard/DashboardPage';
 import { CreateTicketModal } from './features/tickets/CreateTicketModal';
 import { TicketDetailPage } from './features/tickets/TicketDetailPage';
 import { TicketListPage } from './features/tickets/TicketListPage';
 import { TeamMembersPage } from './features/users/TeamMembersPage';
 
 const WorkspaceRouter: React.FC = () => {
-  const { activeCompany, activeRole } = useWorkspace();
+  const { isAuthenticated, activeCompany, activeRole, currentUser } =
+    useWorkspace();
 
-  const [activeSection, setActiveSection] =
-    useState<NavigationSection>('tickets');
+  const isStaff = activeRole === 'ADMIN' || activeRole === 'TECHNICIAN';
+
+  const [activeSection, setActiveSection] = useState<NavigationSection>(
+    isStaff ? 'dashboard' : 'tickets'
+  );
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
   const [isNewTicketOpen, setIsNewTicketOpen] = useState(false);
 
@@ -24,6 +30,26 @@ const WorkspaceRouter: React.FC = () => {
     priority: 'ALL',
     search: '',
   });
+
+  // When switching between Staff (Admin/Technician) and Employee, land on the natural home view for that role
+  useEffect(() => {
+    setSelectedTicketId(null);
+    setFilters({
+      scope: 'ALL',
+      status: 'ALL',
+      priority: 'ALL',
+      search: '',
+    });
+    setActiveSection(
+      activeRole === 'ADMIN' || activeRole === 'TECHNICIAN'
+        ? 'dashboard'
+        : 'tickets'
+    );
+  }, [currentUser.id, activeRole]);
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
 
   const handleNavigateTickets = (scope: TicketScope) => {
     setActiveSection('tickets');
@@ -39,38 +65,47 @@ const WorkspaceRouter: React.FC = () => {
   const getHeaderMeta = (): { title: string; subtitle: string } => {
     if (selectedTicketId) {
       return {
-        title: 'Detalhes do Chamado',
-        subtitle: `Acompanhamento de atendimento · ${activeCompany.name}`,
+        title: 'Atendimento do Chamado',
+        subtitle: `Acompanhamento detalhado · ${activeCompany.name}`,
+      };
+    }
+    if (activeSection === 'dashboard') {
+      return {
+        title: 'Visão Geral de Operações',
+        subtitle: `Indicadores de resolução, fila de triagem e SLA · ${activeCompany.name}`,
       };
     }
     if (activeSection === 'categories') {
       return {
         title: 'Categorias de Atendimento',
-        subtitle: `Gestão de filas · ${activeCompany.name}`,
+        subtitle: `Catálogo de filas · ${activeCompany.name}`,
       };
     }
     if (activeSection === 'team') {
       return {
-        title: 'Equipe e Acessos',
-        subtitle: `Membros da organização · ${activeCompany.name}`,
+        title: 'Equipe e Permissões',
+        subtitle: `Gestão de membros · ${activeCompany.name}`,
       };
     }
     if (activeSection === 'activity') {
       return {
-        title: 'Histórico de Atividades',
-        subtitle: `Registro operacional · ${activeCompany.name}`,
+        title: 'Registro de Atividades',
+        subtitle: `Histórico administrativo · ${activeCompany.name}`,
       };
     }
     return {
       title:
         activeRole === 'EMPLOYEE'
-          ? 'Meus Chamados'
+          ? 'Minhas Solicitações de Suporte'
           : filters.scope === 'ASSIGNED_TO_ME'
-            ? 'Chamados Atribuídos a Mim'
+            ? 'Meus Atendimentos'
             : filters.scope === 'SLA_ATTENTION'
               ? 'Chamados com Atenção no Prazo'
-              : 'Central de Chamados',
-      subtitle: `Ambiente ${activeCompany.name}`,
+              : 'Fila de Chamados',
+      subtitle:
+        activeRole === 'EMPLOYEE'
+          ? `Portal do Solicitante · ${activeCompany.name}`
+          : `Console de Atendimento · ${activeCompany.name}`,
     };
   };
 
@@ -80,6 +115,7 @@ const WorkspaceRouter: React.FC = () => {
     <AppShell
       title={title}
       subtitle={subtitle}
+      activeRole={activeRole}
       activeSection={activeSection}
       activeTicketScope={filters.scope}
       onNavigateTickets={handleNavigateTickets}
@@ -95,11 +131,16 @@ const WorkspaceRouter: React.FC = () => {
           ticketId={selectedTicketId}
           onBack={() => setSelectedTicketId(null)}
         />
-      ) : activeSection === 'categories' ? (
+      ) : activeSection === 'dashboard' && isStaff ? (
+        <DashboardPage
+          onSelectTicket={(id) => setSelectedTicketId(id)}
+          onNavigateQueue={() => handleNavigateTickets('ALL')}
+        />
+      ) : activeSection === 'categories' && isStaff ? (
         <CategoriesPage />
-      ) : activeSection === 'team' ? (
+      ) : activeSection === 'team' && activeRole === 'ADMIN' ? (
         <TeamMembersPage />
-      ) : activeSection === 'activity' ? (
+      ) : activeSection === 'activity' && activeRole === 'ADMIN' ? (
         <ActivityLogPage />
       ) : (
         <TicketListPage
