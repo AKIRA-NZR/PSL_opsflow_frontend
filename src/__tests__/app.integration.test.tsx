@@ -1,12 +1,12 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import App from '../App';
+import { App } from '@app/index';
 
 afterEach(() => {
   cleanup();
 });
 
-describe('OpsFlow Frontend Integration & Regression Suite', () => {
+describe('OpsFlow Frontend Integration & Regression Suite (Monorepo + FSD)', () => {
   it('1. Renders Atelier Monolith LoginPage and authenticates via quick profile buttons', () => {
     render(<App />);
 

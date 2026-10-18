@@ -1,0 +1,385 @@
+import React, { useMemo } from 'react';
+import {
+  ArrowRight,
+  ChartBar,
+  ChartDonut,
+  CheckCircle,
+  Clock,
+  Tray,
+  UserPlus,
+  WarningOctagon,
+} from '@phosphor-icons/react';
+import { evaluateTicketSla, formatTicketCode } from '@opsflow/domain';
+import { Button } from '@opsflow/ui';
+import { PriorityBadge } from '@entities/ticket';
+import { useWorkspace } from '@entities/session';
+
+interface DashboardPageProps {
+  onSelectTicket: (ticketId: string) => void;
+  onNavigateQueue: () => void;
+}
+
+export const DashboardPage: React.FC<DashboardPageProps> = ({
+  onSelectTicket,
+  onNavigateQueue,
+}) => {
+  const { tenantTickets, assumeAndStartTicket } = useWorkspace();
+
+  const metrics = useMemo(() => {
+    let openUnassigned = 0;
+    let inProgress = 0;
+    let waitingUser = 0;
+    let resolvedOrClosed = 0;
+    let slaOnTimeCount = 0;
+
+    for (const t of tenantTickets) {
+      if (t.status === 'OPEN') openUnassigned++;
+      if (t.status === 'IN_PROGRESS') inProgress++;
+      if (t.status === 'WAITING_USER') waitingUser++;
+      if (t.status === 'RESOLVED' || t.status === 'CLOSED') resolvedOrClosed++;
+
+      const sla = evaluateTicketSla(t);
+      if (sla.health !== 'BREACHED' && sla.health !== 'AT_RISK') {
+        slaOnTimeCount++;
+      }
+    }
+
+    const total = Math.max(1, tenantTickets.length);
+    const pendingTotal = openUnassigned + inProgress + waitingUser;
+    const slaComplianceRate = Math.round((slaOnTimeCount / total) * 100);
+
+    return {
+      total: tenantTickets.length,
+      openUnassigned,
+      inProgress,
+      waitingUser,
+      pendingTotal,
+      resolvedOrClosed,
+      slaComplianceRate,
+    };
+  }, [tenantTickets]);
+
+  const weeklySeries = useMemo(
+    () => [
+      { day: 'SEG', resolved: 6, pending: 2 },
+      { day: 'TER', resolved: 8, pending: 3 },
+      { day: 'QUA', resolved: 5, pending: 4 },
+      { day: 'QUI', resolved: 9, pending: 2 },
+      { day: 'SEX', resolved: 7, pending: 3 },
+      { day: 'SÁB', resolved: 3, pending: 1 },
+      {
+        day: 'HOJE',
+        resolved: metrics.resolvedOrClosed,
+        pending: metrics.pendingTotal,
+      },
+    ],
+    [metrics.resolvedOrClosed, metrics.pendingTotal]
+  );
+
+  const maxWeeklyVal = Math.max(
+    10,
+    ...weeklySeries.map((d) => Math.max(d.resolved, d.pending))
+  );
+
+  const triageQueue = useMemo(
+    () =>
+      tenantTickets.filter(
+        (t) =>
+          !t.assigneeId &&
+          t.status !== 'CLOSED' &&
+          t.status !== 'CANCELLED'
+      ),
+    [tenantTickets]
+  );
+
+  const radius = 54;
+  const circumference = 2 * Math.PI * radius;
+  const totalForDonut = Math.max(1, metrics.total);
+
+  const segments = [
+    {
+      label: 'Resolvidos',
+      count: metrics.resolvedOrClosed,
+      color: '#6ee7b7',
+    },
+    {
+      label: 'Em Atendimento',
+      count: metrics.inProgress,
+      color: '#a5b4fc',
+    },
+    {
+      label: 'Na Triagem',
+      count: metrics.openUnassigned,
+      color: '#7dd3fc',
+    },
+    {
+      label: 'Aguardando',
+      count: metrics.waitingUser,
+      color: '#fcd34d',
+    },
+  ];
+
+  let accumulatedPercent = 0;
+
+  return (
+    <div className="max-w-7xl mx-auto space-y-5">
+      {/* Row 1: Top Operational KPIs */}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              PENDENTES
+            </p>
+            <p className="text-2xl font-semibold text-white mt-1">
+              {metrics.pendingTotal}
+            </p>
+          </div>
+          <div className="p-2.5 bg-[#292112] border border-[#42351b] text-[#fcd34d]">
+            <Clock className="w-4 h-4" weight="fill" />
+          </div>
+        </div>
+
+        <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              RESOLVIDOS
+            </p>
+            <p className="text-2xl font-semibold text-white mt-1">
+              {metrics.resolvedOrClosed}
+            </p>
+          </div>
+          <div className="p-2.5 bg-[#12261e] border border-[#1d3d31] text-[#6ee7b7]">
+            <CheckCircle className="w-4 h-4" weight="fill" />
+          </div>
+        </div>
+
+        <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              TRIAGEM
+            </p>
+            <p className="text-2xl font-semibold text-white mt-1">
+              {triageQueue.length}
+            </p>
+          </div>
+          <div className="p-2.5 bg-[#14222e] border border-[#223a4e] text-[#7dd3fc]">
+            <Tray className="w-4 h-4" weight="fill" />
+          </div>
+        </div>
+
+        <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              SLA
+            </p>
+            <p className="text-2xl font-semibold text-white mt-1">
+              {metrics.slaComplianceRate}%
+            </p>
+          </div>
+          <div className="p-2.5 bg-[#291518] border border-[#452126] text-[#fda4af]">
+            <WarningOctagon className="w-4 h-4" weight="fill" />
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2: Visual Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* Left Chart: Weekly Volume (7 cols) */}
+        <div className="lg:col-span-7 glass-panel p-5 flex flex-col justify-between space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
+              <ChartBar className="w-4 h-4 text-[#7dd3fc]" />
+              VOLUME SEMANAL
+            </h3>
+
+            <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-wider text-[#8e9192]">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-[#6ee7b7]" />
+                RESOLVIDOS
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-[#7dd3fc]" />
+                PENDENTES
+              </span>
+            </div>
+          </div>
+
+          <div className="h-56 pt-6 flex items-end justify-between gap-3 sm:gap-5 px-4 neumorphic-inset">
+            {weeklySeries.map((item) => {
+              const resolvedHeight = Math.round(
+                (item.resolved / maxWeeklyVal) * 150
+              );
+              const pendingHeight = Math.round(
+                (item.pending / maxWeeklyVal) * 150
+              );
+
+              return (
+                <div
+                  key={item.day}
+                  className="flex-1 flex flex-col items-center gap-2 group"
+                >
+                  <div className="w-full flex items-end justify-center gap-1.5 h-40">
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-[10px] font-mono text-[#6ee7b7] opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.resolved}
+                      </span>
+                      <div
+                        style={{ height: `${Math.max(8, resolvedHeight)}px` }}
+                        className="w-3 sm:w-4 bg-[#6ee7b7]/80 hover:bg-[#6ee7b7] transition-all"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-[10px] font-mono text-[#7dd3fc] opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.pending}
+                      </span>
+                      <div
+                        style={{ height: `${Math.max(8, pendingHeight)}px` }}
+                        className="w-3 sm:w-4 bg-[#7dd3fc]/70 hover:bg-[#7dd3fc] transition-all"
+                      />
+                    </div>
+                  </div>
+                  <span className="font-mono text-[10px] text-[#8e9192] pb-2">
+                    {item.day}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Chart: Status Distribution Donut Chart (5 cols) */}
+        <div className="lg:col-span-5 glass-panel p-5 flex flex-col justify-between space-y-5">
+          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
+            <ChartDonut className="w-4 h-4 text-[#a5b4fc]" />
+            STATUS
+          </h3>
+
+          <div className="flex flex-col items-center justify-center py-1">
+            <div className="relative w-36 h-36 neumorphic-inset flex items-center justify-center p-2">
+              <svg
+                viewBox="0 0 140 140"
+                className="w-full h-full -rotate-90 transform"
+              >
+                <circle
+                  cx="70"
+                  cy="70"
+                  r={radius}
+                  fill="transparent"
+                  stroke="#262626"
+                  strokeWidth="14"
+                />
+                {segments.map((seg) => {
+                  const pct = seg.count / totalForDonut;
+                  const strokeDasharray = `${pct * circumference} ${circumference}`;
+                  const strokeDashoffset = -accumulatedPercent * circumference;
+                  accumulatedPercent += pct;
+
+                  if (seg.count === 0) return null;
+
+                  return (
+                    <circle
+                      key={seg.label}
+                      cx="70"
+                      cy="70"
+                      r={radius}
+                      fill="transparent"
+                      stroke={seg.color}
+                      strokeWidth="14"
+                      strokeDasharray={strokeDasharray}
+                      strokeDashoffset={strokeDashoffset}
+                      strokeLinecap="butt"
+                    />
+                  );
+                })}
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span className="text-2xl font-semibold text-white">
+                  {metrics.total}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-1.5 pt-3 border-t border-[#444748]/35">
+            {segments.map((seg) => (
+              <div
+                key={seg.label}
+                className="flex items-center justify-between text-xs"
+              >
+                <span className="flex items-center gap-2 text-[#c4c7c8]">
+                  <span
+                    className="w-2 h-2 shrink-0"
+                    style={{ backgroundColor: seg.color }}
+                  />
+                  {seg.label}
+                </span>
+                <span className="font-mono text-[#8e9192]">{seg.count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3: Compact Triage Queue */}
+      <div className="glass-panel overflow-hidden">
+        <div className="px-5 py-3 border-b border-[#444748]/40 bg-[#0e0e0e] flex items-center justify-between gap-3">
+          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white">
+            TRIAGEM ({triageQueue.length})
+          </h3>
+
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<ArrowRight className="w-3.5 h-3.5" />}
+            onClick={onNavigateQueue}
+          >
+            Ver Todos
+          </Button>
+        </div>
+
+        {triageQueue.length === 0 ? (
+          <div className="py-8 px-6 text-center text-xs text-[#8e9192]">
+            Fila vazia.
+          </div>
+        ) : (
+          <div className="divide-y divide-[#444748]/30">
+            {triageQueue.map((t) => (
+              <div
+                key={t.id}
+                className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-[#1c1c1c] transition-colors"
+              >
+                <div
+                  onClick={() => onSelectTicket(t.id)}
+                  className="flex items-center gap-3 cursor-pointer min-w-0 flex-1"
+                >
+                  <span className="font-mono text-xs text-[#8e9192] shrink-0">
+                    {formatTicketCode(t.number)}
+                  </span>
+                  <span className="text-sm font-medium text-white truncate">
+                    {t.title}
+                  </span>
+                  <div className="hidden sm:block shrink-0">
+                    <PriorityBadge priority={t.priority} />
+                  </div>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={<UserPlus className="w-3.5 h-3.5" weight="bold" />}
+                  onClick={() => {
+                    assumeAndStartTicket(t.id);
+                    onSelectTicket(t.id);
+                  }}
+                >
+                  Assumir
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
