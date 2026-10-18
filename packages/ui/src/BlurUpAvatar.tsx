@@ -19,11 +19,11 @@ const SIZE_MAP = {
 };
 
 const STATUS_SIZE_MAP = {
-  xs: 'w-1.5 h-1.5',
-  sm: 'w-2 h-2',
-  md: 'w-2.5 h-2.5',
-  lg: 'w-3 h-3',
-  xl: 'w-4 h-4',
+  xs: 'w-1.5 h-1.5 -bottom-0.5 -right-0.5 ring-[1px]',
+  sm: 'w-2 h-2 -bottom-0.5 -right-0.5 ring-[1.5px]',
+  md: 'w-2.5 h-2.5 -bottom-0.5 -right-0.5 ring-2',
+  lg: 'w-2.5 h-2.5 -bottom-0.5 -right-0.5 ring-2',
+  xl: 'w-3 h-3 bottom-0.5 right-0.5 ring-2',
 };
 
 export const BlurUpAvatar: React.FC<BlurUpAvatarProps> = ({
@@ -62,49 +62,52 @@ export const BlurUpAvatar: React.FC<BlurUpAvatarProps> = ({
 
   return (
     <div
-      className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-[#242424] border border-[#444748]/60 ${sizeClass} ${className}`}
+      className={`relative inline-flex shrink-0 items-center justify-center ${sizeClass} ${className}`}
       title={name}
     >
-      {src && !hasError ? (
-        <>
-          {/* Blur-Up Low-Res Placeholder */}
-          {!isLoaded && (
-            <div
-              className="absolute inset-0 bg-cover bg-center filter blur-md scale-110 opacity-70 transition-opacity duration-300"
-              style={{
-                backgroundImage: blurPlaceholder
-                  ? `url(${blurPlaceholder})`
-                  : undefined,
-                backgroundColor: '#2a2a2a',
-              }}
+      <div className="w-full h-full overflow-hidden flex items-center justify-center bg-[#242424] border border-[#444748]/60">
+        {src && !hasError ? (
+          <>
+            {/* Blur-Up Low-Res Placeholder */}
+            {!isLoaded && (
+              <div
+                className="absolute inset-0 bg-cover bg-center filter blur-md scale-110 opacity-70 transition-opacity duration-300"
+                style={{
+                  backgroundImage: blurPlaceholder
+                    ? `url(${blurPlaceholder})`
+                    : undefined,
+                  backgroundColor: '#2a2a2a',
+                }}
+              />
+            )}
+
+            {/* Full Resolution Image with Preload Fade-In */}
+            <img
+              src={src}
+              alt={name}
+              className={`w-full h-full object-cover object-center transition-all duration-500 ease-out ${
+                isLoaded
+                  ? 'opacity-100 filter-none scale-100'
+                  : 'opacity-0 filter blur-sm scale-105'
+              }`}
             />
-          )}
+          </>
+        ) : (
+          /* Fallback High-Craft Monospace Initials */
+          <span className="font-mono font-bold text-white select-none">
+            {getInitials(name)}
+          </span>
+        )}
+      </div>
 
-          {/* Full Resolution Image with Preload Fade-In */}
-          <img
-            src={src}
-            alt={name}
-            className={`w-full h-full object-cover object-center transition-all duration-500 ease-out ${
-              isLoaded
-                ? 'opacity-100 filter-none scale-100'
-                : 'opacity-0 filter blur-sm scale-105'
-            }`}
-          />
-        </>
-      ) : (
-        /* Fallback High-Craft Monospace Initials */
-        <span className="font-mono font-bold text-white select-none">
-          {getInitials(name)}
-        </span>
-      )}
-
-      {/* Online Status Indicator */}
+      {/* Online Status Indicator (Discreet Discord-style Dot) */}
       {showStatusIndicator && (
         <span
-          className={`absolute bottom-0 right-0 rounded-none bg-[#34d399] border border-[#0e0e0e] ring-1 ring-[#12261e] ${statusSize}`}
+          className={`absolute rounded-full bg-[#23a55a] ring-[#0e0e0e] z-10 pointer-events-none ${statusSize}`}
           title="Online"
         />
       )}
     </div>
   );
 };
+

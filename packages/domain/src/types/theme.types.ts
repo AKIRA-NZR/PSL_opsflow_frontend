@@ -182,3 +182,4 @@ export function calculateContrastRatio(hexForeground: string, hexBackground: str
   const darker = Math.min(l1, l2);
   return Number(((lighter + 0.05) / (darker + 0.05)).toFixed(2));
 }
+
