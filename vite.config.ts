@@ -21,6 +21,31 @@ export default defineConfig({
       '@shared': fileURLToPath(new URL('./src/shared', import.meta.url)),
     },
   },
+  build: {
+    target: 'es2022',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@phosphor-icons')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'vendor-react';
+            }
+            return 'vendor';
+          }
+          if (id.includes('/packages/domain/')) {
+            return 'opsflow-domain';
+          }
+          if (id.includes('/packages/ui/')) {
+            return 'opsflow-ui';
+          }
+        },
+      },
+    },
+  },
   server: {
     port: 5173,
     proxy: {

@@ -197,3 +197,4 @@ export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
     </span>
   );
 };
+

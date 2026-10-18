@@ -71,3 +71,4 @@ export const TicketListPage: React.FC<TicketListPageProps> = ({
     </div>
   );
 };
+

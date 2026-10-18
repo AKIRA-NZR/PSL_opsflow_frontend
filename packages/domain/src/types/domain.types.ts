@@ -94,3 +94,4 @@ export interface ActivityLogItem {
   detail: string;
   createdAt: string;
 }
+

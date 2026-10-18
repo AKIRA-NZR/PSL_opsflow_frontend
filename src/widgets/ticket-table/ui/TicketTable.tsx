@@ -105,3 +105,4 @@ export const TicketTable: React.FC<TicketTableProps> = ({
     </div>
   );
 };
+

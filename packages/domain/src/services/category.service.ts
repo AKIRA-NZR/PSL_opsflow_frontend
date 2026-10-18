@@ -66,3 +66,4 @@ export function validateAndBuildCategory(params: {
     message: `Categoria "${cleanName}" criada com sucesso.`,
   };
 }
+

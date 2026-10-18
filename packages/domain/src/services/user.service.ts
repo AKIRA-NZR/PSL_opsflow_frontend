@@ -68,3 +68,4 @@ export function validateAndBuildUser(params: {
     message: `${cleanName} foi adicionado(a) à equipe.`,
   };
 }
+

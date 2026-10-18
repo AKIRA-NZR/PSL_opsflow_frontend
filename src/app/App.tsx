@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { TicketFilterState, TicketScope } from '@opsflow/domain';
+import { updateDocumentMeta } from '@shared/index';
 import { WorkspaceProvider, useWorkspace } from '@entities/session';
 import { CreateTicketModal } from '@features/create-ticket';
 import { AppShell, type NavigationSection } from '@widgets/app-shell';
@@ -45,6 +46,29 @@ const WorkspaceRouter: React.FC = () => {
     );
   }, [currentUser.id, activeRole]);
 
+  const getHeaderTitle = (): string => {
+    if (selectedTicketId) return 'Detalhes do Chamado';
+    if (activeSection === 'dashboard') return 'Visão Geral';
+    if (activeSection === 'categories') return 'Categorias';
+    if (activeSection === 'team') return 'Equipe';
+    if (activeSection === 'activity') return 'Atividades';
+    if (activeRole === 'EMPLOYEE') return 'Meus Chamados';
+    if (filters.scope === 'ASSIGNED_TO_ME') return 'Atribuídos a mim';
+    if (filters.scope === 'SLA_ATTENTION') return 'SLA Crítico';
+    return 'Chamados';
+  };
+
+  const currentTitle = isAuthenticated ? getHeaderTitle() : 'Login';
+
+  useEffect(() => {
+    updateDocumentMeta({
+      title: currentTitle,
+      description: isAuthenticated
+        ? `OPSFLOW — ${currentTitle}: controle de chamados, fila de triagem e conformidade de SLA.`
+        : 'OPSFLOW — Acesso à plataforma corporativa de gestão de ativos e operações em escala.',
+    });
+  }, [currentTitle, isAuthenticated]);
+
   if (!isAuthenticated) {
     return <LoginPage />;
   }
@@ -60,21 +84,9 @@ const WorkspaceRouter: React.FC = () => {
     setActiveSection(section);
   };
 
-  const getHeaderTitle = (): string => {
-    if (selectedTicketId) return 'Detalhes do Chamado';
-    if (activeSection === 'dashboard') return 'Visão Geral';
-    if (activeSection === 'categories') return 'Categorias';
-    if (activeSection === 'team') return 'Equipe';
-    if (activeSection === 'activity') return 'Atividades';
-    if (activeRole === 'EMPLOYEE') return 'Meus Chamados';
-    if (filters.scope === 'ASSIGNED_TO_ME') return 'Atribuídos a mim';
-    if (filters.scope === 'SLA_ATTENTION') return 'SLA Crítico';
-    return 'Chamados';
-  };
-
   return (
     <AppShell
-      title={getHeaderTitle()}
+      title={currentTitle}
       activeRole={activeRole}
       activeSection={activeSection}
       activeTicketScope={filters.scope}

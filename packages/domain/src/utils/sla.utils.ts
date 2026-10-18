@@ -62,3 +62,4 @@ export function evaluateTicketSla(ticket: Ticket): SlaDescriptor {
     wasRecalculated,
   };
 }
+

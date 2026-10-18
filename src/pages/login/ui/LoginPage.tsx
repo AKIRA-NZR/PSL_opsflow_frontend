@@ -45,12 +45,14 @@ export const LoginPage: React.FC = () => {
               </h1>
 
               <div className="relative w-full mt-6 overflow-hidden bg-[#131313] border border-[#444748]/35">
-                <div
-                  className="w-full h-64 md:h-72 bg-cover bg-center grayscale contrast-125 brightness-90"
-                  style={{
-                    backgroundImage:
-                      "url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80')",
-                  }}
+                <img
+                  src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80"
+                  alt="Arquitetura corporativa minimalista OpsFlow"
+                  width={1200}
+                  height={720}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="w-full h-64 md:h-72 object-cover object-center grayscale contrast-125 brightness-90"
                 />
               </div>
             </div>
