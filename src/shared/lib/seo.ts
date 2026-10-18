@@ -37,3 +37,4 @@ export function updateDocumentMeta({
   }
   ogTitle.setAttribute('content', formattedTitle);
 }
+

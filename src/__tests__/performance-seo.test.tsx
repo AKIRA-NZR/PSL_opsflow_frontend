@@ -1,5 +1,11 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
+import {
+  COMPONENT_TOKENS,
+  DESIGN_TOKENS,
+  PRIMITIVE_TOKENS,
+  SEMANTIC_TOKENS,
+} from '@opsflow/ui';
 import { App } from '@app/index';
 import indexHtml from '../../index.html?raw';
 import robotsTxt from '../../public/robots.txt?raw';
@@ -9,7 +15,7 @@ afterEach(() => {
   cleanup();
 });
 
-describe('OpsFlow Performance Budgets & SEO Audit Suite', () => {
+describe('OpsFlow Performance Budgets, SEO & Design Tokens Audit Suite', () => {
   it('1. Synchronizes dynamic SEO document.title, meta description, and OpenGraph title across routes', () => {
     render(<App />);
 
@@ -96,5 +102,21 @@ describe('OpsFlow Performance Budgets & SEO Audit Suite', () => {
 
     expect(manifestJson.short_name).toBe('OPSFLOW');
     expect(manifestJson.theme_color).toBe('#0e0e0e');
+  });
+
+  it('5. Enforces 3-tier Atelier Monolith Design Token System (@opsflow/ui + Semantic DOM classes)', () => {
+    expect(PRIMITIVE_TOKENS.color.carbon[900]).toBe('#131313');
+    expect(SEMANTIC_TOKENS.surface.canvas).toBe('#131313');
+    expect(SEMANTIC_TOKENS.surface.lowest).toBe('#0e0e0e');
+    expect(SEMANTIC_TOKENS.accent.sage).toBe('#6ee7b7');
+    expect(COMPONENT_TOKENS.chart.resolved).toBe('#6ee7b7');
+    expect(DESIGN_TOKENS.primitive.zIndex.popover).toBe(50);
+
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'ADMIN' }));
+
+    expect(document.querySelector('.text-status-sage')).toBeTruthy();
+    expect(document.querySelector('.text-status-sky')).toBeTruthy();
+    expect(document.querySelector('.bg-surface-lowest')).toBeTruthy();
   });
 });

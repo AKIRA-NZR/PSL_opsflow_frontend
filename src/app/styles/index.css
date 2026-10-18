@@ -1,14 +1,49 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   ATELIER MONOLITH — DESIGN TOKENS (@theme + CSS Custom Properties)
+   ========================================================================== */
+@theme {
+  --font-display: 'Space Grotesk', 'Geist', sans-serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-surface-lowest: #0e0e0e;
+  --color-surface-canvas: #131313;
+  --color-surface-recessed: #161616;
+  --color-surface-panel: #171717;
+  --color-surface-elevated: #1b1b1b;
+  --color-surface-hover: #1c1c1c;
+  --color-surface-interactive: #242424;
+  --color-surface-active: #2a2a2a;
+
+  --color-content-primary: #ffffff;
+  --color-content-secondary: #e2e2e2;
+  --color-content-subtle: #c4c7c8;
+  --color-content-muted: #8e9192;
+
+  --color-status-sage: #6ee7b7;
+  --color-status-sky: #7dd3fc;
+  --color-status-lavender: #a5b4fc;
+  --color-status-amber: #fcd34d;
+  --color-status-orange: #fdba74;
+  --color-status-coral: #fda4af;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
+
+    --border-hairline: rgba(68, 71, 72, 0.45);
+    --border-interactive: rgba(196, 199, 200, 0.35);
+    --border-popover: rgba(142, 145, 146, 0.35);
+    --shadow-popover: 0 20px 50px rgba(0, 0, 0, 0.85);
   }
 
   body {
-    background-color: #131313;
-    color: #e2e2e2;
+    background-color: var(--color-surface-canvas);
+    color: var(--color-content-secondary);
     font-size: 14px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -17,29 +52,29 @@
   }
 
   h1, h2, h3, .font-display {
-    font-family: 'Space Grotesk', 'Geist', sans-serif;
+    font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
 
   code, pre, .font-mono {
-    font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--font-mono);
   }
 }
 
 /* ==========================================================================
-   ATELIER MONOLITH — SWISS ARCHITECTURAL & COMFORTABLE MATTE DESIGN SYSTEM
+   ARCHITECTURAL SURFACE CLASSES (Powered by Semantic CSS Tokens)
    ========================================================================== */
 
 /* 1. Base Canvas (#131313 Surface) */
 .spatial-canvas {
-  background-color: #131313;
-  color: #e2e2e2;
+  background-color: var(--color-surface-canvas);
+  color: var(--color-content-secondary);
 }
 
 /* 2. Architectural Container Panel (Zero backdrop-filter to prevent z-index stacking traps) */
 .glass-panel {
-  background-color: #171717;
-  border: 1px solid rgba(68, 71, 72, 0.45);
+  background-color: var(--color-surface-panel);
+  border: 1px solid var(--border-hairline);
 }
 
 .glass-panel-interactive {
@@ -47,55 +82,55 @@
 }
 
 .glass-panel-interactive:hover {
-  background-color: #1c1c1c;
-  border-color: rgba(196, 199, 200, 0.35);
+  background-color: var(--color-surface-hover);
+  border-color: var(--border-interactive);
 }
 
 /* 3. Sidebar & Header (#0e0e0e Surface Container Lowest) */
 .glass-sidebar {
-  background-color: #0e0e0e;
-  border-right: 1px solid rgba(68, 71, 72, 0.45);
+  background-color: var(--color-surface-lowest);
+  border-right: 1px solid var(--border-hairline);
 }
 
 .glass-header {
-  background-color: #0e0e0e;
-  border-bottom: 1px solid rgba(68, 71, 72, 0.45);
+  background-color: var(--color-surface-lowest);
+  border-bottom: 1px solid var(--border-hairline);
 }
 
 /* 4. Elevated Popovers & Modals (#1b1b1b Surface Container Low) */
 .glass-popover {
-  background-color: #1b1b1b;
-  border: 1px solid rgba(142, 145, 146, 0.35);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--border-popover);
+  box-shadow: var(--shadow-popover);
 }
 
 /* 5. Recessed Input & Field Cavity (#0e0e0e) */
 .neumorphic-inset {
-  background-color: #0e0e0e;
-  border: 1px solid rgba(68, 71, 72, 0.45);
+  background-color: var(--color-surface-lowest);
+  border: 1px solid var(--border-hairline);
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .neumorphic-inset:focus-within,
 .neumorphic-inset:focus {
-  background-color: #161616;
-  border-color: #e2e2e2;
+  background-color: var(--color-surface-recessed);
+  border-color: var(--color-content-secondary);
 }
 
 /* 6. Interactive Surface (Zero vertical shift so clicks never bounce) */
 .tactile-surface {
-  background-color: #1b1b1b;
+  background-color: var(--color-surface-elevated);
   border: 1px solid rgba(68, 71, 72, 0.5);
   transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
 .tactile-surface:hover {
-  background-color: #242424;
+  background-color: var(--color-surface-interactive);
   border-color: rgba(196, 199, 200, 0.4);
 }
 
 .tactile-surface:active {
-  background-color: #2a2a2a;
+  background-color: var(--color-surface-active);
 }
 
 /* 7. Technical Metadata Badge */
@@ -106,7 +141,7 @@
 
 /* 8. Technical Monospace Label Utility */
 .label-caps {
-  font-family: 'Geist Mono', 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   line-height: 14px;
   letter-spacing: 0.12em;
@@ -120,14 +155,13 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0e0e0e;
+  background: var(--color-surface-lowest);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
+  background: var(--color-surface-active);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #444748;
 }
-

@@ -10,7 +10,7 @@ import {
   WarningOctagon,
 } from '@phosphor-icons/react';
 import { evaluateTicketSla, formatTicketCode } from '@opsflow/domain';
-import { Button } from '@opsflow/ui';
+import { Button, COMPONENT_TOKENS } from '@opsflow/ui';
 import { PriorityBadge } from '@entities/ticket';
 import { useWorkspace } from '@entities/session';
 
@@ -100,22 +100,22 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     {
       label: 'Resolvidos',
       count: metrics.resolvedOrClosed,
-      color: '#6ee7b7',
+      color: COMPONENT_TOKENS.chart.resolved,
     },
     {
       label: 'Em Atendimento',
       count: metrics.inProgress,
-      color: '#a5b4fc',
+      color: COMPONENT_TOKENS.chart.inProgress,
     },
     {
       label: 'Na Triagem',
       count: metrics.openUnassigned,
-      color: '#7dd3fc',
+      color: COMPONENT_TOKENS.chart.triage,
     },
     {
       label: 'Aguardando',
       count: metrics.waitingUser,
-      color: '#fcd34d',
+      color: COMPONENT_TOKENS.chart.waiting,
     },
   ];
 
@@ -127,56 +127,56 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-content-muted">
               PENDENTES
             </p>
-            <p className="text-2xl font-semibold text-white mt-1">
+            <p className="text-2xl font-semibold text-content-primary mt-1">
               {metrics.pendingTotal}
             </p>
           </div>
-          <div className="p-2.5 bg-[#292112] border border-[#42351b] text-[#fcd34d]">
+          <div className="p-2.5 bg-[#292112] border border-[#42351b] text-status-amber">
             <Clock className="w-4 h-4" weight="fill" />
           </div>
         </div>
 
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-content-muted">
               RESOLVIDOS
             </p>
-            <p className="text-2xl font-semibold text-white mt-1">
+            <p className="text-2xl font-semibold text-content-primary mt-1">
               {metrics.resolvedOrClosed}
             </p>
           </div>
-          <div className="p-2.5 bg-[#12261e] border border-[#1d3d31] text-[#6ee7b7]">
+          <div className="p-2.5 bg-[#12261e] border border-[#1d3d31] text-status-sage">
             <CheckCircle className="w-4 h-4" weight="fill" />
           </div>
         </div>
 
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-content-muted">
               TRIAGEM
             </p>
-            <p className="text-2xl font-semibold text-white mt-1">
+            <p className="text-2xl font-semibold text-content-primary mt-1">
               {triageQueue.length}
             </p>
           </div>
-          <div className="p-2.5 bg-[#14222e] border border-[#223a4e] text-[#7dd3fc]">
+          <div className="p-2.5 bg-[#14222e] border border-[#223a4e] text-status-sky">
             <Tray className="w-4 h-4" weight="fill" />
           </div>
         </div>
 
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-content-muted">
               SLA
             </p>
-            <p className="text-2xl font-semibold text-white mt-1">
+            <p className="text-2xl font-semibold text-content-primary mt-1">
               {metrics.slaComplianceRate}%
             </p>
           </div>
-          <div className="p-2.5 bg-[#291518] border border-[#452126] text-[#fda4af]">
+          <div className="p-2.5 bg-[#291518] border border-[#452126] text-status-coral">
             <WarningOctagon className="w-4 h-4" weight="fill" />
           </div>
         </div>
@@ -187,18 +187,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         {/* Left Chart: Weekly Volume (7 cols) */}
         <div className="lg:col-span-7 glass-panel p-5 flex flex-col justify-between space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
-              <ChartBar className="w-4 h-4 text-[#7dd3fc]" />
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-content-primary flex items-center gap-2">
+              <ChartBar className="w-4 h-4 text-status-sky" />
               VOLUME SEMANAL
             </h3>
 
-            <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-wider text-[#8e9192]">
+            <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-wider text-content-muted">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 bg-[#6ee7b7]" />
+                <span className="w-2 h-2 bg-status-sage" />
                 RESOLVIDOS
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 bg-[#7dd3fc]" />
+                <span className="w-2 h-2 bg-status-sky" />
                 PENDENTES
               </span>
             </div>
@@ -220,26 +220,26 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 >
                   <div className="w-full flex items-end justify-center gap-1.5 h-40">
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-[#6ee7b7] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-mono text-status-sage opacity-0 group-hover:opacity-100 transition-opacity">
                         {item.resolved}
                       </span>
                       <div
                         style={{ height: `${Math.max(8, resolvedHeight)}px` }}
-                        className="w-3 sm:w-4 bg-[#6ee7b7]/80 hover:bg-[#6ee7b7] transition-all"
+                        className="w-3 sm:w-4 bg-status-sage/80 hover:bg-status-sage transition-all"
                       />
                     </div>
 
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-[#7dd3fc] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-mono text-status-sky opacity-0 group-hover:opacity-100 transition-opacity">
                         {item.pending}
                       </span>
                       <div
                         style={{ height: `${Math.max(8, pendingHeight)}px` }}
-                        className="w-3 sm:w-4 bg-[#7dd3fc]/70 hover:bg-[#7dd3fc] transition-all"
+                        className="w-3 sm:w-4 bg-status-sky/70 hover:bg-status-sky transition-all"
                       />
                     </div>
                   </div>
-                  <span className="font-mono text-[10px] text-[#8e9192] pb-2">
+                  <span className="font-mono text-[10px] text-content-muted pb-2">
                     {item.day}
                   </span>
                 </div>
@@ -250,8 +250,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         {/* Right Chart: Status Distribution Donut Chart (5 cols) */}
         <div className="lg:col-span-5 glass-panel p-5 flex flex-col justify-between space-y-5">
-          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
-            <ChartDonut className="w-4 h-4 text-[#a5b4fc]" />
+          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-content-primary flex items-center gap-2">
+            <ChartDonut className="w-4 h-4 text-status-lavender" />
             STATUS
           </h3>
 
@@ -266,7 +266,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   cy="70"
                   r={radius}
                   fill="transparent"
-                  stroke="#262626"
+                  stroke={COMPONENT_TOKENS.chart.track}
                   strokeWidth="14"
                 />
                 {segments.map((seg) => {
@@ -294,7 +294,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 })}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span className="text-2xl font-semibold text-white">
+                <span className="text-2xl font-semibold text-content-primary">
                   {metrics.total}
                 </span>
               </div>
@@ -307,14 +307,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 key={seg.label}
                 className="flex items-center justify-between text-xs"
               >
-                <span className="flex items-center gap-2 text-[#c4c7c8]">
+                <span className="flex items-center gap-2 text-content-subtle">
                   <span
                     className="w-2 h-2 shrink-0"
                     style={{ backgroundColor: seg.color }}
                   />
                   {seg.label}
                 </span>
-                <span className="font-mono text-[#8e9192]">{seg.count}</span>
+                <span className="font-mono text-content-muted">{seg.count}</span>
               </div>
             ))}
           </div>
@@ -323,8 +323,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* Row 3: Compact Triage Queue */}
       <div className="glass-panel overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#444748]/40 bg-[#0e0e0e] flex items-center justify-between gap-3">
-          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white">
+        <div className="px-5 py-3 border-b border-[#444748]/40 bg-surface-lowest flex items-center justify-between gap-3">
+          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-content-primary">
             TRIAGEM ({triageQueue.length})
           </h3>
 
@@ -339,7 +339,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {triageQueue.length === 0 ? (
-          <div className="py-8 px-6 text-center text-xs text-[#8e9192]">
+          <div className="py-8 px-6 text-center text-xs text-content-muted">
             Fila vazia.
           </div>
         ) : (
@@ -347,16 +347,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             {triageQueue.map((t) => (
               <div
                 key={t.id}
-                className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-[#1c1c1c] transition-colors"
+                className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-surface-hover transition-colors"
               >
                 <div
                   onClick={() => onSelectTicket(t.id)}
                   className="flex items-center gap-3 cursor-pointer min-w-0 flex-1"
                 >
-                  <span className="font-mono text-xs text-[#8e9192] shrink-0">
+                  <span className="font-mono text-xs text-content-muted shrink-0">
                     {formatTicketCode(t.number)}
                   </span>
-                  <span className="text-sm font-medium text-white truncate">
+                  <span className="text-sm font-medium text-content-primary truncate">
                     {t.title}
                   </span>
                   <div className="hidden sm:block shrink-0">
@@ -383,4 +383,3 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     </div>
   );
 };
-
