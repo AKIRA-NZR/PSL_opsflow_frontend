@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { CalendarBlank, Clock, UserCheck, UserCircleDashed } from '@phosphor-icons/react';
+import { Clock, UserCheck, UserCircleDashed } from '@phosphor-icons/react';
 import {
   PrioritySignalIcon,
   SlaBadge,
@@ -38,22 +38,22 @@ interface TicketActionPanelProps {
 const PRIORITY_SELECT_OPTIONS: DropdownOption<TicketPriority>[] = [
   {
     value: 'LOW',
-    label: 'Baixa (72h)',
+    label: 'Baixa',
     icon: <PrioritySignalIcon priority="LOW" />,
   },
   {
     value: 'MEDIUM',
-    label: 'Média (24h)',
+    label: 'Média',
     icon: <PrioritySignalIcon priority="MEDIUM" />,
   },
   {
     value: 'HIGH',
-    label: 'Alta (8h)',
+    label: 'Alta',
     icon: <PrioritySignalIcon priority="HIGH" />,
   },
   {
     value: 'CRITICAL',
-    label: 'Crítica (4h)',
+    label: 'Crítica',
     icon: <PrioritySignalIcon priority="CRITICAL" />,
   },
 ];
@@ -95,7 +95,6 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
       base.push({
         value: tech.id,
         label: tech.name,
-        description: tech.department,
         icon: (
           <span className="w-5 h-5 bg-[#242424] border border-[#444748]/60 text-[10px] font-mono text-white inline-flex items-center justify-center">
             {getInitials(tech.name)}
@@ -109,7 +108,6 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Card 1: Current Status & Workflow Transitions */}
       <div className="relative z-10 glass-panel p-5 space-y-3.5">
         <div className="flex items-center justify-between">
           <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
@@ -118,11 +116,7 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           <StatusBadge status={ticket.status} />
         </div>
 
-        {isTerminal ? (
-          <p className="text-xs text-[#8e9192] neumorphic-inset p-3">
-            Chamado arquivado.
-          </p>
-        ) : (
+        {!isTerminal && (
           <div className="flex flex-col gap-2 pt-1">
             {allowedNext.map((nextStatus) => {
               const variant =
@@ -149,7 +143,6 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
         )}
       </div>
 
-      {/* Card 2: Assignee (z-30 so its dropdown floats over Card 3) */}
       <div className="relative z-30 glass-panel p-5 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
@@ -169,18 +162,17 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           <button
             type="button"
             onClick={() => onAssign(currentUser.id)}
-            className="font-mono text-[11px] uppercase tracking-wider text-[#7dd3fc] hover:text-white transition-colors cursor-pointer"
+            className="font-mono text-[10px] uppercase tracking-wider text-[#7dd3fc] hover:text-white transition-colors cursor-pointer"
           >
-            ASSUMIR CHAMADO [ → ]
+            ASSUMIR [ → ]
           </button>
         )}
       </div>
 
-      {/* Card 3: Priority & SLA Target (z-20) */}
       <div className="relative z-20 glass-panel p-5 space-y-3.5">
         <div className="flex items-center justify-between">
           <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
-            PRIORIDADE E SLA
+            PRIORIDADE
           </h3>
           <Clock className="w-4 h-4 text-[#a5b4fc]" />
         </div>
@@ -192,21 +184,11 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           onChange={(val) => onChangePriority(val)}
         />
 
-        <div className="neumorphic-inset p-3.5 space-y-2.5 text-xs">
-          <div className="flex items-center justify-between">
-            <span className="text-[#8e9192]">Prazo</span>
-            <SlaBadge health={sla.health} text={sla.badgeText} />
-          </div>
-
-          <div className="flex items-center justify-between pt-2 border-t border-[#444748]/35">
-            <span className="text-[#8e9192] flex items-center gap-1.5">
-              <CalendarBlank className="w-3.5 h-3.5 text-[#8e9192]" />
-              Vencimento
-            </span>
-            <span className="text-white font-mono text-[11px]">
-              {formatDateTime(ticket.dueAt)}
-            </span>
-          </div>
+        <div className="neumorphic-inset px-3.5 py-2.5 flex items-center justify-between text-xs">
+          <SlaBadge health={sla.health} text={sla.badgeText} />
+          <span className="text-[#8e9192] font-mono text-[11px]">
+            {formatDateTime(ticket.dueAt)}
+          </span>
         </div>
       </div>
     </div>

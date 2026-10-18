@@ -1,7 +1,6 @@
 import React from 'react';
 import { List, MagnifyingGlass, Plus } from '@phosphor-icons/react';
 import type { RoleName } from '../../core/types/domain.types';
-import { RolePill } from '../ui/Badge';
 import { Button } from '../ui/Button';
 
 interface TopHeaderProps {
@@ -15,7 +14,6 @@ interface TopHeaderProps {
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
   title,
-  activeRole,
   onOpenMobileSidebar,
   onOpenCommandModal,
   onOpenNewTicket,
@@ -32,27 +30,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           <List className="w-4 h-4" weight="bold" />
         </button>
 
-        <div className="flex items-center gap-3 min-w-0">
-          <h1 className="text-sm font-mono uppercase tracking-[0.12em] text-white truncate">
-            {title}
-          </h1>
-          <div className="hidden sm:block">
-            <RolePill role={activeRole} />
-          </div>
-        </div>
+        <h1 className="text-sm font-mono uppercase tracking-[0.12em] text-white truncate">
+          {title}
+        </h1>
       </div>
 
-      <div className="flex items-center gap-2.5 shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <button
           type="button"
           onClick={onOpenCommandModal}
-          className="hidden md:flex items-center gap-2.5 px-3 py-1.5 bg-[#161616] border border-[#444748]/50 hover:border-[#8e9192] text-xs text-[#8e9192] hover:text-white transition-colors cursor-pointer"
+          className="p-2 bg-[#161616] border border-[#444748]/50 hover:border-[#8e9192] text-[#8e9192] hover:text-white transition-colors cursor-pointer"
+          title="Buscar (Ctrl+K)"
         >
-          <MagnifyingGlass className="w-3.5 h-3.5" weight="bold" />
-          <span>Buscar...</span>
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-[#8e9192] bg-[#0e0e0e] border border-[#444748]/40">
-            Ctrl K
-          </kbd>
+          <MagnifyingGlass className="w-4 h-4" weight="bold" />
         </button>
 
         <Button

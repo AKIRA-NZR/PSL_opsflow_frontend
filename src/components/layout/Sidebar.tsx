@@ -46,8 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNavigateSection,
   onOpenNewTicket,
 }) => {
-  const { activeCompany, currentUser, activeRole, tenantTickets } =
-    useWorkspace();
+  const { currentUser, activeRole, tenantTickets } = useWorkspace();
 
   const isStaff = activeRole === 'ADMIN' || activeRole === 'TECHNICIAN';
 
@@ -63,7 +62,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return sla.health === 'BREACHED' || sla.health === 'AT_RISK';
   }).length;
 
-  // Fixed border and zero vertical transform so clicking options never shifts layout
   const navItemClass = (isActive: boolean) =>
     `group w-full flex items-center justify-between px-3 py-2.5 text-xs font-medium border transition-colors duration-150 cursor-pointer ${
       isActive
@@ -108,14 +106,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="w-2 h-2 bg-white shrink-0" />
               {!collapsedMode && (
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white tracking-wider uppercase truncate">
-                    OPSFLOW
-                  </div>
-                  <div className="font-mono text-[10px] text-[#8e9192] truncate">
-                    {activeCompany.name}
-                  </div>
-                </div>
+                <span className="text-sm font-semibold text-white tracking-wider uppercase truncate">
+                  OPSFLOW
+                </span>
               )}
             </button>
 
@@ -139,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </div>
 
-          <div className="p-3 space-y-5">
+          <div className="p-3 space-y-4">
             {collapsedMode && (
               <div className="hidden lg:flex justify-center">
                 <button
@@ -153,7 +146,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             )}
 
-            {/* Employee Action */}
             {!isStaff && !collapsedMode && (
               <button
                 type="button"
@@ -161,21 +153,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onOpenNewTicket();
                   onCloseMobile();
                 }}
-                className="w-full py-2.5 px-3 bg-white text-[#131313] font-mono text-[11px] font-bold uppercase tracking-[0.12em] hover:bg-[#c6c6c6] transition-colors flex items-center justify-between cursor-pointer"
+                className="w-full py-2 px-3 bg-white text-[#131313] font-mono text-[11px] font-bold uppercase tracking-[0.12em] hover:bg-[#c6c6c6] transition-colors flex items-center justify-between cursor-pointer"
               >
                 <span>NOVO CHAMADO</span>
                 <Plus className="w-3.5 h-3.5" weight="bold" />
               </button>
             )}
 
-            {/* Navigation Group 1 */}
             <nav className="space-y-1" aria-label="Navegação principal">
-              {!collapsedMode && (
-                <div className="px-3 pb-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-[#8e9192]">
-                  {isStaff ? 'OPERAÇÃO' : 'MENU'}
-                </div>
-              )}
-
               {isStaff && (
                 <button
                   type="button"
@@ -210,12 +195,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className={iconClass(isAllActive)}
                     weight={isAllActive ? 'fill' : 'regular'}
                   />
-                  {!collapsedMode && (
-                    <span>{isStaff ? 'Chamados' : 'Meus Chamados'}</span>
-                  )}
+                  {!collapsedMode && <span>Chamados</span>}
                 </span>
                 {!collapsedMode && (
-                  <span className="px-1.5 py-0.5 text-[10px] text-[#8e9192] font-mono bg-[#161616] border border-[#444748]/40">
+                  <span className="font-mono text-[10px] text-[#8e9192]">
                     {tenantTickets.length}
                   </span>
                 )}
@@ -239,7 +222,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     {!collapsedMode && <span>Atribuídos</span>}
                   </span>
                   {!collapsedMode && assignedCount > 0 && (
-                    <span className="px-1.5 py-0.5 text-[10px] text-[#7dd3fc] font-mono bg-[#14222e] border border-[#223a4e]">
+                    <span className="font-mono text-[10px] text-[#7dd3fc]">
                       {assignedCount}
                     </span>
                   )}
@@ -264,7 +247,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     {!collapsedMode && <span>SLA Crítico</span>}
                   </span>
                   {!collapsedMode && attentionCount > 0 && (
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono bg-[#291518] text-[#fda4af] border border-[#452126]">
+                    <span className="font-mono text-[10px] text-[#fda4af]">
                       {attentionCount}
                     </span>
                   )}
@@ -272,18 +255,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
               )}
             </nav>
 
-            {/* Navigation Group 2: Governance */}
             {isStaff && (
               <nav
                 className="space-y-1 pt-3 border-t border-[#444748]/35"
                 aria-label="Gestão"
               >
-                {!collapsedMode && (
-                  <div className="px-3 pb-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-[#8e9192]">
-                    GESTÃO
-                  </div>
-                )}
-
                 <button
                   type="button"
                   onClick={() => {
@@ -350,7 +326,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Bottom Profile & Logout */}
         <div className="p-3 border-t border-[#444748]/40">
           <ProfileSwitcher collapsed={collapsedMode} />
         </div>
@@ -362,7 +337,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <>
       <aside
         className={`hidden lg:block shrink-0 transition-all duration-150 ${
-          isCollapsed ? 'w-16' : 'w-60'
+          isCollapsed ? 'w-16' : 'w-56'
         }`}
       >
         {renderSidebarContent(isCollapsed)}
@@ -374,7 +349,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="fixed inset-0 bg-black/75"
             onClick={onCloseMobile}
           />
-          <aside className="relative w-64 max-w-[85vw] h-full z-10">
+          <aside className="relative w-60 max-w-[85vw] h-full z-10">
             {renderSidebarContent(false)}
           </aside>
         </div>

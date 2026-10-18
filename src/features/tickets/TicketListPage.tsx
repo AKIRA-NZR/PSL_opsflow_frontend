@@ -4,7 +4,6 @@ import type { TicketFilterState } from '../../core/types/service.types';
 import { formatTicketCode } from '../../core/utils/date.utils';
 import { evaluateTicketSla } from '../../core/utils/sla.utils';
 import { TicketFilterBar } from './TicketFilterBar';
-import { TicketSummaryCards } from './TicketSummaryCards';
 import { TicketTable } from './TicketTable';
 
 interface TicketListPageProps {
@@ -59,8 +58,7 @@ export const TicketListPage: React.FC<TicketListPageProps> = ({
   }, [tenantTickets, filters, currentUser.id]);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <TicketSummaryCards tickets={tenantTickets} />
+    <div className="max-w-7xl mx-auto space-y-4">
       <TicketFilterBar filters={filters} onChange={onUpdateFilters} />
       <TicketTable
         tickets={filteredTickets}
@@ -71,4 +69,3 @@ export const TicketListPage: React.FC<TicketListPageProps> = ({
     </div>
   );
 };
-

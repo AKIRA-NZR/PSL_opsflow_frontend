@@ -9,13 +9,10 @@ import {
   UserPlus,
   WarningOctagon,
 } from '@phosphor-icons/react';
-import {
-  PriorityBadge,
-  SlaBadge,
-} from '../../components/ui/Badge';
+import { PriorityBadge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { useWorkspace } from '../../context/WorkspaceContext';
-import { formatDateTime, formatTicketCode } from '../../core/utils/date.utils';
+import { formatTicketCode } from '../../core/utils/date.utils';
 import { evaluateTicketSla } from '../../core/utils/sla.utils';
 
 interface DashboardPageProps {
@@ -27,12 +24,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onSelectTicket,
   onNavigateQueue,
 }) => {
-  const {
-    tenantTickets,
-    tenantCategories,
-    tenantUsers,
-    assumeAndStartTicket,
-  } = useWorkspace();
+  const { tenantTickets, assumeAndStartTicket } = useWorkspace();
 
   const metrics = useMemo(() => {
     let openUnassigned = 0;
@@ -40,7 +32,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     let waitingUser = 0;
     let resolvedOrClosed = 0;
     let slaOnTimeCount = 0;
-    let slaAttentionCount = 0;
 
     for (const t of tenantTickets) {
       if (t.status === 'OPEN') openUnassigned++;
@@ -49,16 +40,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       if (t.status === 'RESOLVED' || t.status === 'CLOSED') resolvedOrClosed++;
 
       const sla = evaluateTicketSla(t);
-      if (sla.health === 'BREACHED' || sla.health === 'AT_RISK') {
-        slaAttentionCount++;
-      } else {
+      if (sla.health !== 'BREACHED' && sla.health !== 'AT_RISK') {
         slaOnTimeCount++;
       }
     }
 
     const total = Math.max(1, tenantTickets.length);
     const pendingTotal = openUnassigned + inProgress + waitingUser;
-    const resolutionRate = Math.round((resolvedOrClosed / total) * 100);
     const slaComplianceRate = Math.round((slaOnTimeCount / total) * 100);
 
     return {
@@ -68,8 +56,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       waitingUser,
       pendingTotal,
       resolvedOrClosed,
-      slaAttentionCount,
-      resolutionRate,
       slaComplianceRate,
     };
   }, [tenantTickets]);
@@ -96,28 +82,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     ...weeklySeries.map((d) => Math.max(d.resolved, d.pending))
   );
 
-  const categoryStats = useMemo(() => {
-    return tenantCategories.map((cat) => {
-      const catTickets = tenantTickets.filter((t) => t.categoryId === cat.id);
-      const resolved = catTickets.filter(
-        (t) => t.status === 'RESOLVED' || t.status === 'CLOSED'
-      ).length;
-      const pending = catTickets.filter(
-        (t) =>
-          t.status === 'OPEN' ||
-          t.status === 'IN_PROGRESS' ||
-          t.status === 'WAITING_USER'
-      ).length;
-      return {
-        id: cat.id,
-        name: cat.name,
-        total: catTickets.length,
-        resolved,
-        pending,
-      };
-    });
-  }, [tenantCategories, tenantTickets]);
-
   const triageQueue = useMemo(
     () =>
       tenantTickets.filter(
@@ -133,27 +97,26 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   const circumference = 2 * Math.PI * radius;
   const totalForDonut = Math.max(1, metrics.total);
 
-  // Comfortable semantic colors for status breakdown
   const segments = [
     {
       label: 'Resolvidos',
       count: metrics.resolvedOrClosed,
-      color: '#6ee7b7', // Soft Sage Emerald
+      color: '#6ee7b7',
     },
     {
       label: 'Em Atendimento',
       count: metrics.inProgress,
-      color: '#a5b4fc', // Soft Periwinkle
+      color: '#a5b4fc',
     },
     {
       label: 'Na Triagem',
       count: metrics.openUnassigned,
-      color: '#7dd3fc', // Soft Sky
+      color: '#7dd3fc',
     },
     {
       label: 'Aguardando',
       count: metrics.waitingUser,
-      color: '#fcd34d', // Warm Sand Amber
+      color: '#fcd34d',
     },
   ];
 
@@ -194,7 +157,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
-              FILA DE TRIAGEM
+              TRIAGEM
             </p>
             <p className="text-2xl font-semibold text-white mt-1">
               {triageQueue.length}
@@ -208,7 +171,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <div className="glass-panel p-4 sm:p-5 flex items-center justify-between">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
-              SLA NO PRAZO
+              SLA
             </p>
             <p className="text-2xl font-semibold text-white mt-1">
               {metrics.slaComplianceRate}%
@@ -242,13 +205,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
           </div>
 
-          <div className="h-44 pt-4 flex items-end justify-between gap-3 sm:gap-5 px-4 neumorphic-inset">
+          <div className="h-56 pt-6 flex items-end justify-between gap-3 sm:gap-5 px-4 neumorphic-inset">
             {weeklySeries.map((item) => {
               const resolvedHeight = Math.round(
-                (item.resolved / maxWeeklyVal) * 120
+                (item.resolved / maxWeeklyVal) * 150
               );
               const pendingHeight = Math.round(
-                (item.pending / maxWeeklyVal) * 120
+                (item.pending / maxWeeklyVal) * 150
               );
 
               return (
@@ -256,7 +219,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   key={item.day}
                   className="flex-1 flex flex-col items-center gap-2 group"
                 >
-                  <div className="w-full flex items-end justify-center gap-1.5 h-32">
+                  <div className="w-full flex items-end justify-center gap-1.5 h-40">
                     <div className="flex flex-col items-center gap-1">
                       <span className="text-[10px] font-mono text-[#6ee7b7] opacity-0 group-hover:opacity-100 transition-opacity">
                         {item.resolved}
@@ -264,7 +227,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                       <div
                         style={{ height: `${Math.max(8, resolvedHeight)}px` }}
                         className="w-3 sm:w-4 bg-[#6ee7b7]/80 hover:bg-[#6ee7b7] transition-all"
-                        title={`Resolvidos (${item.day}): ${item.resolved}`}
                       />
                     </div>
 
@@ -275,7 +237,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                       <div
                         style={{ height: `${Math.max(8, pendingHeight)}px` }}
                         className="w-3 sm:w-4 bg-[#7dd3fc]/70 hover:bg-[#7dd3fc] transition-all"
-                        title={`Pendentes (${item.day}): ${item.pending}`}
                       />
                     </div>
                   </div>
@@ -286,45 +247,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               );
             })}
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {categoryStats.map((c) => {
-              const pct =
-                c.total > 0 ? Math.round((c.resolved / c.total) * 100) : 0;
-              return (
-                <div
-                  key={c.id}
-                  className="neumorphic-inset p-3 space-y-1.5"
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-[#e2e2e2] truncate">
-                      {c.name}
-                    </span>
-                    <span className="text-[#8e9192] font-mono text-[11px]">
-                      {c.resolved}/{c.total}
-                    </span>
-                  </div>
-                  <div className="w-full h-1 bg-[#262626] overflow-hidden">
-                    <div
-                      style={{ width: `${pct}%` }}
-                      className="h-full bg-[#6ee7b7] transition-all"
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
         {/* Right Chart: Status Distribution Donut Chart (5 cols) */}
         <div className="lg:col-span-5 glass-panel p-5 flex flex-col justify-between space-y-5">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
             <ChartDonut className="w-4 h-4 text-[#a5b4fc]" />
-            POR STATUS
+            STATUS
           </h3>
 
           <div className="flex flex-col items-center justify-center py-1">
-            <div className="relative w-40 h-40 neumorphic-inset flex items-center justify-center p-2">
+            <div className="relative w-36 h-36 neumorphic-inset flex items-center justify-center p-2">
               <svg
                 viewBox="0 0 140 140"
                 className="w-full h-full -rotate-90 transform"
@@ -365,43 +298,35 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 <span className="text-2xl font-semibold text-white">
                   {metrics.total}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#8e9192]">
-                  TOTAL
-                </span>
               </div>
             </div>
           </div>
 
-          <div className="space-y-2 pt-3 border-t border-[#444748]/35">
-            {segments.map((seg) => {
-              const pct = Math.round((seg.count / totalForDonut) * 100);
-              return (
-                <div
-                  key={seg.label}
-                  className="flex items-center justify-between text-xs"
-                >
-                  <span className="flex items-center gap-2 text-[#c4c7c8]">
-                    <span
-                      className="w-2 h-2 shrink-0"
-                      style={{ backgroundColor: seg.color }}
-                    />
-                    {seg.label}
-                  </span>
-                  <span className="font-mono text-[#8e9192]">
-                    {seg.count} ({pct}%)
-                  </span>
-                </div>
-              );
-            })}
+          <div className="space-y-1.5 pt-3 border-t border-[#444748]/35">
+            {segments.map((seg) => (
+              <div
+                key={seg.label}
+                className="flex items-center justify-between text-xs"
+              >
+                <span className="flex items-center gap-2 text-[#c4c7c8]">
+                  <span
+                    className="w-2 h-2 shrink-0"
+                    style={{ backgroundColor: seg.color }}
+                  />
+                  {seg.label}
+                </span>
+                <span className="font-mono text-[#8e9192]">{seg.count}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Row 3: Compact Triage Queue */}
       <div className="glass-panel overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-[#444748]/40 bg-[#0e0e0e] flex items-center justify-between gap-3">
+        <div className="px-5 py-3 border-b border-[#444748]/40 bg-[#0e0e0e] flex items-center justify-between gap-3">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-white">
-            TRIAGEM PENDENTE ({triageQueue.length})
+            TRIAGEM ({triageQueue.length})
           </h3>
 
           <Button
@@ -415,61 +340,44 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {triageQueue.length === 0 ? (
-          <div className="py-10 px-6 text-center text-xs text-[#8e9192]">
-            Nenhum chamado aguardando triagem.
+          <div className="py-8 px-6 text-center text-xs text-[#8e9192]">
+            Fila vazia.
           </div>
         ) : (
           <div className="divide-y divide-[#444748]/30">
-            {triageQueue.map((t) => {
-              const requester = tenantUsers.find(
-                (u) => u.id === t.requesterId
-              );
-              const category = tenantCategories.find(
-                (c) => c.id === t.categoryId
-              );
-              const sla = evaluateTicketSla(t);
-
-              return (
+            {triageQueue.map((t) => (
+              <div
+                key={t.id}
+                className="px-5 py-3 flex items-center justify-between gap-3 hover:bg-[#1c1c1c] transition-colors"
+              >
                 <div
-                  key={t.id}
-                  className="px-5 py-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-3 hover:bg-[#1c1c1c] transition-colors"
+                  onClick={() => onSelectTicket(t.id)}
+                  className="flex items-center gap-3 cursor-pointer min-w-0 flex-1"
                 >
-                  <div
-                    onClick={() => onSelectTicket(t.id)}
-                    className="space-y-1 cursor-pointer min-w-0 flex-1"
-                  >
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs text-[#8e9192]">
-                        {formatTicketCode(t.number)}
-                      </span>
-                      <span className="text-sm font-medium text-white">
-                        {t.title}
-                      </span>
-                      <PriorityBadge priority={t.priority} />
-                      <SlaBadge health={sla.health} text={sla.badgeText} />
-                    </div>
-                    <div className="text-xs text-[#8e9192]">
-                      {category?.name || 'Geral'} · {requester?.name || 'Colaborador'} ·{' '}
-                      {formatDateTime(t.createdAt)}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      icon={<UserPlus className="w-3.5 h-3.5" weight="bold" />}
-                      onClick={() => {
-                        assumeAndStartTicket(t.id);
-                        onSelectTicket(t.id);
-                      }}
-                    >
-                      Assumir
-                    </Button>
+                  <span className="font-mono text-xs text-[#8e9192] shrink-0">
+                    {formatTicketCode(t.number)}
+                  </span>
+                  <span className="text-sm font-medium text-white truncate">
+                    {t.title}
+                  </span>
+                  <div className="hidden sm:block shrink-0">
+                    <PriorityBadge priority={t.priority} />
                   </div>
                 </div>
-              );
-            })}
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={<UserPlus className="w-3.5 h-3.5" weight="bold" />}
+                  onClick={() => {
+                    assumeAndStartTicket(t.id);
+                    onSelectTicket(t.id);
+                  }}
+                >
+                  Assumir
+                </Button>
+              </div>
+            ))}
           </div>
         )}
       </div>

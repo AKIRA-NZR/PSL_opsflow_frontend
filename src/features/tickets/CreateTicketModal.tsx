@@ -8,10 +8,7 @@ import {
 } from '../../components/ui/DropdownSelect';
 import { Modal } from '../../components/ui/Modal';
 import { useWorkspace } from '../../context/WorkspaceContext';
-import {
-  PRIORITY_LABELS,
-  SLA_HOURS_BY_PRIORITY,
-} from '../../core/constants/ticket.constants';
+import { PRIORITY_LABELS } from '../../core/constants/ticket.constants';
 import type { TicketPriority } from '../../core/types/domain.types';
 
 interface CreateTicketModalProps {
@@ -84,7 +81,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Ex.: Acesso à VPN ou lentidão no sistema"
+            placeholder="Assunto do chamado..."
             className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
           />
         </div>
@@ -112,20 +109,15 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
                   key={p}
                   type="button"
                   onClick={() => setPriority(p)}
-                  className={`flex flex-col items-start gap-1 p-2.5 text-left border transition-colors cursor-pointer ${
+                  className={`flex items-center justify-center gap-2 py-2.5 px-2 border transition-colors cursor-pointer ${
                     isSelected
                       ? 'bg-[#242424] border-white text-white'
                       : 'bg-[#0e0e0e] border-[#444748]/45 hover:border-[#8e9192] text-[#c4c7c8]'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <PrioritySignalIcon priority={p} />
-                    <span className="text-xs font-semibold text-white">
-                      {PRIORITY_LABELS[p]}
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] text-[#8e9192]">
-                    SLA {SLA_HOURS_BY_PRIORITY[p]}h
+                  <PrioritySignalIcon priority={p} />
+                  <span className="text-xs font-medium">
+                    {PRIORITY_LABELS[p]}
                   </span>
                 </button>
               );
@@ -141,7 +133,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
             rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Detalhes do chamado..."
+            placeholder="Detalhes..."
             className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
           />
         </div>
@@ -151,7 +143,7 @@ export const CreateTicketModal: React.FC<CreateTicketModalProps> = ({
             Cancelar
           </Button>
           <Button type="submit" variant="primary">
-            Criar Chamado
+            Criar
           </Button>
         </div>
       </form>

@@ -18,7 +18,6 @@ describe('OpsFlow Frontend Integration & Regression Suite', () => {
     const adminBtn = screen.getByRole('button', { name: 'ADMIN' });
     fireEvent.click(adminBtn);
 
-    // Should land on Admin Dashboard ("Visão Geral")
     expect(screen.getByRole('heading', { name: /Visão Geral/i })).toBeTruthy();
   });
 
@@ -31,33 +30,26 @@ describe('OpsFlow Frontend Integration & Regression Suite', () => {
     });
     const adminNav = screen.getByRole('navigation', { name: /Gestão/i });
 
-    // Navigate to Chamados
     fireEvent.click(within(mainNav).getByTitle('Chamados'));
     expect(screen.getByRole('heading', { name: /^Chamados$/i })).toBeTruthy();
 
-    // Navigate to Atribuídos
     fireEvent.click(within(mainNav).getByTitle('Atribuídos'));
     expect(
       screen.getByRole('heading', { name: /Atribuídos a mim/i })
     ).toBeTruthy();
 
-    // Navigate to SLA Crítico
     fireEvent.click(within(mainNav).getByTitle('SLA Crítico'));
     expect(screen.getByRole('heading', { name: /SLA Crítico/i })).toBeTruthy();
 
-    // Navigate to Categorias
     fireEvent.click(within(adminNav).getByTitle('Categorias'));
     expect(screen.getByRole('heading', { name: /Categorias/i })).toBeTruthy();
 
-    // Navigate to Equipe
     fireEvent.click(within(adminNav).getByTitle('Equipe'));
     expect(screen.getByRole('heading', { name: /Equipe/i })).toBeTruthy();
 
-    // Navigate to Atividades
     fireEvent.click(within(adminNav).getByTitle('Atividades'));
     expect(screen.getByRole('heading', { name: /Atividades/i })).toBeTruthy();
 
-    // Return to Visão Geral
     fireEvent.click(within(mainNav).getByTitle('Visão Geral'));
     expect(screen.getByRole('heading', { name: /Visão Geral/i })).toBeTruthy();
   });
@@ -72,7 +64,7 @@ describe('OpsFlow Frontend Integration & Regression Suite', () => {
     fireEvent.click(within(mainNav).getByTitle('Chamados'));
 
     const statusTrigger = screen.getByRole('button', {
-      name: /Status: Todos/i,
+      name: /^Status$/i,
     });
     const dropdownWrapper = statusTrigger.parentElement;
     expect(dropdownWrapper?.className).toContain('z-10');
@@ -81,25 +73,21 @@ describe('OpsFlow Frontend Integration & Regression Suite', () => {
     fireEvent.click(statusTrigger);
     expect(dropdownWrapper?.className).toContain('z-50');
 
-    // Select 'Aberto'
     const openOption = screen.getByRole('button', { name: /^Aberto$/i });
     fireEvent.click(openOption);
 
-    // Clear filter button should appear
     const clearBtn = screen.getByRole('button', { name: /Limpar/i });
     expect(clearBtn).toBeTruthy();
     fireEvent.click(clearBtn);
   });
 
-  it('4. Restricts Employee role to Meus Chamados and allows creating a new ticket', () => {
+  it('4. Restricts Employee role to Meus Chamados and hides Gestão navigation', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'COLABORADOR' }));
 
-    // Employee lands on Meus Chamados and does not see Gestão nav
     expect(
       screen.getByRole('heading', { name: /Meus Chamados/i })
     ).toBeTruthy();
     expect(screen.queryByRole('navigation', { name: /Gestão/i })).toBeNull();
   });
 });
-

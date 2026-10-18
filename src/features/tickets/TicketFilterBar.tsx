@@ -19,7 +19,7 @@ interface TicketFilterBarProps {
 const STATUS_OPTIONS: DropdownOption<TicketStatus | 'ALL'>[] = [
   {
     value: 'ALL',
-    label: 'Status: Todos',
+    label: 'Status',
     icon: <FunnelSimple className="w-3.5 h-3.5 text-[#8e9192]" weight="bold" />,
   },
   {
@@ -57,7 +57,7 @@ const STATUS_OPTIONS: DropdownOption<TicketStatus | 'ALL'>[] = [
 const PRIORITY_OPTIONS: DropdownOption<TicketPriority | 'ALL'>[] = [
   {
     value: 'ALL',
-    label: 'Prioridade: Todas',
+    label: 'Prioridade',
     icon: <FunnelSimple className="w-3.5 h-3.5 text-[#8e9192]" weight="bold" />,
   },
   {
@@ -92,7 +92,7 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
     filters.search.trim().length > 0;
 
   return (
-    <div className="relative z-30 glass-panel p-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+    <div className="relative z-30 glass-panel p-3 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
       <div className="relative flex-1 max-w-md">
         <MagnifyingGlass
           className="w-4 h-4 text-[#8e9192] absolute left-3.5 top-1/2 -translate-y-1/2"
@@ -102,7 +102,7 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
           type="text"
           value={filters.search}
           onChange={(e) => onChange({ search: e.target.value })}
-          placeholder="Buscar por código ou assunto..."
+          placeholder="Buscar..."
           className="w-full neumorphic-inset pl-10 pr-4 py-2 text-xs sm:text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
         />
       </div>
@@ -112,7 +112,7 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
           value={filters.status}
           options={STATUS_OPTIONS}
           onChange={(val) => onChange({ status: val })}
-          className="w-44"
+          className="w-40"
           align="right"
         />
 
@@ -120,7 +120,7 @@ export const TicketFilterBar: React.FC<TicketFilterBarProps> = ({
           value={filters.priority}
           options={PRIORITY_OPTIONS}
           onChange={(val) => onChange({ priority: val })}
-          className="w-44"
+          className="w-40"
           align="right"
         />
 

@@ -3,7 +3,6 @@ import { Archive, Folders, Plus } from '@phosphor-icons/react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { useWorkspace } from '../../context/WorkspaceContext';
-import { formatShortDate } from '../../core/utils/date.utils';
 
 export const CategoriesPage: React.FC = () => {
   const {
@@ -55,42 +54,35 @@ export const CategoriesPage: React.FC = () => {
               key={cat.id}
               className="glass-panel p-5 flex flex-col justify-between gap-4"
             >
-              <div className="space-y-2">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 bg-[#14222e] border border-[#223a4e] text-[#7dd3fc]">
-                      <Folders className="w-4 h-4" weight="fill" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">
-                        {cat.name}
-                      </h3>
-                      <span className="font-mono text-[10px] text-[#8e9192]">
-                        {formatShortDate(cat.createdAt)} · {linkedTickets}{' '}
-                        chamado(s)
-                      </span>
-                    </div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-[#14222e] border border-[#223a4e] text-[#7dd3fc]">
+                    <Folders className="w-4 h-4" weight="fill" />
                   </div>
-
-                  <span
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider border ${
-                      cat.active
-                        ? 'bg-[#12261e] text-[#6ee7b7] border-[#1d3d31]'
-                        : 'bg-[#1b1b1b] text-[#8e9192] border-[#2e2e2e]'
-                    }`}
-                  >
-                    <span
-                      className={`w-1.5 h-1.5 ${
-                        cat.active ? 'bg-[#34d399]' : 'bg-[#8e9192]'
-                      }`}
-                    />
-                    {cat.active ? 'Ativa' : 'Pausada'}
-                  </span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">
+                      {cat.name}
+                    </h3>
+                    <span className="font-mono text-[10px] text-[#8e9192]">
+                      {linkedTickets} chamado(s)
+                    </span>
+                  </div>
                 </div>
 
-                <p className="text-xs text-[#c4c7c8] leading-relaxed pt-1">
-                  {cat.description}
-                </p>
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider border ${
+                    cat.active
+                      ? 'bg-[#12261e] text-[#6ee7b7] border-[#1d3d31]'
+                      : 'bg-[#1b1b1b] text-[#8e9192] border-[#2e2e2e]'
+                  }`}
+                >
+                  <span
+                    className={`w-1.5 h-1.5 ${
+                      cat.active ? 'bg-[#34d399]' : 'bg-[#8e9192]'
+                    }`}
+                  />
+                  {cat.active ? 'Ativa' : 'Pausada'}
+                </span>
               </div>
 
               {activeRole === 'ADMIN' && (
@@ -134,19 +126,6 @@ export const CategoriesPage: React.FC = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex.: Infraestrutura"
               className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
-              DESCRIÇÃO
-            </label>
-            <textarea
-              rows={3}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Escopo da categoria..."
-              className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
             />
           </div>
 

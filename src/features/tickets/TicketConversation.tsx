@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ChatText, LockKey, PaperPlaneRight } from '@phosphor-icons/react';
-import { RolePill } from '../../components/ui/Badge';
+import { LockKey, PaperPlaneRight } from '@phosphor-icons/react';
 import { Button } from '../../components/ui/Button';
 import type {
   RoleName,
@@ -40,22 +39,26 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
 
   return (
     <div className="space-y-5">
-      {/* Reply Box */}
       <form
         onSubmit={handleSubmit}
-        className={`glass-panel p-5 space-y-3.5 transition-colors ${
+        className={`glass-panel p-4 space-y-3 transition-colors ${
           isInternal && activeRole !== 'EMPLOYEE'
             ? 'border-[#42351b] bg-[#1c170d]'
             : ''
         }`}
       >
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
-            <ChatText className="w-4 h-4 text-[#7dd3fc]" />
-            RESPONDER
-          </span>
+        <textarea
+          rows={3}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder={
+            isInternal ? 'Nota interna...' : 'Escreva uma mensagem...'
+          }
+          className="w-full neumorphic-inset p-3 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
+        />
 
-          {activeRole !== 'EMPLOYEE' && (
+        <div className="flex items-center justify-between gap-2">
+          {activeRole !== 'EMPLOYEE' ? (
             <label className="inline-flex items-center gap-2 text-xs text-[#8e9192] cursor-pointer select-none">
               <input
                 type="checkbox"
@@ -68,20 +71,10 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                 Nota interna
               </span>
             </label>
+          ) : (
+            <span />
           )}
-        </div>
 
-        <textarea
-          rows={3}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder={
-            isInternal ? 'Anotação interna da equipe...' : 'Escreva uma resposta...'
-          }
-          className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
-        />
-
-        <div className="flex justify-end">
           <Button
             type="submit"
             variant="primary"
@@ -89,12 +82,11 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
             disabled={!content.trim()}
             icon={<PaperPlaneRight className="w-3.5 h-3.5" weight="fill" />}
           >
-            {isInternal ? 'Salvar Nota' : 'Enviar'}
+            Enviar
           </Button>
         </div>
       </form>
 
-      {/* Tabs: Conversation vs History */}
       <div className="space-y-3.5">
         <div className="flex items-center gap-2 border-b border-[#444748]/35 pb-2.5">
           <button
@@ -130,36 +122,28 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
             ) : (
               comments.map((c) => {
                 const author = users.find((u) => u.id === c.authorId);
-                const primaryRole = author?.roles.includes('ADMIN')
-                  ? 'ADMIN'
-                  : author?.roles.includes('TECHNICIAN')
-                    ? 'TECHNICIAN'
-                    : 'EMPLOYEE';
 
                 return (
                   <div
                     key={c.id}
-                    className={`glass-panel p-5 space-y-2.5 ${
+                    className={`glass-panel p-4 space-y-2 ${
                       c.internal ? 'border-[#42351b] bg-[#1c170d]' : ''
                     }`}
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 bg-[#242424] border border-[#444748]/60 text-[10px] font-mono text-white flex items-center justify-center">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-[#242424] border border-[#444748]/60 text-[10px] font-mono text-white flex items-center justify-center">
                           {getInitials(author?.name || 'Usuário')}
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-white">
-                            {author?.name || 'Usuário'}
+                        <span className="text-xs font-medium text-white">
+                          {author?.name || 'Usuário'}
+                        </span>
+                        {c.internal && (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider bg-[#292112] text-[#fcd34d] border border-[#42351b]">
+                            <LockKey className="w-2.5 h-2.5" weight="fill" />
+                            Interna
                           </span>
-                          <RolePill role={primaryRole} />
-                          {c.internal && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-[#292112] text-[#fcd34d] border border-[#42351b]">
-                              <LockKey className="w-3 h-3" weight="fill" />
-                              Interna
-                            </span>
-                          )}
-                        </div>
+                        )}
                       </div>
                       <span className="font-mono text-[11px] text-[#8e9192]">
                         {formatDateTime(c.createdAt)}
@@ -181,20 +165,13 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
               return (
                 <div
                   key={h.id}
-                  className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-sm"
+                  className="px-4 py-3 flex items-center justify-between gap-2 text-xs"
                 >
-                  <div>
-                    <div className="text-[#e2e2e2] font-medium">
-                      {h.summary}{' '}
-                      <span className="text-[#8e9192] font-normal">
-                        por {actor?.name || 'Sistema'}
-                      </span>
-                    </div>
-                    {h.detail && (
-                      <div className="text-xs text-[#8e9192] mt-0.5">
-                        {h.detail}
-                      </div>
-                    )}
+                  <div className="text-[#e2e2e2]">
+                    {h.summary}{' '}
+                    <span className="text-[#8e9192]">
+                      · {actor?.name || 'Sistema'}
+                    </span>
                   </div>
                   <span className="font-mono text-[11px] text-[#8e9192] shrink-0">
                     {formatDateTime(h.createdAt)}

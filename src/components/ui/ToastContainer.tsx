@@ -32,24 +32,19 @@ export const ToastContainer: React.FC = () => {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none">
       {toasts.map((toast) => {
         const style = TOAST_STYLES[toast.variant];
         return (
           <div
             key={toast.id}
-            className={`pointer-events-auto bg-[#1b1b1b] border ${style.border} shadow-[0_16px_40px_rgba(0,0,0,0.85)] p-3.5 flex items-start justify-between gap-3`}
+            className={`pointer-events-auto bg-[#1b1b1b] border ${style.border} shadow-[0_16px_40px_rgba(0,0,0,0.85)] px-3.5 py-2.5 flex items-center justify-between gap-3`}
           >
-            <div className="flex items-start gap-2.5">
-              <div className="mt-0.5">{style.icon}</div>
-              <div>
-                <h4 className="text-xs font-semibold text-white">
-                  {toast.title}
-                </h4>
-                <p className="text-xs text-[#c4c7c8] mt-0.5 leading-relaxed">
-                  {toast.message}
-                </p>
-              </div>
+            <div className="flex items-center gap-2">
+              {style.icon}
+              <span className="text-xs font-medium text-white">
+                {toast.title}
+              </span>
             </div>
             <button
               type="button"
