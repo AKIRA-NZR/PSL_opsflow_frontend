@@ -75,6 +75,16 @@ $$\texttt{app} \rightarrow \texttt{pages} \rightarrow \texttt{widgets} \rightarr
    - Criação, pausa/reativação e arquivamento lógico (*soft delete*) de categorias.
    - Gestão de membros da equipe com múltiplos perfis RBAC (`EMPLOYEE`, `TECHNICIAN`, `ADMIN`).
    - Trilha de auditoria cronológica por organização.
+5. **Perfil do Usuário, Segurança & Motor de Personalização Visual (`profile`):**
+   - **Avatar com Blur-Up & Preloading:** Transição suave com crossfade de placeholder SVG em baixa resolução para foto de alta definição com fallback de iniciais tipográficas.
+   - **Segurança & Medidor NIST 800-63B:** Validação em tempo real de entropia e força de credenciais (8+ caracteres, maiúsculas, minúsculas, numerais e símbolos) com feedback visual de 4 níveis.
+   - **Dados Cadastrais & Optimistic UI:** Edição instantânea de nome, setor e organização ativa (*tenant*) com feedback otimista e selo SSO corporativo.
+   - **Motor de Dynamic-Theming & Sandbox Pattern:**
+     - 5 presets arquitetônicos (*Atelier Carbon*, *Obsidian Slate*, *Midnight Sky*, *Cyber Amber*, *Emerald Matrix*), 7 acentos semânticos e 3 densidades de interface (`compact`, `comfortable`, `spacious`).
+     - **Multi-Layer Background Stacking:** Comutação interativa de camadas de profundidade (*Base Solid*, *Blueprint Grid*, *Ambient Glow*, *Film Noise Texture*).
+     - **Adaptive Glassmorphism & Luminância Relativa ($L$):** Sliders de translucidez de vidro (0 a 40%) com cálculo matemático de luminância relativa WCAG ($L = 0.2126R + 0.7152G + 0.0722B$) e taxa de contraste WCAG AAA.
+     - **Edge-Bleed Scaling:** Banner de capa com zoom interativo, máscara degradê e grid arquitetônico responsivo.
+     - **Draft State / Sandbox Pattern:** Ambiente isolado de pré-visualização em tempo real de cards e formulários antes de aplicar ou descartar as alterações para as variáveis CSS globais do sistema.
 
 ---
 
@@ -90,10 +100,11 @@ $$\texttt{app} \rightarrow \texttt{pages} \rightarrow \texttt{widgets} \rightarr
 
 ## 🧪 Testes Automatizados
 
-O projeto conta com **2 suítes e 8 testes de integração, performance e SEO** (Vitest + React Testing Library):
+O projeto conta com **3 suítes e 13 testes de integração, performance, SEO e Sandbox de temas** (Vitest + React Testing Library):
 
 - `src/__tests__/app.integration.test.tsx`: Fluxo de login, navegação sem quebras na Sidebar, elevação de camada `z-50` nos dropdowns de Status/Prioridade e restrições RBAC por perfil.
 - `src/__tests__/performance-seo.test.tsx`: Sincronização de metadados SEO por rota, auditoria de atributos LCP/landmarks HTML5, **Performance Budgets** (`< 50ms` para filtragem, `< 100ms` para transição de rota) e validação estática de `index.html`, `robots.txt` e `site.webmanifest`.
+- `src/__tests__/profile.integration.test.tsx`: Navegação até "Meu Perfil", renderização de cabeçalho Edge-Bleed e Avatar Blur-Up, atualizações otimistas (Optimistic UI) de cadastro, cálculo de entropia de senha NIST 800-63B e Draft State / Sandbox de temas com injeção de tokens CSS e cálculo WCAG de luminância relativa.
 
 ---
 
