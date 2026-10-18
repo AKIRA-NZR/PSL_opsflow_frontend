@@ -4,7 +4,7 @@ import {
   ClockCountdown,
   ClockCounterClockwise,
   Folders,
-  PlusCircle,
+  Plus,
   SidebarSimple,
   Tray,
   UserCheck,
@@ -14,8 +14,6 @@ import {
 import { useWorkspace } from '../../context/WorkspaceContext';
 import type { TicketScope } from '../../core/types/service.types';
 import { evaluateTicketSla } from '../../core/utils/sla.utils';
-import { Button } from '../ui/Button';
-import { OpsFlowLogo } from '../ui/OpsFlowLogo';
 import { ProfileSwitcher } from './ProfileSwitcher';
 
 export type NavigationSection =
@@ -65,16 +63,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return sla.health === 'BREACHED' || sla.health === 'AT_RISK';
   }).length;
 
+  // Fixed border and zero vertical transform so clicking options never shifts layout
   const navItemClass = (isActive: boolean) =>
-    `group w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer ${
+    `group w-full flex items-center justify-between px-3 py-2.5 text-xs font-medium border transition-colors duration-150 cursor-pointer ${
       isActive
-        ? 'tactile-surface text-white'
-        : 'text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-100'
+        ? 'bg-[#1b1b1b] text-white border-[#444748]/80 border-l-2 border-l-white'
+        : 'bg-transparent text-[#8e9192] border-transparent hover:bg-[#161616] hover:text-[#e2e2e2]'
     }`;
 
   const iconClass = (isActive: boolean) =>
     `w-4 h-4 shrink-0 transition-colors ${
-      isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'
+      isActive ? 'text-white' : 'text-[#8e9192] group-hover:text-[#e2e2e2]'
     }`;
 
   const renderSidebarContent = (collapsedMode: boolean) => {
@@ -87,15 +86,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       activeSection === 'tickets' && activeTicketScope === 'SLA_ATTENTION';
 
     return (
-      <div className="h-full flex flex-col justify-between glass-sidebar select-none">
-        <div className="p-3.5 space-y-5">
-          {/* Top Brand Header */}
+      <div className="h-full flex flex-col justify-between bg-[#0e0e0e] border-r border-[#444748]/40 select-none">
+        <div>
+          {/* Top Brand Bar */}
           <div
-            className={`flex items-center ${
+            className={`h-14 px-4 border-b border-[#444748]/40 flex items-center ${
               collapsedMode ? 'justify-center' : 'justify-between'
             }`}
           >
-            <div
+            <button
+              type="button"
               onClick={() => {
                 if (isStaff) {
                   onNavigateSection('dashboard');
@@ -104,249 +104,254 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }
                 onCloseMobile();
               }}
-              className="flex items-center gap-2.5 min-w-0 cursor-pointer group/brand"
+              className="flex items-center gap-2.5 min-w-0 cursor-pointer text-left"
             >
-              <OpsFlowLogo size={34} />
+              <span className="w-2 h-2 bg-white shrink-0" />
               {!collapsedMode && (
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-zinc-100 group-hover/brand:text-white tracking-tight truncate">
-                    OpsFlow
+                  <div className="text-sm font-semibold text-white tracking-wider uppercase truncate">
+                    OPSFLOW
                   </div>
-                  <div className="text-[11px] text-zinc-500 truncate">
+                  <div className="font-mono text-[10px] text-[#8e9192] truncate">
                     {activeCompany.name}
                   </div>
                 </div>
               )}
-            </div>
+            </button>
 
             {!collapsedMode && (
               <button
                 type="button"
                 onClick={onToggleCollapse}
-                className="hidden lg:inline-flex p-1.5 rounded-lg text-zinc-400 hover:text-white tactile-surface transition-colors cursor-pointer"
-                title="Recolher"
+                className="hidden lg:inline-flex p-1.5 text-[#8e9192] hover:text-white hover:bg-[#1b1b1b] transition-colors cursor-pointer"
+                title="Recolher menu"
               >
-                <SidebarSimple className="w-4 h-4" weight="duotone" />
+                <SidebarSimple className="w-4 h-4" />
               </button>
             )}
 
             <button
               type="button"
               onClick={onCloseMobile}
-              className="lg:hidden p-1.5 rounded-lg text-zinc-400 hover:text-white tactile-surface cursor-pointer"
+              className="lg:hidden p-1.5 text-[#8e9192] hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" weight="bold" />
             </button>
           </div>
 
-          {collapsedMode && (
-            <div className="hidden lg:flex justify-center">
-              <button
-                type="button"
-                onClick={onToggleCollapse}
-                className="p-2 rounded-lg text-zinc-400 hover:text-white tactile-surface transition-colors cursor-pointer"
-                title="Expandir"
-              >
-                <SidebarSimple className="w-4 h-4" weight="duotone" />
-              </button>
-            </div>
-          )}
-
-          {/* Employee Prominent Action */}
-          {!isStaff && !collapsedMode && (
-            <Button
-              variant="primary"
-              size="sm"
-              icon={<PlusCircle className="w-3.5 h-3.5" weight="fill" />}
-              className="w-full justify-center py-2"
-              onClick={() => {
-                onOpenNewTicket();
-                onCloseMobile();
-              }}
-            >
-              Novo Chamado
-            </Button>
-          )}
-
-          {/* Group 1: Main Navigation */}
-          <div className="space-y-1">
-            {!collapsedMode && (
-              <div className="px-3 pb-1 text-[11px] font-medium text-zinc-500">
-                {isStaff ? 'Operação' : 'Menu'}
+          <div className="p-3 space-y-5">
+            {collapsedMode && (
+              <div className="hidden lg:flex justify-center">
+                <button
+                  type="button"
+                  onClick={onToggleCollapse}
+                  className="p-2 text-[#8e9192] hover:text-white hover:bg-[#1b1b1b] transition-colors cursor-pointer"
+                  title="Expandir menu"
+                >
+                  <SidebarSimple className="w-4 h-4" />
+                </button>
               </div>
             )}
 
-            {isStaff && (
+            {/* Employee Action */}
+            {!isStaff && !collapsedMode && (
               <button
                 type="button"
                 onClick={() => {
-                  onNavigateSection('dashboard');
+                  onOpenNewTicket();
                   onCloseMobile();
                 }}
-                className={navItemClass(isDashboardActive)}
-                title="Visão Geral"
+                className="w-full py-2.5 px-3 bg-white text-[#131313] font-mono text-[11px] font-bold uppercase tracking-[0.12em] hover:bg-[#c6c6c6] transition-colors flex items-center justify-between cursor-pointer"
               >
-                <span className="flex items-center gap-2.5">
-                  <ChartBar
-                    className={iconClass(isDashboardActive)}
-                    weight={isDashboardActive ? 'fill' : 'duotone'}
-                  />
-                  {!collapsedMode && <span>Visão Geral</span>}
-                </span>
+                <span>NOVO CHAMADO</span>
+                <Plus className="w-3.5 h-3.5" weight="bold" />
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateTickets('ALL');
-                onCloseMobile();
-              }}
-              className={navItemClass(isAllActive)}
-              title="Chamados"
-            >
-              <span className="flex items-center gap-2.5">
-                <Tray
-                  className={iconClass(isAllActive)}
-                  weight={isAllActive ? 'fill' : 'duotone'}
-                />
-                {!collapsedMode && (
-                  <span>{isStaff ? 'Chamados' : 'Meus Chamados'}</span>
-                )}
-              </span>
+            {/* Navigation Group 1 */}
+            <nav className="space-y-1" aria-label="Navegação principal">
               {!collapsedMode && (
-                <span className="px-2 py-0.5 rounded-md text-[11px] text-zinc-400 font-mono neumorphic-inset">
-                  {tenantTickets.length}
-                </span>
-              )}
-            </button>
-
-            {isStaff && (
-              <button
-                type="button"
-                onClick={() => {
-                  onNavigateTickets('ASSIGNED_TO_ME');
-                  onCloseMobile();
-                }}
-                className={navItemClass(isAssignedActive)}
-                title="Atribuídos a mim"
-              >
-                <span className="flex items-center gap-2.5">
-                  <UserCheck
-                    className={iconClass(isAssignedActive)}
-                    weight={isAssignedActive ? 'fill' : 'duotone'}
-                  />
-                  {!collapsedMode && <span>Atribuídos</span>}
-                </span>
-                {!collapsedMode && assignedCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-md text-[11px] text-zinc-300 font-mono neumorphic-inset">
-                    {assignedCount}
-                  </span>
-                )}
-              </button>
-            )}
-
-            {isStaff && (
-              <button
-                type="button"
-                onClick={() => {
-                  onNavigateTickets('SLA_ATTENTION');
-                  onCloseMobile();
-                }}
-                className={navItemClass(isSlaActive)}
-                title="SLA Crítico"
-              >
-                <span className="flex items-center gap-2.5">
-                  <ClockCountdown
-                    className={iconClass(isSlaActive)}
-                    weight={isSlaActive ? 'fill' : 'duotone'}
-                  />
-                  {!collapsedMode && <span>SLA Crítico</span>}
-                </span>
-                {!collapsedMode && attentionCount > 0 && (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-mono neumorphic-inset text-zinc-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
-                    {attentionCount}
-                  </span>
-                )}
-              </button>
-            )}
-          </div>
-
-          {/* Group 2: Governance & Administration */}
-          {isStaff && (
-            <div className="space-y-1 pt-3 border-t border-white/[0.06]">
-              {!collapsedMode && (
-                <div className="px-3 pb-1 text-[11px] font-medium text-zinc-500">
-                  Gestão
+                <div className="px-3 pb-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-[#8e9192]">
+                  {isStaff ? 'OPERAÇÃO' : 'MENU'}
                 </div>
               )}
 
+              {isStaff && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onNavigateSection('dashboard');
+                    onCloseMobile();
+                  }}
+                  className={navItemClass(isDashboardActive)}
+                  title="Visão Geral"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <ChartBar
+                      className={iconClass(isDashboardActive)}
+                      weight={isDashboardActive ? 'fill' : 'regular'}
+                    />
+                    {!collapsedMode && <span>Visão Geral</span>}
+                  </span>
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={() => {
-                  onNavigateSection('categories');
+                  onNavigateTickets('ALL');
                   onCloseMobile();
                 }}
-                className={navItemClass(activeSection === 'categories')}
-                title="Categorias"
+                className={navItemClass(isAllActive)}
+                title="Chamados"
               >
                 <span className="flex items-center gap-2.5">
-                  <Folders
-                    className={iconClass(activeSection === 'categories')}
-                    weight={activeSection === 'categories' ? 'fill' : 'duotone'}
+                  <Tray
+                    className={iconClass(isAllActive)}
+                    weight={isAllActive ? 'fill' : 'regular'}
                   />
-                  {!collapsedMode && <span>Categorias</span>}
+                  {!collapsedMode && (
+                    <span>{isStaff ? 'Chamados' : 'Meus Chamados'}</span>
+                  )}
                 </span>
+                {!collapsedMode && (
+                  <span className="px-1.5 py-0.5 text-[10px] text-[#8e9192] font-mono bg-[#161616] border border-[#444748]/40">
+                    {tenantTickets.length}
+                  </span>
+                )}
               </button>
 
-              {activeRole === 'ADMIN' && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onNavigateSection('team');
-                      onCloseMobile();
-                    }}
-                    className={navItemClass(activeSection === 'team')}
-                    title="Equipe"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <UsersThree
-                        className={iconClass(activeSection === 'team')}
-                        weight={activeSection === 'team' ? 'fill' : 'duotone'}
-                      />
-                      {!collapsedMode && <span>Equipe</span>}
+              {isStaff && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onNavigateTickets('ASSIGNED_TO_ME');
+                    onCloseMobile();
+                  }}
+                  className={navItemClass(isAssignedActive)}
+                  title="Atribuídos"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <UserCheck
+                      className={iconClass(isAssignedActive)}
+                      weight={isAssignedActive ? 'fill' : 'regular'}
+                    />
+                    {!collapsedMode && <span>Atribuídos</span>}
+                  </span>
+                  {!collapsedMode && assignedCount > 0 && (
+                    <span className="px-1.5 py-0.5 text-[10px] text-[#7dd3fc] font-mono bg-[#14222e] border border-[#223a4e]">
+                      {assignedCount}
                     </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onNavigateSection('activity');
-                      onCloseMobile();
-                    }}
-                    className={navItemClass(activeSection === 'activity')}
-                    title="Atividades"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <ClockCounterClockwise
-                        className={iconClass(activeSection === 'activity')}
-                        weight={
-                          activeSection === 'activity' ? 'fill' : 'duotone'
-                        }
-                      />
-                      {!collapsedMode && <span>Atividades</span>}
-                    </span>
-                  </button>
-                </>
+                  )}
+                </button>
               )}
-            </div>
-          )}
+
+              {isStaff && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onNavigateTickets('SLA_ATTENTION');
+                    onCloseMobile();
+                  }}
+                  className={navItemClass(isSlaActive)}
+                  title="SLA Crítico"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <ClockCountdown
+                      className={iconClass(isSlaActive)}
+                      weight={isSlaActive ? 'fill' : 'regular'}
+                    />
+                    {!collapsedMode && <span>SLA Crítico</span>}
+                  </span>
+                  {!collapsedMode && attentionCount > 0 && (
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono bg-[#291518] text-[#fda4af] border border-[#452126]">
+                      {attentionCount}
+                    </span>
+                  )}
+                </button>
+              )}
+            </nav>
+
+            {/* Navigation Group 2: Governance */}
+            {isStaff && (
+              <nav
+                className="space-y-1 pt-3 border-t border-[#444748]/35"
+                aria-label="Gestão"
+              >
+                {!collapsedMode && (
+                  <div className="px-3 pb-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-[#8e9192]">
+                    GESTÃO
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    onNavigateSection('categories');
+                    onCloseMobile();
+                  }}
+                  className={navItemClass(activeSection === 'categories')}
+                  title="Categorias"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Folders
+                      className={iconClass(activeSection === 'categories')}
+                      weight={
+                        activeSection === 'categories' ? 'fill' : 'regular'
+                      }
+                    />
+                    {!collapsedMode && <span>Categorias</span>}
+                  </span>
+                </button>
+
+                {activeRole === 'ADMIN' && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onNavigateSection('team');
+                        onCloseMobile();
+                      }}
+                      className={navItemClass(activeSection === 'team')}
+                      title="Equipe"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <UsersThree
+                          className={iconClass(activeSection === 'team')}
+                          weight={activeSection === 'team' ? 'fill' : 'regular'}
+                        />
+                        {!collapsedMode && <span>Equipe</span>}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onNavigateSection('activity');
+                        onCloseMobile();
+                      }}
+                      className={navItemClass(activeSection === 'activity')}
+                      title="Atividades"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <ClockCounterClockwise
+                          className={iconClass(activeSection === 'activity')}
+                          weight={
+                            activeSection === 'activity' ? 'fill' : 'regular'
+                          }
+                        />
+                        {!collapsedMode && <span>Atividades</span>}
+                      </span>
+                    </button>
+                  </>
+                )}
+              </nav>
+            )}
+          </div>
         </div>
 
-        {/* Bottom Profile & Logout Menu */}
-        <div className="p-3 border-t border-white/[0.06]">
+        {/* Bottom Profile & Logout */}
+        <div className="p-3 border-t border-[#444748]/40">
           <ProfileSwitcher collapsed={collapsedMode} />
         </div>
       </div>
@@ -356,8 +361,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <>
       <aside
-        className={`hidden lg:block shrink-0 transition-all duration-200 ${
-          isCollapsed ? 'w-18' : 'w-64'
+        className={`hidden lg:block shrink-0 transition-all duration-150 ${
+          isCollapsed ? 'w-16' : 'w-60'
         }`}
       >
         {renderSidebarContent(isCollapsed)}
@@ -366,10 +371,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="fixed inset-0 bg-[#06080D]/70 backdrop-blur-md"
+            className="fixed inset-0 bg-black/75"
             onClick={onCloseMobile}
           />
-          <aside className="relative w-72 max-w-[85vw] h-full z-10 shadow-2xl">
+          <aside className="relative w-64 max-w-[85vw] h-full z-10">
             {renderSidebarContent(false)}
           </aside>
         </div>
@@ -377,4 +382,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
-

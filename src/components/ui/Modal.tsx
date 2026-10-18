@@ -29,24 +29,26 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
-        className="glass-popover w-full max-w-lg rounded-3xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="bg-[#131313] border border-[#444748]/60 shadow-[0_24px_64px_rgba(0,0,0,0.9)] w-full max-w-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-white/[0.08]">
+        <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-[#444748]/40 bg-[#0e0e0e]">
           <div>
-            <h3 className="text-base font-semibold text-[#F1F5F9]">{title}</h3>
+            <h3 className="text-sm font-mono uppercase tracking-wider text-white">
+              {title}
+            </h3>
             {subtitle && (
-              <p className="text-xs text-[#94A3B8] mt-1">{subtitle}</p>
+              <p className="text-xs text-[#8e9192] mt-1">{subtitle}</p>
             )}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="tactile-surface text-[#94A3B8] hover:text-white p-1.5 rounded-xl cursor-pointer"
+            className="text-[#8e9192] hover:text-white p-1 border border-transparent hover:border-[#444748]/50 cursor-pointer"
           >
             <X className="w-4 h-4" weight="bold" />
           </button>

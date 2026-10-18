@@ -32,11 +32,11 @@ export const TicketTable: React.FC<TicketTableProps> = ({
 }) => {
   if (tickets.length === 0) {
     return (
-      <div className="rounded-2xl glass-panel py-14 px-6 text-center">
-        <div className="w-11 h-11 rounded-2xl neumorphic-inset flex items-center justify-center mx-auto text-zinc-400">
-          <Tray className="w-5 h-5" weight="duotone" />
+      <div className="glass-panel py-14 px-6 text-center">
+        <div className="w-10 h-10 neumorphic-inset flex items-center justify-center mx-auto text-[#8e9192]">
+          <Tray className="w-5 h-5" />
         </div>
-        <h3 className="text-sm font-medium text-zinc-200 mt-3">
+        <h3 className="text-sm font-medium text-[#c4c7c8] mt-3">
           Nenhum chamado encontrado
         </h3>
       </div>
@@ -44,20 +44,20 @@ export const TicketTable: React.FC<TicketTableProps> = ({
   }
 
   return (
-    <div className="rounded-2xl glass-panel overflow-hidden">
+    <div className="relative z-10 glass-panel overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-zinc-400">
-              <th className="py-3 px-5 w-24">Código</th>
-              <th className="py-3 px-5">Assunto</th>
-              <th className="py-3 px-5">Status</th>
-              <th className="py-3 px-5">Prioridade</th>
-              <th className="py-3 px-5">SLA</th>
-              <th className="py-3 px-5">Responsável</th>
+            <tr className="border-b border-[#444748]/40 bg-[#0e0e0e] font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              <th className="py-3.5 px-5 w-24">CÓDIGO</th>
+              <th className="py-3.5 px-5">ASSUNTO</th>
+              <th className="py-3.5 px-5">STATUS</th>
+              <th className="py-3.5 px-5">PRIORIDADE</th>
+              <th className="py-3.5 px-5">SLA</th>
+              <th className="py-3.5 px-5">RESPONSÁVEL</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/[0.06] text-sm">
+          <tbody className="divide-y divide-[#444748]/30 text-sm">
             {tickets.map((t) => {
               const category = categories.find((c) => c.id === t.categoryId);
               const requester = users.find((u) => u.id === t.requesterId);
@@ -68,17 +68,17 @@ export const TicketTable: React.FC<TicketTableProps> = ({
                 <tr
                   key={t.id}
                   onClick={() => onSelectTicket(t.id)}
-                  className="hover:bg-white/[0.035] transition-colors cursor-pointer group"
+                  className="hover:bg-[#1c1c1c] transition-colors cursor-pointer group"
                 >
-                  <td className="py-3.5 px-5 font-mono text-xs text-zinc-400 whitespace-nowrap">
+                  <td className="py-3.5 px-5 font-mono text-xs text-[#8e9192] whitespace-nowrap">
                     {formatTicketCode(t.number)}
                   </td>
 
                   <td className="py-3.5 px-5 min-w-[240px]">
-                    <div className="font-medium text-zinc-100 group-hover:text-white leading-snug">
+                    <div className="font-medium text-white leading-snug">
                       {t.title}
                     </div>
-                    <div className="text-xs text-zinc-500 mt-0.5 flex items-center gap-1.5">
+                    <div className="text-xs text-[#8e9192] mt-0.5 flex items-center gap-1.5">
                       <span>{category?.name || 'Geral'}</span>
                       <span>·</span>
                       <span>{requester?.name || 'Usuário'}</span>
@@ -102,15 +102,15 @@ export const TicketTable: React.FC<TicketTableProps> = ({
                   <td className="py-3.5 px-5 whitespace-nowrap">
                     {assignee ? (
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full neumorphic-inset text-zinc-300 flex items-center justify-center text-[11px] font-medium">
+                        <div className="w-6 h-6 bg-[#242424] border border-[#444748]/60 text-white flex items-center justify-center text-[10px] font-mono">
                           {getInitials(assignee.name)}
                         </div>
-                        <span className="text-xs text-zinc-200">
+                        <span className="text-xs text-[#e2e2e2]">
                           {assignee.name}
                         </span>
                       </div>
                     ) : (
-                      <span className="text-xs text-zinc-500">Não atribuído</span>
+                      <span className="text-xs text-[#8e9192]">Não atribuído</span>
                     )}
                   </td>
                 </tr>
@@ -122,5 +122,3 @@ export const TicketTable: React.FC<TicketTableProps> = ({
     </div>
   );
 };
-
-

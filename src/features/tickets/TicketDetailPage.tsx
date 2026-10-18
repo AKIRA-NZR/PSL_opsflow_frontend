@@ -36,8 +36,8 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
 
   if (!ticket) {
     return (
-      <div className="max-w-xl mx-auto mt-12 rounded-2xl glass-panel p-8 text-center space-y-4">
-        <h2 className="text-base font-semibold text-zinc-100">
+      <div className="max-w-xl mx-auto mt-12 glass-panel p-8 text-center space-y-4">
+        <h2 className="text-base font-semibold text-white">
           Chamado não encontrado
         </h2>
         <div>
@@ -90,7 +90,7 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
           >
             Voltar
           </Button>
-          <span className="font-mono text-xs font-medium text-zinc-200 neumorphic-inset px-2.5 py-1 rounded-lg">
+          <span className="font-mono text-xs text-[#e2e2e2] neumorphic-inset px-2.5 py-1">
             {formatTicketCode(ticket.number)}
           </span>
           <StatusBadge status={ticket.status} />
@@ -102,39 +102,41 @@ export const TicketDetailPage: React.FC<TicketDetailPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Column (8 cols) */}
         <div className="lg:col-span-8 space-y-5">
-          <div className="rounded-2xl glass-panel p-6 space-y-4">
-            <h1 className="text-lg font-semibold text-zinc-100 leading-snug">
+          <div className="glass-panel p-6 space-y-4">
+            <h1 className="text-lg font-semibold text-white leading-snug">
               {ticket.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-2.5 text-xs text-zinc-400 pb-3.5 border-b border-white/[0.08]">
-              <span>
-                <strong className="text-zinc-200">
-                  {requester?.name || 'Usuário'}
-                </strong>
+            <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#8e9192] pb-3.5 border-b border-[#444748]/35">
+              <strong className="text-[#e2e2e2]">
+                {requester?.name || 'Usuário'}
+              </strong>
+              <span>·</span>
+              <span className="text-[#c4c7c8]">{category?.name || 'Geral'}</span>
+              <span>·</span>
+              <span className="font-mono text-[11px]">
+                {formatDateTime(ticket.createdAt)}
               </span>
-              <span>·</span>
-              <span className="text-zinc-300">{category?.name || 'Geral'}</span>
-              <span>·</span>
-              <span>{formatDateTime(ticket.createdAt)}</span>
             </div>
 
-            <div className="text-sm text-zinc-200 leading-relaxed whitespace-pre-line pt-1">
+            <div className="text-sm text-[#e2e2e2] leading-relaxed whitespace-pre-line pt-1">
               {ticket.description}
             </div>
 
             {ticket.resolutionSummary && (
-              <div className="mt-4 rounded-xl glass-pill bg-white/[0.03] border-white/[0.10] p-4 space-y-1.5">
-                <div className="flex items-center justify-between text-xs font-medium text-zinc-200">
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-[#10B981]" weight="fill" />
-                    Solução
+              <div className="mt-4 bg-[#12261e] border border-[#1d3d31] p-4 space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-medium text-[#6ee7b7]">
+                  <span className="flex items-center gap-1.5 font-mono uppercase tracking-wider text-[11px]">
+                    <CheckCircle className="w-4 h-4" weight="fill" />
+                    Solução Registrada
                   </span>
                   {ticket.resolvedAt && (
-                    <span className="text-zinc-500">{formatDateTime(ticket.resolvedAt)}</span>
+                    <span className="font-mono text-[11px]">
+                      {formatDateTime(ticket.resolvedAt)}
+                    </span>
                   )}
                 </div>
-                <p className="text-sm text-zinc-300 leading-relaxed">
+                <p className="text-sm text-[#e2e2e2] leading-relaxed">
                   {ticket.resolutionSummary}
                 </p>
               </div>

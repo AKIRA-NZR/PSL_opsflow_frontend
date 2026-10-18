@@ -48,7 +48,7 @@ export const TeamMembersPage: React.FC = () => {
           <Button
             variant="primary"
             size="sm"
-            icon={<UserPlus className="w-4 h-4" weight="duotone" />}
+            icon={<UserPlus className="w-4 h-4" weight="bold" />}
             onClick={() => setIsModalOpen(true)}
           >
             Novo Membro
@@ -56,36 +56,36 @@ export const TeamMembersPage: React.FC = () => {
         </div>
       )}
 
-      <div className="rounded-2xl glass-panel overflow-hidden">
+      <div className="glass-panel overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-medium text-zinc-400">
-                <th className="py-3.5 px-5">Membro</th>
-                <th className="py-3.5 px-5">Setor</th>
-                <th className="py-3.5 px-5">Perfis</th>
-                <th className="py-3.5 px-5">Status</th>
-                <th className="py-3.5 px-5 text-right">Ações</th>
+              <tr className="border-b border-[#444748]/40 bg-[#0e0e0e] font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+                <th className="py-3.5 px-5">MEMBRO</th>
+                <th className="py-3.5 px-5">SETOR</th>
+                <th className="py-3.5 px-5">PERFIS</th>
+                <th className="py-3.5 px-5">STATUS</th>
+                <th className="py-3.5 px-5 text-right">AÇÕES</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.06] text-sm">
+            <tbody className="divide-y divide-[#444748]/30 text-sm">
               {tenantUsers.map((u) => (
-                <tr key={u.id} className="hover:bg-white/[0.03] transition-colors">
+                <tr key={u.id} className="hover:bg-[#1c1c1c] transition-colors">
                   <td className="py-3.5 px-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full neumorphic-inset text-xs font-semibold text-zinc-200 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 bg-[#242424] border border-[#444748]/60 text-xs font-mono text-white flex items-center justify-center shrink-0">
                         {getInitials(u.name)}
                       </div>
                       <div>
-                        <div className="font-medium text-zinc-100">
+                        <div className="font-medium text-white">
                           {u.name}
                         </div>
-                        <div className="text-xs text-zinc-500">{u.email}</div>
+                        <div className="text-xs text-[#8e9192]">{u.email}</div>
                       </div>
                     </div>
                   </td>
 
-                  <td className="py-3.5 px-5 text-zinc-300">{u.department}</td>
+                  <td className="py-3.5 px-5 text-[#c4c7c8]">{u.department}</td>
 
                   <td className="py-3.5 px-5">
                     <div className="flex flex-wrap gap-1.5">
@@ -97,12 +97,14 @@ export const TeamMembersPage: React.FC = () => {
 
                   <td className="py-3.5 px-5">
                     {u.active && !u.deletedAt ? (
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#6ee7b7]">
+                        <span className="w-1.5 h-1.5 bg-[#34d399]" />
                         Ativo
                       </span>
                     ) : (
-                      <span className="text-xs text-zinc-500">Inativo</span>
+                      <span className="font-mono text-[11px] text-[#8e9192]">
+                        Inativo
+                      </span>
                     )}
                   </td>
 
@@ -114,7 +116,7 @@ export const TeamMembersPage: React.FC = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          icon={<UserMinus className="w-3.5 h-3.5" weight="duotone" />}
+                          icon={<UserMinus className="w-3.5 h-3.5" />}
                           onClick={() => deactivateMember(u.id)}
                         >
                           Desativar
@@ -135,8 +137,8 @@ export const TeamMembersPage: React.FC = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-zinc-300 block">
-              Nome
+            <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+              NOME
             </label>
             <input
               type="text"
@@ -144,14 +146,14 @@ export const TeamMembersPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex.: Camila Santana"
-              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+              className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-zinc-300 block">
-                E-mail
+              <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+                E-MAIL
               </label>
               <input
                 type="email"
@@ -159,27 +161,27 @@ export const TeamMembersPage: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="camila@empresa.com"
-                className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+                className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-zinc-300 block">
-                Setor
+              <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+                SETOR
               </label>
               <input
                 type="text"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 placeholder="Ex.: Operações de TI"
-                className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+                className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-zinc-300 block">
-              Perfis
+            <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+              PERFIS
             </label>
             <div className="flex flex-wrap gap-2">
               {(['EMPLOYEE', 'TECHNICIAN', 'ADMIN'] as RoleName[]).map((r) => {
@@ -189,10 +191,10 @@ export const TeamMembersPage: React.FC = () => {
                     key={r}
                     type="button"
                     onClick={() => toggleRole(r)}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                    className={`px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider border transition-colors cursor-pointer ${
                       selected
-                        ? 'tactile-surface text-zinc-100 border-white/25 ring-1 ring-white/15'
-                        : 'neumorphic-inset text-zinc-400 hover:text-zinc-200'
+                        ? 'bg-[#242424] text-white border-white'
+                        : 'bg-[#0e0e0e] text-[#8e9192] border-[#444748]/45 hover:text-white'
                     }`}
                   >
                     {ROLE_LABELS[r]}
@@ -202,7 +204,7 @@ export const TeamMembersPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-[#444748]/35">
             <Button
               type="button"
               variant="ghost"

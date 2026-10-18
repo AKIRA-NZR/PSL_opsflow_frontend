@@ -19,7 +19,7 @@ interface DropdownSelectProps<T extends string = string> {
 }
 
 /**
- * Spatial Glass & Tactile Neumorphic Dropdown Select
+ * Atelier Monolith Dropdown Select with guaranteed top-layer z-index stacking
  */
 export function DropdownSelect<T extends string = string>({
   value,
@@ -60,13 +60,18 @@ export function DropdownSelect<T extends string = string>({
   }, [isOpen]);
 
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
+    <div
+      ref={containerRef}
+      className={`relative ${isOpen ? 'z-50' : 'z-10'} ${className}`}
+    >
       <button
         type="button"
         disabled={disabled}
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`tactile-surface w-full flex items-center justify-between gap-2.5 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-zinc-100 cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${
-          isOpen ? 'border-white/25 ring-2 ring-white/10' : ''
+        className={`w-full flex items-center justify-between gap-2.5 bg-[#0e0e0e] border px-3.5 py-2 text-xs sm:text-sm text-[#e2e2e2] transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${
+          isOpen
+            ? 'border-white bg-[#161616]'
+            : 'border-[#444748]/50 hover:border-[#8e9192]'
         }`}
       >
         <span className="flex items-center gap-2 min-w-0 truncate">
@@ -78,7 +83,7 @@ export function DropdownSelect<T extends string = string>({
           </span>
         </span>
         <CaretDown
-          className={`w-3.5 h-3.5 text-zinc-400 shrink-0 transition-transform duration-150 ${
+          className={`w-3.5 h-3.5 text-[#8e9192] shrink-0 transition-transform duration-150 ${
             isOpen ? 'rotate-180 text-white' : ''
           }`}
           weight="bold"
@@ -87,7 +92,7 @@ export function DropdownSelect<T extends string = string>({
 
       {isOpen && (
         <div
-          className={`glass-popover absolute z-40 mt-2 min-w-full w-60 rounded-2xl p-1.5 space-y-0.5 animate-in fade-in zoom-in-95 duration-100 ${
+          className={`absolute z-50 mt-1 min-w-full w-60 bg-[#1b1b1b] border border-[#444748] shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-1 space-y-0.5 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
@@ -101,10 +106,10 @@ export function DropdownSelect<T extends string = string>({
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl text-left transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-between gap-3 px-3 py-2 text-left transition-colors cursor-pointer ${
                   isSelected
-                    ? 'bg-white/[0.10] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]'
-                    : 'text-zinc-300 hover:bg-white/[0.05] hover:text-white'
+                    ? 'bg-[#2a2a2a] text-white'
+                    : 'text-[#c4c7c8] hover:bg-[#242424] hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -114,7 +119,7 @@ export function DropdownSelect<T extends string = string>({
                       {opt.label}
                     </div>
                     {opt.description && (
-                      <div className="text-[11px] text-zinc-400 truncate">
+                      <div className="text-[11px] text-[#8e9192] truncate">
                         {opt.description}
                       </div>
                     )}

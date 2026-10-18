@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Archive, Folders, PlusCircle } from '@phosphor-icons/react';
+import { Archive, Folders, Plus } from '@phosphor-icons/react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { useWorkspace } from '../../context/WorkspaceContext';
@@ -36,7 +36,7 @@ export const CategoriesPage: React.FC = () => {
           <Button
             variant="primary"
             size="sm"
-            icon={<PlusCircle className="w-4 h-4" weight="fill" />}
+            icon={<Plus className="w-3.5 h-3.5" weight="bold" />}
             onClick={() => setIsModalOpen(true)}
           >
             Nova Categoria
@@ -53,42 +53,48 @@ export const CategoriesPage: React.FC = () => {
           return (
             <div
               key={cat.id}
-              className="rounded-2xl glass-panel p-5 flex flex-col justify-between gap-4"
+              className="glass-panel p-5 flex flex-col justify-between gap-4"
             >
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 rounded-xl neumorphic-inset text-zinc-300">
-                      <Folders className="w-4 h-4" weight="duotone" />
+                    <div className="p-2.5 bg-[#14222e] border border-[#223a4e] text-[#7dd3fc]">
+                      <Folders className="w-4 h-4" weight="fill" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-zinc-100">
+                      <h3 className="text-sm font-semibold text-white">
                         {cat.name}
                       </h3>
-                      <span className="text-xs text-zinc-500">
+                      <span className="font-mono text-[10px] text-[#8e9192]">
                         {formatShortDate(cat.createdAt)} · {linkedTickets}{' '}
                         chamado(s)
                       </span>
                     </div>
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium glass-pill bg-white/[0.04] border-white/[0.09] text-zinc-200">
+                  <span
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider border ${
+                      cat.active
+                        ? 'bg-[#12261e] text-[#6ee7b7] border-[#1d3d31]'
+                        : 'bg-[#1b1b1b] text-[#8e9192] border-[#2e2e2e]'
+                    }`}
+                  >
                     <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        cat.active ? 'bg-[#10B981]' : 'bg-zinc-500'
+                      className={`w-1.5 h-1.5 ${
+                        cat.active ? 'bg-[#34d399]' : 'bg-[#8e9192]'
                       }`}
                     />
                     {cat.active ? 'Ativa' : 'Pausada'}
                   </span>
                 </div>
 
-                <p className="text-xs text-zinc-400 leading-relaxed pt-1">
+                <p className="text-xs text-[#c4c7c8] leading-relaxed pt-1">
                   {cat.description}
                 </p>
               </div>
 
               {activeRole === 'ADMIN' && (
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.06]">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#444748]/35">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -99,7 +105,7 @@ export const CategoriesPage: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    icon={<Archive className="w-3.5 h-3.5" weight="duotone" />}
+                    icon={<Archive className="w-3.5 h-3.5" />}
                     onClick={() => archiveCategory(cat.id)}
                   >
                     Arquivar
@@ -118,8 +124,8 @@ export const CategoriesPage: React.FC = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-zinc-300 block">
-              Nome
+            <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+              NOME
             </label>
             <input
               type="text"
@@ -127,24 +133,24 @@ export const CategoriesPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex.: Infraestrutura"
-              className="w-full rounded-xl neumorphic-inset px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+              className="w-full neumorphic-inset px-3.5 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-zinc-300 block">
-              Descrição
+            <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+              DESCRIÇÃO
             </label>
             <textarea
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Escopo da categoria..."
-              className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+              className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
             />
           </div>
 
-          <div className="flex justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-[#444748]/35">
             <Button
               type="button"
               variant="ghost"

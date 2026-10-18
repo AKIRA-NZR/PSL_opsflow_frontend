@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { MagnifyingGlass, Ticket as TicketIcon, X } from '@phosphor-icons/react';
+import React, { useMemo, useState } from 'react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useWorkspace } from '../../context/WorkspaceContext';
 import { formatTicketCode } from '../../core/utils/date.utils';
-import { StatusBadge } from '../ui/Badge';
+import { PriorityBadge, StatusBadge } from '../ui/Badge';
+import { Modal } from '../ui/Modal';
 
 interface CommandModalProps {
   isOpen: boolean;
@@ -18,58 +19,39 @@ export const CommandModal: React.FC<CommandModalProps> = ({
   const { tenantTickets } = useWorkspace();
   const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    if (isOpen) setQuery('');
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const q = query.trim().toLowerCase();
-  const results = tenantTickets
-    .filter(
-      (t) =>
-        !q ||
-        t.title.toLowerCase().includes(q) ||
-        formatTicketCode(t.number).toLowerCase().includes(q)
-    )
-    .slice(0, 6);
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return tenantTickets.slice(0, 6);
+    return tenantTickets
+      .filter(
+        (t) =>
+          t.title.toLowerCase().includes(q) ||
+          formatTicketCode(t.number).toLowerCase().includes(q)
+      )
+      .slice(0, 8);
+  }, [tenantTickets, query]);
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-[#06080D]/65 backdrop-blur-md flex items-start justify-center pt-20 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-xl rounded-2xl glass-popover overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-3 border-b border-white/[0.08]">
-          <div className="flex items-center gap-3 px-3.5 py-2 rounded-xl neumorphic-inset">
-            <MagnifyingGlass
-              className="w-4 h-4 text-zinc-400 shrink-0"
-              weight="bold"
-            />
-            <input
-              type="text"
-              autoFocus
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar por código ou assunto..."
-              className="w-full bg-transparent text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none"
-            />
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-zinc-400 hover:text-white p-1 rounded-lg tactile-surface cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" weight="bold" />
-            </button>
-          </div>
+    <Modal isOpen={isOpen} onClose={onClose} title="Buscar Chamado">
+      <div className="space-y-4">
+        <div className="relative">
+          <MagnifyingGlass
+            className="w-4 h-4 text-[#8e9192] absolute left-3.5 top-1/2 -translate-y-1/2"
+            weight="bold"
+          />
+          <input
+            type="text"
+            autoFocus
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Código (#00101) ou título..."
+            className="w-full neumorphic-inset pl-10 pr-4 py-2.5 text-sm text-white placeholder-[#8e9192] focus:outline-none"
+          />
         </div>
 
-        <div className="max-h-80 overflow-y-auto p-2">
+        <div className="divide-y divide-[#444748]/30 max-h-72 overflow-y-auto border border-[#444748]/35">
           {results.length === 0 ? (
-            <div className="py-8 text-center text-xs text-zinc-500">
+            <div className="py-8 text-center text-xs text-[#8e9192]">
               Nenhum chamado encontrado.
             </div>
           ) : (
@@ -81,19 +63,20 @@ export const CommandModal: React.FC<CommandModalProps> = ({
                   onSelectTicket(t.id);
                   onClose();
                 }}
-                className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.06] transition-colors cursor-pointer text-left"
+                className="w-full flex items-center justify-between gap-3 p-3 text-left bg-[#0e0e0e] hover:bg-[#1b1b1b] transition-colors cursor-pointer"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <TicketIcon
-                    className="w-4 h-4 text-zinc-500 shrink-0"
-                    weight="duotone"
-                  />
-                  <span className="font-mono text-xs text-zinc-400 shrink-0">
-                    {formatTicketCode(t.number)}
-                  </span>
-                  <span className="text-sm text-zinc-100 truncate">{t.title}</span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-[#8e9192]">
+                      {formatTicketCode(t.number)}
+                    </span>
+                    <span className="text-sm font-medium text-white truncate">
+                      {t.title}
+                    </span>
+                  </div>
                 </div>
-                <div className="shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
+                  <PriorityBadge priority={t.priority} />
                   <StatusBadge status={t.status} />
                 </div>
               </button>
@@ -101,8 +84,6 @@ export const CommandModal: React.FC<CommandModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
-
-

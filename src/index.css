@@ -3,12 +3,12 @@
 @layer base {
   :root {
     color-scheme: dark;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   body {
-    background-color: #0C1017;
-    color: #F1F5F9;
+    background-color: #131313;
+    color: #e2e2e2;
     font-size: 14px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -17,179 +17,111 @@
   }
 
   code, pre, .font-mono {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
 
 /* ==========================================================================
-   SPATIAL GLASSMORPHISM & TACTILE MICRO-NEUMORPHISM DESIGN SYSTEM (visionOS)
+   ATELIER MONOLITH — SWISS ARCHITECTURAL & COMFORTABLE MATTE DESIGN SYSTEM
    ========================================================================== */
 
-/* 1. Atmospheric Ambient Light Canvas (Required for true Glass Refraction) */
+/* 1. Base Canvas (#131313 Surface) */
 .spatial-canvas {
-  position: relative;
-  background-color: #0C1017;
-  background-image:
-    radial-gradient(circle at 12% 14%, rgba(99, 102, 241, 0.14) 0%, transparent 42%),
-    radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.10) 0%, transparent 40%),
-    radial-gradient(circle at 52% 88%, rgba(16, 185, 129, 0.08) 0%, transparent 48%);
+  background-color: #131313;
+  color: #e2e2e2;
 }
 
-/* 2. Frosted Spatial Glass Panel (Cards, Tables, Widgets) */
+/* 2. Architectural Container Panel (Zero backdrop-filter to prevent z-index stacking traps) */
 .glass-panel {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-  backdrop-filter: blur(22px) saturate(140%);
-  -webkit-backdrop-filter: blur(22px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow:
-    0 18px 40px -12px rgba(0, 0, 0, 0.52),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  background-color: #171717;
+  border: 1px solid rgba(68, 71, 72, 0.45);
 }
 
 .glass-panel-interactive {
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 200ms ease,
-              box-shadow 200ms ease,
-              background 200ms ease;
+  transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .glass-panel-interactive:hover {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.085) 0%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 22px 44px -10px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  background-color: #1c1c1c;
+  border-color: rgba(196, 199, 200, 0.35);
 }
 
-/* 3. Floating Glass Sidebar & Header */
+/* 3. Sidebar & Header (#0e0e0e Surface Container Lowest) */
 .glass-sidebar {
-  background: linear-gradient(
-    180deg,
-    rgba(20, 25, 36, 0.78) 0%,
-    rgba(14, 18, 27, 0.86) 100%
-  );
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    8px 0 32px rgba(0, 0, 0, 0.35),
-    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+  background-color: #0e0e0e;
+  border-right: 1px solid rgba(68, 71, 72, 0.45);
 }
 
 .glass-header {
-  background: rgba(15, 20, 30, 0.68);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 8px 24px -6px rgba(0, 0, 0, 0.32),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  background-color: #0e0e0e;
+  border-bottom: 1px solid rgba(68, 71, 72, 0.45);
 }
 
-/* 4. Elevated Glass Popovers & Modals */
+/* 4. Elevated Popovers & Modals (#1b1b1b Surface Container Low) */
 .glass-popover {
-  background: linear-gradient(
-    155deg,
-    rgba(28, 35, 50, 0.88) 0%,
-    rgba(19, 24, 35, 0.94) 100%
-  );
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  box-shadow:
-    0 24px 56px -8px rgba(0, 0, 0, 0.72),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  background-color: #1b1b1b;
+  border: 1px solid rgba(142, 145, 146, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
 }
 
-/* 5. Neumorphic Recessed Cavity (Inputs, Search Wells, Code/Metric Wells) */
+/* 5. Recessed Input & Field Cavity (#0e0e0e) */
 .neumorphic-inset {
-  background: rgba(9, 13, 21, 0.68);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow:
-    inset 2px 3px 7px rgba(0, 0, 0, 0.58),
-    inset -1px -1px 4px rgba(255, 255, 255, 0.03),
-    0 1px 0 rgba(255, 255, 255, 0.06);
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  background-color: #0e0e0e;
+  border: 1px solid rgba(68, 71, 72, 0.45);
+  transition: border-color 150ms ease, background-color 150ms ease;
 }
 
 .neumorphic-inset:focus-within,
 .neumorphic-inset:focus {
-  background: rgba(12, 16, 24, 0.85);
-  border-color: rgba(255, 255, 255, 0.24);
-  box-shadow:
-    inset 2px 3px 7px rgba(0, 0, 0, 0.65),
-    0 0 0 3px rgba(255, 255, 255, 0.06);
+  background-color: #161616;
+  border-color: #e2e2e2;
 }
 
-/* 6. Tactile Neumorphic Buttons & Controls (Monochrome Titanium) */
+/* 6. Interactive Surface (Zero vertical shift so clicks never bounce) */
 .tactile-surface {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.075) 0%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    4px 5px 12px rgba(0, 0, 0, 0.42),
-    -2px -2px 8px rgba(255, 255, 255, 0.02),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-  transition: all 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  background-color: #1b1b1b;
+  border: 1px solid rgba(68, 71, 72, 0.5);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
 .tactile-surface:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.11) 0%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
-  box-shadow:
-    5px 7px 15px rgba(0, 0, 0, 0.48),
-    -2px -2px 10px rgba(255, 255, 255, 0.03),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+  background-color: #242424;
+  border-color: rgba(196, 199, 200, 0.4);
 }
 
 .tactile-surface:active {
-  transform: translateY(0.5px);
-  box-shadow:
-    inset 2px 3px 6px rgba(0, 0, 0, 0.55),
-    inset -1px -1px 3px rgba(255, 255, 255, 0.04);
+  background-color: #2a2a2a;
 }
 
-/* 7. Luminous Glass Pill (Neutral Smoked Capsule) */
+/* 7. Technical Metadata Badge */
 .glass-pill {
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  box-shadow:
-    0 3px 10px -2px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+  border-width: 1px;
+  border-style: solid;
 }
 
-/* Sleek glass scrollbars */
+/* 8. Technical Monospace Label Utility */
+.label-caps {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Minimalist scrollbars */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #0e0e0e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
+  background: #2a2a2a;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: #444748;
 }

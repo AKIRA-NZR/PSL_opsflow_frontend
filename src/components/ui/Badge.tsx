@@ -21,7 +21,7 @@ import type {
 } from '../../core/types/domain.types';
 
 /**
- * Monochrome Titanium Signal Bars for Priority (only CRITICAL uses a subtle rose accent)
+ * Comfortable Semantic Signal Bars for Priority
  */
 export const PrioritySignalIcon: React.FC<{
   priority: TicketPriority;
@@ -30,7 +30,7 @@ export const PrioritySignalIcon: React.FC<{
   if (priority === 'CRITICAL') {
     return (
       <WarningOctagon
-        className={`${className} text-rose-400 shrink-0`}
+        className={`${className} text-[#fda4af] shrink-0`}
         weight="fill"
       />
     );
@@ -41,12 +41,12 @@ export const PrioritySignalIcon: React.FC<{
 
   const activeColor =
     priority === 'HIGH'
-      ? '#F4F4F5' // Crisp Titanium White
+      ? '#fdba74' // Warm Amber/Orange
       : priority === 'MEDIUM'
-        ? '#D4D4D8' // Silver
-        : '#A1A1AA'; // Muted Zinc
+        ? '#7dd3fc' // Soft Sky
+        : '#94a3b8'; // Comfortable Slate
 
-  const inactiveColor = 'rgba(255, 255, 255, 0.14)';
+  const inactiveColor = 'rgba(255, 255, 255, 0.16)';
 
   return (
     <svg
@@ -60,7 +60,6 @@ export const PrioritySignalIcon: React.FC<{
         y="10"
         width="2.6"
         height="4"
-        rx="1"
         fill={activeBars >= 1 ? activeColor : inactiveColor}
       />
       <rect
@@ -68,7 +67,6 @@ export const PrioritySignalIcon: React.FC<{
         y="6.5"
         width="2.6"
         height="7.5"
-        rx="1"
         fill={activeBars >= 2 ? activeColor : inactiveColor}
       />
       <rect
@@ -76,7 +74,6 @@ export const PrioritySignalIcon: React.FC<{
         y="2.5"
         width="2.6"
         height="11.5"
-        rx="1"
         fill={activeBars >= 3 ? activeColor : inactiveColor}
       />
     </svg>
@@ -84,7 +81,7 @@ export const PrioritySignalIcon: React.FC<{
 };
 
 /**
- * Clean vector icon for each TicketStatus
+ * Comfortable semantic vector icon for each TicketStatus
  */
 export const StatusIcon: React.FC<{
   status: TicketStatus;
@@ -94,42 +91,42 @@ export const StatusIcon: React.FC<{
     case 'OPEN':
       return (
         <CircleDashed
-          className={`${className} text-zinc-300 shrink-0`}
+          className={`${className} text-[#7dd3fc] shrink-0`}
           weight="bold"
         />
       );
     case 'IN_PROGRESS':
       return (
         <CircleHalf
-          className={`${className} text-white shrink-0`}
+          className={`${className} text-[#a5b4fc] shrink-0`}
           weight="fill"
         />
       );
     case 'WAITING_USER':
       return (
         <Clock
-          className={`${className} text-amber-300/90 shrink-0`}
+          className={`${className} text-[#fcd34d] shrink-0`}
           weight="fill"
         />
       );
     case 'RESOLVED':
       return (
         <CheckCircle
-          className={`${className} text-emerald-300/90 shrink-0`}
+          className={`${className} text-[#6ee7b7] shrink-0`}
           weight="fill"
         />
       );
     case 'CLOSED':
       return (
         <SealCheck
-          className={`${className} text-zinc-400 shrink-0`}
+          className={`${className} text-[#a1a1aa] shrink-0`}
           weight="fill"
         />
       );
     case 'CANCELLED':
       return (
         <MinusCircle
-          className={`${className} text-zinc-500 shrink-0`}
+          className={`${className} text-[#fda4af] shrink-0`}
           weight="duotone"
         />
       );
@@ -137,38 +134,45 @@ export const StatusIcon: React.FC<{
 };
 
 /**
- * Monochrome Smoked Glass Pill with 6px Micro-Indicator Dot
+ * Comfortable Semantic Status Badge (Soft Matte Tints)
  */
 export const StatusBadge: React.FC<{ status: TicketStatus }> = ({ status }) => {
-  const dots: Record<TicketStatus, string> = {
-    OPEN: 'bg-zinc-300',
-    IN_PROGRESS: 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]',
-    WAITING_USER: 'bg-amber-400/90',
-    RESOLVED: 'bg-emerald-400/90',
-    CLOSED: 'bg-zinc-500',
-    CANCELLED: 'bg-zinc-600',
+  const styles: Record<TicketStatus, string> = {
+    OPEN: 'bg-[#14222e] text-[#7dd3fc] border-[#223a4e]',
+    IN_PROGRESS: 'bg-[#1c1d33] text-[#a5b4fc] border-[#2e3154]',
+    WAITING_USER: 'bg-[#292112] text-[#fcd34d] border-[#42351b]',
+    RESOLVED: 'bg-[#12261e] text-[#6ee7b7] border-[#1d3d31]',
+    CLOSED: 'bg-[#1c1c1c] text-[#a1a1aa] border-[#2e2e2e]',
+    CANCELLED: 'bg-[#291518] text-[#fda4af] border-[#452126] line-through',
   };
 
   return (
     <span
-      className={`glass-pill inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/[0.09] ${
-        status === 'CANCELLED' ? 'text-zinc-500 line-through' : 'text-zinc-200'
-      }`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-medium border ${styles[status]}`}
     >
-      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dots[status]}`} />
+      <StatusIcon status={status} className="w-3.5 h-3.5" />
       <span>{STATUS_LABELS[status]}</span>
     </span>
   );
 };
 
 /**
- * Monochrome Smoked Glass Priority Badge with Signal Bars
+ * Comfortable Semantic Priority Badge (Soft Matte Tints)
  */
 export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
   priority,
 }) => {
+  const styles: Record<TicketPriority, string> = {
+    LOW: 'bg-[#181d22] text-[#94a3b8] border-[#283038]',
+    MEDIUM: 'bg-[#14222e] text-[#7dd3fc] border-[#223a4e]',
+    HIGH: 'bg-[#291f13] text-[#fdba74] border-[#42321b]',
+    CRITICAL: 'bg-[#291518] text-[#fda4af] border-[#452126]',
+  };
+
   return (
-    <span className="glass-pill inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/[0.09] text-zinc-200">
+    <span
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-medium border ${styles[priority]}`}
+    >
       <PrioritySignalIcon priority={priority} />
       <span>{PRIORITY_LABELS[priority]}</span>
     </span>
@@ -176,35 +180,58 @@ export const PriorityBadge: React.FC<{ priority: TicketPriority }> = ({
 };
 
 /**
- * Monochrome Smoked Glass SLA Pill with 6px Micro-Dot
+ * Comfortable Semantic SLA Badge
  */
 export const SlaBadge: React.FC<{ health: SlaHealth; text: string }> = ({
   health,
   text,
 }) => {
-  const dotColor: Record<SlaHealth, string> = {
-    ON_TIME: 'bg-emerald-400/85',
-    AT_RISK: 'bg-amber-400',
-    BREACHED: 'bg-rose-400',
-    COMPLETED: 'bg-zinc-400',
+  const styles: Record<SlaHealth, { pill: string; dot: string }> = {
+    ON_TIME: {
+      pill: 'bg-[#12261e] text-[#6ee7b7] border-[#1d3d31]',
+      dot: 'bg-[#34d399]',
+    },
+    AT_RISK: {
+      pill: 'bg-[#292112] text-[#fcd34d] border-[#42351b]',
+      dot: 'bg-[#fbbf24]',
+    },
+    BREACHED: {
+      pill: 'bg-[#291518] text-[#fda4af] border-[#452126]',
+      dot: 'bg-[#fb7185]',
+    },
+    COMPLETED: {
+      pill: 'bg-[#1b1b1b] text-[#c4c7c8] border-[#2e2e2e]',
+      dot: 'bg-[#8e9192]',
+    },
   };
 
+  const current = styles[health];
+
   return (
-    <span className="glass-pill inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/[0.09] text-zinc-300 font-mono">
-      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor[health]}`} />
+    <span
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-mono border ${current.pill}`}
+    >
+      <span className={`w-1.5 h-1.5 shrink-0 ${current.dot}`} />
       <span>{text}</span>
     </span>
   );
 };
 
 /**
- * Monochrome Smoked Glass Role Pill
+ * Comfortable Role Pill
  */
 export const RolePill: React.FC<{ role: RoleName }> = ({ role }) => {
+  const styles: Record<RoleName, string> = {
+    ADMIN: 'bg-[#1c1d33] text-[#a5b4fc] border-[#2e3154]',
+    TECHNICIAN: 'bg-[#14222e] text-[#7dd3fc] border-[#223a4e]',
+    EMPLOYEE: 'bg-[#1b1b1b] text-[#c4c7c8] border-[#2e2e2e]',
+  };
+
   return (
-    <span className="glass-pill inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/[0.05] border border-white/[0.10] text-zinc-300">
+    <span
+      className={`inline-flex items-center px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider border ${styles[role]}`}
+    >
       {ROLE_LABELS[role]}
     </span>
   );
 };
-

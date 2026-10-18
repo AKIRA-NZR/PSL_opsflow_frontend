@@ -37,28 +37,28 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`w-full flex items-center gap-2.5 p-2 rounded-xl tactile-surface transition-all cursor-pointer text-left ${
+        className={`w-full flex items-center gap-2.5 p-2 bg-[#161616] border border-[#444748]/50 hover:border-[#8e9192] transition-colors cursor-pointer text-left ${
           collapsed ? 'justify-center' : 'justify-between'
         }`}
         title={`${currentUser.name} (${ROLE_LABELS[activeRole]})`}
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-full neumorphic-inset text-zinc-200 flex items-center justify-center text-xs font-semibold shrink-0">
+          <div className="w-7 h-7 bg-[#242424] border border-[#444748]/60 text-white flex items-center justify-center text-[11px] font-mono font-bold shrink-0">
             {getInitials(currentUser.name)}
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-xs font-medium text-zinc-100 truncate">
+              <div className="text-xs font-medium text-white truncate">
                 {currentUser.name}
               </div>
-              <div className="text-[11px] text-zinc-400 truncate">
+              <div className="font-mono text-[10px] text-[#8e9192] uppercase tracking-wider truncate">
                 {ROLE_LABELS[activeRole]}
               </div>
             </div>
           )}
         </div>
         {!collapsed && (
-          <CaretUpDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+          <CaretUpDown className="w-3.5 h-3.5 text-[#8e9192] shrink-0" />
         )}
       </button>
 
@@ -68,11 +68,11 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
             className="fixed inset-0 z-40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute bottom-14 left-0 w-64 rounded-2xl glass-popover p-2.5 z-50 space-y-2.5">
+          <div className="absolute bottom-14 left-0 w-64 bg-[#1b1b1b] border border-[#444748] shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-2 z-50 space-y-2">
             <div>
-              <div className="px-2 py-1 text-[11px] font-medium text-zinc-500 flex items-center gap-1.5">
+              <div className="px-2 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#8e9192] flex items-center gap-1.5">
                 <UserSwitch className="w-3.5 h-3.5" />
-                Alternar perfil
+                ALTERNAR PERFIL
               </div>
               <div className="mt-1 space-y-0.5">
                 {activeUsers.map((u) => {
@@ -91,17 +91,17 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
                         switchUserSession(u.id);
                         setOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-white/[0.09] text-white font-medium'
-                          : 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-100'
+                          ? 'bg-[#2a2a2a] text-white font-medium'
+                          : 'text-[#c4c7c8] hover:bg-[#242424] hover:text-white'
                       }`}
                     >
                       <div className="truncate pr-2 text-left">
-                        <div className="text-xs text-zinc-100 truncate">
+                        <div className="text-xs text-white truncate">
                           {u.name}
                         </div>
-                        <div className="text-[11px] text-zinc-500">
+                        <div className="font-mono text-[10px] text-[#8e9192]">
                           {ROLE_LABELS[primaryRole]}
                         </div>
                       </div>
@@ -117,10 +117,10 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
               </div>
             </div>
 
-            <div className="pt-2 border-t border-white/[0.06]">
-              <div className="px-2 py-1 text-[11px] font-medium text-zinc-500 flex items-center gap-1.5">
+            <div className="pt-2 border-t border-[#444748]/40">
+              <div className="px-2 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#8e9192] flex items-center gap-1.5">
                 <Buildings className="w-3.5 h-3.5" />
-                Organização
+                ORGANIZAÇÃO
               </div>
               <div className="mt-1 space-y-0.5">
                 {companies.map((c) => {
@@ -133,10 +133,10 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
                         switchCompanyTenant(c.id);
                         setOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-white/[0.09] text-white font-medium'
-                          : 'text-zinc-400 hover:bg-white/[0.05] hover:text-zinc-100'
+                          ? 'bg-[#2a2a2a] text-white font-medium'
+                          : 'text-[#c4c7c8] hover:bg-[#242424] hover:text-white'
                       }`}
                     >
                       <span>{c.name}</span>
@@ -152,14 +152,14 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
               </div>
             </div>
 
-            <div className="pt-2 border-t border-white/[0.06]">
+            <div className="pt-2 border-t border-[#444748]/40">
               <button
                 type="button"
                 onClick={() => {
                   setOpen(false);
                   logout();
                 }}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium text-[#fda4af] hover:bg-[#291518] transition-colors cursor-pointer"
               >
                 <SignOut className="w-3.5 h-3.5" weight="bold" />
                 Sair da conta
@@ -171,4 +171,3 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
     </div>
   );
 };
-

@@ -43,24 +43,28 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
       {/* Reply Box */}
       <form
         onSubmit={handleSubmit}
-        className="rounded-2xl glass-panel p-5 space-y-3.5 transition-colors"
+        className={`glass-panel p-5 space-y-3.5 transition-colors ${
+          isInternal && activeRole !== 'EMPLOYEE'
+            ? 'border-[#42351b] bg-[#1c170d]'
+            : ''
+        }`}
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-            <ChatText className="w-4 h-4 text-zinc-400" weight="duotone" />
-            Responder
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white flex items-center gap-2">
+            <ChatText className="w-4 h-4 text-[#7dd3fc]" />
+            RESPONDER
           </span>
 
           {activeRole !== 'EMPLOYEE' && (
-            <label className="inline-flex items-center gap-2 text-xs text-zinc-400 cursor-pointer select-none">
+            <label className="inline-flex items-center gap-2 text-xs text-[#8e9192] cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={isInternal}
                 onChange={(e) => setIsInternal(e.target.checked)}
-                className="rounded border-white/20 bg-black/40"
+                className="border-[#444748] bg-[#0e0e0e]"
               />
-              <span className="inline-flex items-center gap-1.5 text-zinc-300 font-medium">
-                <LockKey className="w-3.5 h-3.5 text-zinc-400" weight="duotone" />
+              <span className="inline-flex items-center gap-1.5 text-[#fcd34d] font-mono text-[10px] uppercase tracking-wider">
+                <LockKey className="w-3.5 h-3.5" weight="fill" />
                 Nota interna
               </span>
             </label>
@@ -74,7 +78,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
           placeholder={
             isInternal ? 'Anotação interna da equipe...' : 'Escreva uma resposta...'
           }
-          className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+          className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
         />
 
         <div className="flex justify-end">
@@ -92,35 +96,35 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
 
       {/* Tabs: Conversation vs History */}
       <div className="space-y-3.5">
-        <div className="flex items-center gap-2 border-b border-white/[0.08] pb-2.5">
+        <div className="flex items-center gap-2 border-b border-[#444748]/35 pb-2.5">
           <button
             type="button"
             onClick={() => setTab('comments')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] border transition-colors cursor-pointer ${
               tab === 'comments'
-                ? 'tactile-surface text-zinc-100'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-[#242424] text-white border-[#8e9192]'
+                : 'bg-transparent text-[#8e9192] border-transparent hover:text-white'
             }`}
           >
-            Mensagens ({comments.length})
+            MENSAGENS ({comments.length})
           </button>
           <button
             type="button"
             onClick={() => setTab('history')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] border transition-colors cursor-pointer ${
               tab === 'history'
-                ? 'tactile-surface text-zinc-100'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-[#242424] text-white border-[#8e9192]'
+                : 'bg-transparent text-[#8e9192] border-transparent hover:text-white'
             }`}
           >
-            Histórico ({history.length})
+            HISTÓRICO ({history.length})
           </button>
         </div>
 
         {tab === 'comments' ? (
           <div className="space-y-3">
             {comments.length === 0 ? (
-              <div className="rounded-2xl glass-panel p-8 text-center text-sm text-zinc-500">
+              <div className="glass-panel p-8 text-center text-xs text-[#8e9192]">
                 Sem mensagens.
               </div>
             ) : (
@@ -135,32 +139,34 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                 return (
                   <div
                     key={c.id}
-                    className="rounded-2xl glass-panel p-5 space-y-2.5"
+                    className={`glass-panel p-5 space-y-2.5 ${
+                      c.internal ? 'border-[#42351b] bg-[#1c170d]' : ''
+                    }`}
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full neumorphic-inset text-[11px] font-medium text-zinc-200 flex items-center justify-center">
+                        <div className="w-7 h-7 bg-[#242424] border border-[#444748]/60 text-[10px] font-mono text-white flex items-center justify-center">
                           {getInitials(author?.name || 'Usuário')}
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-zinc-100">
+                          <span className="text-sm font-medium text-white">
                             {author?.name || 'Usuário'}
                           </span>
                           <RolePill role={primaryRole} />
                           {c.internal && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium glass-pill bg-white/[0.04] text-zinc-300 border-white/10">
-                              <LockKey className="w-3 h-3 text-zinc-400" weight="fill" />
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-[#292112] text-[#fcd34d] border border-[#42351b]">
+                              <LockKey className="w-3 h-3" weight="fill" />
                               Interna
                             </span>
                           )}
                         </div>
                       </div>
-                      <span className="text-xs text-zinc-500">
+                      <span className="font-mono text-[11px] text-[#8e9192]">
                         {formatDateTime(c.createdAt)}
                       </span>
                     </div>
 
-                    <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm text-[#e2e2e2] leading-relaxed whitespace-pre-line">
                       {c.content}
                     </p>
                   </div>
@@ -169,7 +175,7 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
             )}
           </div>
         ) : (
-          <div className="rounded-2xl glass-panel divide-y divide-white/[0.06]">
+          <div className="glass-panel divide-y divide-[#444748]/30">
             {history.map((h) => {
               const actor = users.find((u) => u.id === h.actorId);
               return (
@@ -178,19 +184,19 @@ export const TicketConversation: React.FC<TicketConversationProps> = ({
                   className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-sm"
                 >
                   <div>
-                    <div className="text-zinc-200 font-medium">
+                    <div className="text-[#e2e2e2] font-medium">
                       {h.summary}{' '}
-                      <span className="text-zinc-400 font-normal">
+                      <span className="text-[#8e9192] font-normal">
                         por {actor?.name || 'Sistema'}
                       </span>
                     </div>
                     {h.detail && (
-                      <div className="text-xs text-zinc-500 mt-0.5">
+                      <div className="text-xs text-[#8e9192] mt-0.5">
                         {h.detail}
                       </div>
                     )}
                   </div>
-                  <span className="text-xs text-zinc-500 shrink-0">
+                  <span className="font-mono text-[11px] text-[#8e9192] shrink-0">
                     {formatDateTime(h.createdAt)}
                   </span>
                 </div>

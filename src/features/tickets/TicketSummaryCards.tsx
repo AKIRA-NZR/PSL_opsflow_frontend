@@ -40,28 +40,28 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
 
   const cards = [
     {
-      label: 'Na Triagem',
+      label: 'NA TRIAGEM',
       value: stats.open,
-      icon: <Tray className="w-4 h-4 text-zinc-300" weight="duotone" />,
+      iconBox: 'bg-[#14222e] border-[#223a4e] text-[#7dd3fc]',
+      icon: <Tray className="w-4 h-4" weight="fill" />,
     },
     {
-      label: 'Em Atendimento',
+      label: 'EM ATENDIMENTO',
       value: stats.inProgress,
-      icon: <Clock className="w-4 h-4 text-zinc-300" weight="duotone" />,
+      iconBox: 'bg-[#1c1d33] border-[#2e3154] text-[#a5b4fc]',
+      icon: <Clock className="w-4 h-4" weight="fill" />,
     },
     {
-      label: 'SLA Crítico',
+      label: 'SLA CRÍTICO',
       value: stats.attentionSla,
-      icon: (
-        <WarningOctagon className="w-4 h-4 text-zinc-300" weight="duotone" />
-      ),
+      iconBox: 'bg-[#291518] border-[#452126] text-[#fda4af]',
+      icon: <WarningOctagon className="w-4 h-4" weight="fill" />,
     },
     {
-      label: 'Concluídos',
+      label: 'CONCLUÍDOS',
       value: stats.completed,
-      icon: (
-        <CheckCircle className="w-4 h-4 text-zinc-300" weight="duotone" />
-      ),
+      iconBox: 'bg-[#12261e] border-[#1d3d31] text-[#6ee7b7]',
+      icon: <CheckCircle className="w-4 h-4" weight="fill" />,
     },
   ];
 
@@ -70,18 +70,19 @@ export const TicketSummaryCards: React.FC<TicketSummaryCardsProps> = ({
       {cards.map((c) => (
         <div
           key={c.label}
-          className="rounded-2xl glass-panel p-4 sm:p-5 flex items-center justify-between"
+          className="glass-panel p-4 sm:p-5 flex items-center justify-between"
         >
           <div>
-            <p className="text-xs font-medium text-zinc-400">{c.label}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+              {c.label}
+            </p>
             <p className="text-2xl font-semibold text-white mt-1">
               {c.value}
             </p>
           </div>
-          <div className="p-2.5 rounded-xl neumorphic-inset">{c.icon}</div>
+          <div className={`p-2.5 border ${c.iconBox}`}>{c.icon}</div>
         </div>
       ))}
     </div>
   );
 };
-

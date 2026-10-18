@@ -84,7 +84,7 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
         label: 'Sem responsável',
         icon: (
           <UserCircleDashed
-            className="w-4 h-4 text-zinc-500"
+            className="w-4 h-4 text-[#8e9192]"
             weight="duotone"
           />
         ),
@@ -97,7 +97,7 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
         label: tech.name,
         description: tech.department,
         icon: (
-          <span className="w-5 h-5 rounded-full bg-white/[0.06] border border-white/15 text-[10px] font-semibold text-zinc-200 inline-flex items-center justify-center">
+          <span className="w-5 h-5 bg-[#242424] border border-[#444748]/60 text-[10px] font-mono text-white inline-flex items-center justify-center">
             {getInitials(tech.name)}
           </span>
         ),
@@ -110,16 +110,16 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
   return (
     <div className="space-y-4">
       {/* Card 1: Current Status & Workflow Transitions */}
-      <div className="rounded-2xl glass-panel p-5 space-y-3.5">
+      <div className="relative z-10 glass-panel p-5 space-y-3.5">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Status
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            STATUS
           </h3>
           <StatusBadge status={ticket.status} />
         </div>
 
         {isTerminal ? (
-          <p className="text-xs text-zinc-500 neumorphic-inset rounded-xl p-3">
+          <p className="text-xs text-[#8e9192] neumorphic-inset p-3">
             Chamado arquivado.
           </p>
         ) : (
@@ -149,13 +149,13 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
         )}
       </div>
 
-      {/* Card 2: Assignee */}
-      <div className="rounded-2xl glass-panel p-5 space-y-3">
+      {/* Card 2: Assignee (z-30 so its dropdown floats over Card 3) */}
+      <div className="relative z-30 glass-panel p-5 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Responsável
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            RESPONSÁVEL
           </h3>
-          <UserCheck className="w-4 h-4 text-zinc-400" weight="duotone" />
+          <UserCheck className="w-4 h-4 text-[#7dd3fc]" />
         </div>
 
         <DropdownSelect
@@ -169,20 +169,20 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           <button
             type="button"
             onClick={() => onAssign(currentUser.id)}
-            className="text-xs font-medium text-zinc-300 hover:text-white transition-colors cursor-pointer"
+            className="font-mono text-[11px] uppercase tracking-wider text-[#7dd3fc] hover:text-white transition-colors cursor-pointer"
           >
-            Assumir chamado →
+            ASSUMIR CHAMADO [ → ]
           </button>
         )}
       </div>
 
-      {/* Card 3: Priority & SLA Target */}
-      <div className="rounded-2xl glass-panel p-5 space-y-3.5">
+      {/* Card 3: Priority & SLA Target (z-20) */}
+      <div className="relative z-20 glass-panel p-5 space-y-3.5">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Prioridade e SLA
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192]">
+            PRIORIDADE E SLA
           </h3>
-          <Clock className="w-4 h-4 text-zinc-400" weight="duotone" />
+          <Clock className="w-4 h-4 text-[#a5b4fc]" />
         </div>
 
         <DropdownSelect
@@ -192,21 +192,18 @@ export const TicketActionPanel: React.FC<TicketActionPanelProps> = ({
           onChange={(val) => onChangePriority(val)}
         />
 
-        <div className="rounded-xl neumorphic-inset p-3.5 space-y-2.5 text-xs">
+        <div className="neumorphic-inset p-3.5 space-y-2.5 text-xs">
           <div className="flex items-center justify-between">
-            <span className="text-zinc-400">Prazo</span>
+            <span className="text-[#8e9192]">Prazo</span>
             <SlaBadge health={sla.health} text={sla.badgeText} />
           </div>
 
-          <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
-            <span className="text-zinc-400 flex items-center gap-1.5">
-              <CalendarBlank
-                className="w-3.5 h-3.5 text-zinc-400"
-                weight="duotone"
-              />
+          <div className="flex items-center justify-between pt-2 border-t border-[#444748]/35">
+            <span className="text-[#8e9192] flex items-center gap-1.5">
+              <CalendarBlank className="w-3.5 h-3.5 text-[#8e9192]" />
               Vencimento
             </span>
-            <span className="text-zinc-200 font-medium">
+            <span className="text-white font-mono text-[11px]">
               {formatDateTime(ticket.dueAt)}
             </span>
           </div>

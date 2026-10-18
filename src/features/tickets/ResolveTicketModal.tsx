@@ -26,8 +26,8 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title="Resolver Chamado">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-zinc-300 block">
-            Solução aplicada
+          <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8e9192] block">
+            SOLUÇÃO APLICADA
           </label>
           <textarea
             rows={4}
@@ -35,11 +35,11 @@ export const ResolveTicketModal: React.FC<ResolveTicketModalProps> = ({
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
             placeholder="Descreva o que foi feito para solucionar o chamado..."
-            className="w-full rounded-xl neumorphic-inset p-3.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none transition-all"
+            className="w-full neumorphic-inset p-3.5 text-sm text-white placeholder-[#8e9192] focus:outline-none transition-colors"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
+        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#444748]/35">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
