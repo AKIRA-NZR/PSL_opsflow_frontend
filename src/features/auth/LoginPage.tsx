@@ -28,11 +28,10 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="bg-[#131313] text-[#e2e2e2] min-h-screen flex flex-col justify-between selection:bg-white selection:text-[#131313]">
       <header className="w-full border-b border-[#444748]/30 bg-[#0e0e0e]">
-        <div className="w-full px-5 md:px-10 lg:px-16 h-14 flex items-center justify-between">
-          <span className="text-sm font-semibold tracking-wider text-white uppercase">
+        <div className="w-full px-5 md:px-10 lg:px-16 h-14 flex items-center">
+          <span className="font-display text-base font-bold tracking-[0.14em] text-white uppercase">
             OPSFLOW
           </span>
-          <span className="w-1.5 h-1.5 bg-white inline-block" />
         </div>
       </header>
 

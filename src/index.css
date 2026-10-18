@@ -16,8 +16,13 @@
     overflow-x: hidden;
   }
 
+  h1, h2, h3, .font-display {
+    font-family: 'Space Grotesk', 'Geist', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
   code, pre, .font-mono {
-    font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
 
@@ -101,10 +106,10 @@
 
 /* 8. Technical Monospace Label Utility */
 .label-caps {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Geist Mono', 'JetBrains Mono', monospace;
   font-size: 10px;
   line-height: 14px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 

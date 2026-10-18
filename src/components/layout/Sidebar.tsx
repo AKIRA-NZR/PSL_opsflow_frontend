@@ -102,14 +102,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }
                 onCloseMobile();
               }}
-              className="flex items-center gap-2.5 min-w-0 cursor-pointer text-left"
+              className="flex items-center min-w-0 cursor-pointer text-left"
             >
-              <span className="w-2 h-2 bg-white shrink-0" />
-              {!collapsedMode && (
-                <span className="text-sm font-semibold text-white tracking-wider uppercase truncate">
-                  OPSFLOW
-                </span>
-              )}
+              <span className="font-display text-sm font-bold text-white tracking-[0.14em] uppercase truncate">
+                {collapsedMode ? 'OF' : 'OPSFLOW'}
+              </span>
             </button>
 
             {!collapsedMode && (
