@@ -26,4 +26,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.tsbuildinfo
 

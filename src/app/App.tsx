@@ -8,6 +8,7 @@ import { ActivityLogPage } from '@pages/activity-log';
 import { CategoriesPage } from '@pages/categories';
 import { DashboardPage } from '@pages/dashboard';
 import { LoginPage } from '@pages/login';
+import { ProfilePage } from '@pages/profile';
 import { TeamMembersPage } from '@pages/team-members';
 import { TicketDetailPage } from '@pages/ticket-detail';
 import { TicketListPage } from '@pages/ticket-list';
@@ -52,6 +53,7 @@ const WorkspaceRouter: React.FC = () => {
     if (activeSection === 'categories') return 'Categorias';
     if (activeSection === 'team') return 'Equipe';
     if (activeSection === 'activity') return 'Atividades';
+    if (activeSection === 'profile') return 'Meu Perfil';
     if (activeRole === 'EMPLOYEE') return 'Meus Chamados';
     if (filters.scope === 'ASSIGNED_TO_ME') return 'Atribuídos a mim';
     if (filters.scope === 'SLA_ATTENTION') return 'SLA Crítico';
@@ -103,6 +105,8 @@ const WorkspaceRouter: React.FC = () => {
           ticketId={selectedTicketId}
           onBack={() => setSelectedTicketId(null)}
         />
+      ) : activeSection === 'profile' ? (
+        <ProfilePage />
       ) : activeSection === 'dashboard' && isStaff ? (
         <DashboardPage
           onSelectTicket={(id) => setSelectedTicketId(id)}

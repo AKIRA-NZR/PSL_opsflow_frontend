@@ -2,6 +2,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -11,6 +12,9 @@ import {
   validateAndBuildTicket,
   validateAndBuildUser,
   validateStatusTransition,
+  DEFAULT_THEME_PREFERENCES,
+  THEME_PRESET_CONFIGS,
+  ACCENT_COLOR_CONFIGS,
   type ActivityLogItem,
   type Company,
   type CreateCategoryDTO,
@@ -25,6 +29,7 @@ import {
   type TicketStatus,
   type ToastNotification,
   type User,
+  type UserThemePreferences,
 } from '@opsflow/domain';
 import {
   SEED_ACTIVITY_LOGS,
@@ -79,6 +84,17 @@ export interface WorkspaceContextValue {
 
   createMember: (dto: CreateUserDTO) => boolean;
   deactivateMember: (userId: string) => void;
+
+  updateUserProfile: (data: {
+    name?: string;
+    department?: string;
+    avatarUrl?: string;
+    avatarBlurPlaceholder?: string;
+  }) => boolean;
+  changePassword: (currentPassword: string, newPassword: string) => boolean;
+  themePreferences: UserThemePreferences;
+  updateThemePreferences: (prefs: UserThemePreferences) => void;
+  resetThemePreferences: () => void;
 }
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -599,6 +615,147 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
     [activeRole, currentUser.id, users, recordActivity, notify]
   );
 
+  const updateUserProfile = useCallback(
+    (data: {
+      name?: string;
+      department?: string;
+      avatarUrl?: string;
+      avatarBlurPlaceholder?: string;
+    }): boolean => {
+      if (data.name && data.name.trim().length < 2) {
+        notify('error', 'Nome inválido', 'O nome deve conter ao menos 2 caracteres.');
+        return false;
+      }
+
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === currentUser.id
+            ? {
+                ...u,
+                name: data.name !== undefined && data.name.trim() ? data.name.trim() : u.name,
+                department: data.department !== undefined ? data.department.trim() : u.department,
+                avatarUrl: data.avatarUrl !== undefined ? data.avatarUrl : u.avatarUrl,
+                avatarBlurPlaceholder:
+                  data.avatarBlurPlaceholder !== undefined
+                    ? data.avatarBlurPlaceholder
+                    : u.avatarBlurPlaceholder,
+              }
+            : u
+        )
+      );
+
+      recordActivity(
+        'Perfil atualizado',
+        currentUser.name,
+        'Informações cadastrais e avatar foram atualizados com sucesso.'
+      );
+      notify('success', 'Perfil atualizado', 'Suas alterações foram salvas com sucesso.');
+      return true;
+    },
+    [currentUser, notify, recordActivity]
+  );
+
+  const changePassword = useCallback(
+    (currentPassword: string, newPassword: string): boolean => {
+      if (!currentPassword || !currentPassword.trim()) {
+        notify('error', 'Senha atual obrigatória', 'Informe sua senha atual para confirmação.');
+        return false;
+      }
+      if (!newPassword || newPassword.length < 8) {
+        notify('error', 'Senha fraca', 'A nova senha deve possuir ao menos 8 caracteres.');
+        return false;
+      }
+
+      recordActivity(
+        'Credenciais alteradas',
+        currentUser.name,
+        'A senha de acesso do usuário foi modificada.'
+      );
+      notify('success', 'Senha alterada', 'Sua nova senha de acesso já está em vigor.');
+      return true;
+    },
+    [currentUser, notify, recordActivity]
+  );
+
+  const [themePreferences, setThemePreferences] = useState<UserThemePreferences>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('opsflow_theme_prefs');
+        if (saved) return JSON.parse(saved);
+      } catch {
+        // Fallback to default
+      }
+    }
+    return DEFAULT_THEME_PREFERENCES;
+  });
+
+  const applyThemeToDOM = useCallback((prefs: UserThemePreferences) => {
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    const preset = THEME_PRESET_CONFIGS[prefs.preset] || THEME_PRESET_CONFIGS['atelier-carbon'];
+    const accent = ACCENT_COLOR_CONFIGS[prefs.accent] || ACCENT_COLOR_CONFIGS['sage'];
+
+    root.style.setProperty('--color-surface-canvas', preset.surfaceCanvas);
+    root.style.setProperty('--color-surface-lowest', preset.surfaceLowest);
+    root.style.setProperty('--color-surface-panel', preset.surfacePanel);
+    root.style.setProperty('--color-surface-elevated', preset.surfaceElevated);
+    root.style.setProperty('--color-accent-primary', accent.hex);
+    root.style.setProperty('--color-accent-bg-soft', accent.bgSoft);
+    root.style.setProperty('--color-accent-border-soft', accent.borderSoft);
+    root.style.setProperty('--glass-opacity', `${prefs.glassOpacity}%`);
+
+    const borderValues: Record<string, string> = {
+      subtle: 'rgba(68, 71, 72, 0.25)',
+      standard: 'rgba(68, 71, 72, 0.45)',
+      'high-contrast': 'rgba(142, 145, 146, 0.65)',
+    };
+    root.style.setProperty(
+      '--border-hairline',
+      borderValues[prefs.borderLuminance] || borderValues.standard
+    );
+
+    root.setAttribute('data-theme', prefs.preset);
+    root.setAttribute('data-accent', prefs.accent);
+    root.setAttribute('data-density', prefs.density);
+  }, []);
+
+  useEffect(() => {
+    applyThemeToDOM(themePreferences);
+  }, [themePreferences, applyThemeToDOM]);
+
+  const updateThemePreferences = useCallback(
+    (prefs: UserThemePreferences) => {
+      setThemePreferences(prefs);
+      applyThemeToDOM(prefs);
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('opsflow_theme_prefs', JSON.stringify(prefs));
+        } catch {
+          // ignore
+        }
+      }
+      notify(
+        'success',
+        'Tema aplicado',
+        `Preset "${THEME_PRESET_CONFIGS[prefs.preset]?.name}" e acento "${ACCENT_COLOR_CONFIGS[prefs.accent]?.name}" ativos.`
+      );
+    },
+    [applyThemeToDOM, notify]
+  );
+
+  const resetThemePreferences = useCallback(() => {
+    setThemePreferences(DEFAULT_THEME_PREFERENCES);
+    applyThemeToDOM(DEFAULT_THEME_PREFERENCES);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('opsflow_theme_prefs');
+      } catch {
+        // ignore
+      }
+    }
+    notify('info', 'Tema restaurado', 'Configurações visuais de fábrica restauradas.');
+  }, [applyThemeToDOM, notify]);
+
   const value: WorkspaceContextValue = {
     isAuthenticated,
     companies,
@@ -628,6 +785,11 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
     archiveCategory,
     createMember,
     deactivateMember,
+    updateUserProfile,
+    changePassword,
+    themePreferences,
+    updateThemePreferences,
+    resetThemePreferences,
   };
 
   return (

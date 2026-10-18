@@ -8,6 +8,7 @@ import {
   SidebarSimple,
   Tray,
   UserCheck,
+  UserCircle,
   UsersThree,
   X,
 } from '@phosphor-icons/react';
@@ -20,7 +21,8 @@ export type NavigationSection =
   | 'tickets'
   | 'categories'
   | 'team'
-  | 'activity';
+  | 'activity'
+  | 'profile';
 
 interface SidebarProps {
   activeSection: NavigationSection;
@@ -249,6 +251,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   )}
                 </button>
               )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  onNavigateSection('profile');
+                  onCloseMobile();
+                }}
+                className={navItemClass(activeSection === 'profile')}
+                title="Meu Perfil"
+              >
+                <span className="flex items-center gap-2.5">
+                  <UserCircle
+                    className={iconClass(activeSection === 'profile')}
+                    weight={activeSection === 'profile' ? 'fill' : 'regular'}
+                  />
+                  {!collapsedMode && <span>Meu Perfil</span>}
+                </span>
+              </button>
             </nav>
 
             {isStaff && (
@@ -323,7 +343,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         <div className="p-3 border-t border-[#444748]/40">
-          <ProfileSwitcher collapsed={collapsedMode} />
+          <ProfileSwitcher
+            collapsed={collapsedMode}
+            onNavigateProfile={() => {
+              onNavigateSection('profile');
+              onCloseMobile();
+            }}
+          />
         </div>
       </div>
     );

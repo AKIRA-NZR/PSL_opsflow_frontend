@@ -1,9 +1,9 @@
 export * from './types/domain.types';
 export * from './types/service.types';
+export * from './types/theme.types';
 export * from './constants/ticket.constants';
 export * from './utils/date.utils';
 export * from './utils/sla.utils';
 export * from './services/ticket.service';
 export * from './services/category.service';
 export * from './services/user.service';
-

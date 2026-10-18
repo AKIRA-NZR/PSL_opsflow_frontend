@@ -28,6 +28,8 @@ export interface User {
   department: string;
   roles: RoleName[];
   active: boolean;
+  avatarUrl?: string;
+  avatarBlurPlaceholder?: string;
   deletedAt: string | null;
   createdAt: string;
 }
